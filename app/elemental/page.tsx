@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { createGame, getGame, joinGame, startGame } from "@/lib/gameDb";
 import { createInitialState } from "@/app/gameLogic";
+import { COLOR_ICONS } from "@/app/components/Card";
+import { COLORS, COLOR_LABELS } from "@/app/types";
 
 function generatePlayerId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
@@ -72,31 +74,46 @@ export default function ElementalLobbyPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-stone-100 to-orange-50/60 text-stone-900">
-      <Link href="/" className="absolute top-4 left-4 text-stone-600 hover:text-amber-600 text-sm font-medium underline">
-        ゲーム選択に戻る
+    <div className="parchment-bg min-h-screen flex flex-col p-4 gap-6 items-center justify-center text-stone-800">
+      <Link href="/" className="absolute top-4 left-4 text-stone-600 hover:text-orange-600 text-sm font-bold underline">
+        ← ゲーム選択に戻る
       </Link>
-      <div className="text-center space-y-2">
-        <h1 className="text-4xl md:text-5xl font-bold text-stone-900 drop-shadow-sm tracking-wider">
+      <div className="text-center space-y-3">
+        <div className="text-7xl drop-shadow-lg animate-bounce">🔮</div>
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-700 via-orange-600 to-red-600 drop-shadow-sm">
           Elemental Paths
         </h1>
-        <p className="text-stone-600 text-sm md:text-base">精霊の道 — 5つの属性を極める旅</p>
+        <p className="text-stone-600 font-medium text-sm md:text-base">精霊の道 — 5つの属性を極める旅</p>
+        {/* 5属性のアイコン */}
+        <div className="flex justify-center gap-3 pt-2">
+          {COLORS.map((color) => (
+            <div
+              key={color}
+              className="flex flex-col items-center gap-1 bg-white/70 rounded-xl px-3 py-2 shadow border border-amber-200"
+            >
+              <span className="text-2xl">{COLOR_ICONS[color]}</span>
+              <span className="text-[10px] font-bold text-stone-500">{COLOR_LABELS[color]}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="w-full max-w-sm rounded-xl bg-stone-100 p-6 border-4 border-amber-700/50 flex flex-col gap-6 shadow-2xl relative z-10">
+      <div className="w-full max-w-sm rounded-2xl bg-white/80 p-6 border border-amber-200 flex flex-col gap-6 shadow-lg relative z-10">
         <button
           type="button"
           onClick={handleCreate}
           disabled={!!loading}
-          className="w-full px-6 py-4 rounded-xl bg-amber-600 text-white font-bold text-lg hover:bg-amber-500 border-2 border-amber-700 shadow-lg disabled:opacity-50 transition-all active:scale-95"
+          className="w-full px-6 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600
+            hover:from-amber-400 hover:to-orange-500 text-white font-extrabold text-lg
+            shadow-lg shadow-orange-300/60 border-b-4 border-orange-700
+            active:border-b-0 active:translate-y-1 disabled:opacity-50 transition-all"
         >
-          {loading === "create" ? "道を開いています…" : "精霊の道を開く (Host)"}
+          {loading === "create" ? "道を開いています…" : "🗺️ 精霊の道を開く (Host)"}
         </button>
 
-        <div className="border-t-2 border-amber-700/40 pt-5">
-          <p className="text-sm text-stone-700 font-bold mb-2 flex items-center gap-2">
-            <span className="w-2 h-2 bg-amber-500 rounded-full" />
-            旅に参加する (Join)
+        <div className="border-t-2 border-amber-200 pt-5">
+          <p className="text-sm text-stone-600 font-bold mb-2 flex items-center gap-2">
+            🎟️ 旅に参加する (Join)
           </p>
           <div className="flex gap-2">
             <input
@@ -104,14 +121,17 @@ export default function ElementalLobbyPage() {
               value={joinId}
               onChange={(e) => setJoinId(e.target.value)}
               placeholder="招待IDを入力"
-              className="flex-1 px-3 py-2 rounded-lg border-2 border-amber-700/50 bg-stone-50 text-stone-900 focus:border-amber-600 focus:outline-none placeholder-stone-400"
+              className="flex-1 px-3 py-2 rounded-xl border-2 border-amber-200 bg-amber-50 text-stone-800 focus:border-amber-500 focus:outline-none placeholder-stone-400"
               disabled={!!loading}
             />
             <button
               type="button"
               onClick={handleJoin}
               disabled={!!loading}
-              className="px-4 py-2 rounded-lg bg-amber-600 text-white font-bold hover:bg-amber-500 border-2 border-amber-700 disabled:opacity-50 transition-colors"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600
+                hover:from-emerald-400 hover:to-green-500 text-white font-extrabold shadow
+                border-b-4 border-green-700 active:border-b-0 active:translate-y-1
+                disabled:opacity-50 transition-all"
             >
               {loading === "join" ? "…" : "参加"}
             </button>
@@ -119,14 +139,14 @@ export default function ElementalLobbyPage() {
         </div>
 
         {error && (
-          <div className="bg-red-100 border-l-4 border-red-500 text-red-800 p-3 text-sm rounded space-y-2" role="alert">
-            <p>{error}</p>
+          <div className="bg-red-100 border-2 border-red-300 text-red-700 p-3 text-sm rounded-xl space-y-2 font-medium" role="alert">
+            <p>⚠️ {error}</p>
             {fullGameId && (
               <Link
                 href={`/elemental/game/${fullGameId}`}
-                className="inline-block px-4 py-2 rounded-lg bg-amber-600 text-white font-bold hover:bg-amber-500 border-2 border-amber-700 text-sm"
+                className="inline-block px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold hover:from-amber-400 hover:to-orange-500 text-sm shadow"
               >
-                観戦する
+                👀 観戦する
               </Link>
             )}
           </div>
@@ -135,19 +155,16 @@ export default function ElementalLobbyPage() {
 
       <button
         onClick={() => setShowRules(true)}
-        className="text-stone-600 hover:text-amber-600 underline underline-offset-4 text-sm transition-colors flex items-center gap-1"
+        className="text-stone-600 hover:text-orange-600 underline underline-offset-4 text-sm transition-colors flex items-center gap-1 font-bold"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
-        </svg>
-        ゲームのルールを確認する
+        📜 ゲームのルールを確認する
       </button>
 
       {showRules && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/70 backdrop-blur-sm">
-          <div className="bg-stone-100 text-stone-900 rounded-2xl border-4 border-amber-700/60 w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
-            <div className="bg-amber-100/80 p-4 border-b-4 border-amber-700/50 flex justify-between items-center sticky top-0">
-              <h2 className="text-xl font-bold text-amber-800">精霊の道 — ルール</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm">
+          <div className="bg-white text-stone-900 rounded-2xl border border-amber-200 w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            <div className="bg-amber-100 p-4 border-b border-amber-200 flex justify-between items-center sticky top-0">
+              <h2 className="text-xl font-extrabold text-amber-800">📜 精霊の道 — ルール</h2>
               <button onClick={() => setShowRules(false)} className="p-1 hover:bg-amber-200/80 rounded-full transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -156,14 +173,14 @@ export default function ElementalLobbyPage() {
             </div>
             <div className="p-6 overflow-y-auto space-y-6 text-sm md:text-base leading-relaxed">
               <section>
-                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-700/40 pb-1">目的</h3>
+                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-200 pb-1">🎯 目的</h3>
                 <p className="text-stone-700">
-                  5つの属性（<span className="text-red-500">火</span>・<span className="text-blue-500">水</span>・<span className="text-emerald-600">風</span>・<span className="text-amber-600">土</span>・<span className="text-stone-500">光</span>）の「道」にカードを並べ、スコアを競います。<br />
+                  5つの属性（<span className="text-red-500">🔥火</span>・<span className="text-blue-500">💧水</span>・<span className="text-emerald-600">🍃風</span>・<span className="text-amber-600">⛰️土</span>・<span className="text-stone-500">✨光</span>）の「道」にカードを並べ、スコアを競います。<br />
                   各道には<span className="text-red-600 font-bold">コスト（-20点）</span>がかかります。途中で止めると赤字になります。
                 </p>
               </section>
               <section>
-                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-700/40 pb-1">カードの種類と出し方</h3>
+                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-200 pb-1">🎴 カードの種類と出し方</h3>
                 <ul className="list-disc pl-5 space-y-2 text-stone-700">
                   <li>
                     <span className="font-bold text-stone-900">数字カード (2〜10):</span><br />
@@ -176,15 +193,15 @@ export default function ElementalLobbyPage() {
                 </ul>
               </section>
               <section>
-                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-700/40 pb-1">ターンの流れ</h3>
+                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-200 pb-1">🔄 ターンの流れ</h3>
                 <ol className="list-decimal pl-5 space-y-2 text-stone-700">
                   <li><span className="font-bold text-stone-900">カードを1枚出す:</span> 自分の道に置くか、捨て札置き場に捨てる。</li>
                   <li><span className="font-bold text-stone-900">カードを1枚引く:</span> 山札か、自分が捨てた属性以外の捨て札から引く。</li>
                 </ol>
               </section>
               <section>
-                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-700/40 pb-1">得点計算</h3>
-                <div className="bg-stone-200/80 p-3 rounded border-2 border-amber-700/40 font-mono text-sm text-stone-800">
+                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-200 pb-1">🏆 得点計算</h3>
+                <div className="bg-amber-50 p-3 rounded-xl border-2 border-amber-200 font-mono text-sm text-stone-800">
                   (数字の合計 - 20) × (契約の枚数 + 1)
                 </div>
                 <p className="text-stone-700 mt-2 text-xs">
@@ -192,10 +209,10 @@ export default function ElementalLobbyPage() {
                 </p>
               </section>
             </div>
-            <div className="bg-amber-100/80 p-4 border-t-4 border-amber-700/50 text-center">
+            <div className="bg-amber-100 p-4 border-t border-amber-200 text-center">
               <button
                 onClick={() => setShowRules(false)}
-                className="px-8 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg font-bold transition-colors shadow-lg border-2 border-amber-700"
+                className="px-8 py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white rounded-xl font-bold transition-all shadow-lg border-b-4 border-orange-700 active:border-b-0 active:translate-y-1"
               >
                 理解した！
               </button>

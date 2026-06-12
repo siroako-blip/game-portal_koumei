@@ -13,6 +13,13 @@ body {
   min-height: 100vh;
 }
 
+/* Elemental Paths: 羊皮紙風の明るい背景 + うっすらドット模様 */
+.parchment-bg {
+  background-color: #fef3c7;
+  background-image: radial-gradient(rgba(180, 130, 60, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
 /* エモート：上に浮かび上がりながらフェードアウト */
 @keyframes emoteFloat {
   0% {
