@@ -3,7 +3,7 @@
 import { useCallback, useState, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import type { LoveLetterGameState } from "@/app/loveLetterLogic";
+import type { LoveLetterGameState } from "@/app/loveletter/logic";
 import {
   CARD_NAMES,
   cardNeedsTarget,
@@ -13,8 +13,8 @@ import {
   GUARD_GUESS_OPTIONS,
   playCard,
   createInitialLoveLetterState,
-} from "@/app/loveLetterLogic";
-import { useLoveLetterRealtime } from "@/lib/useLoveLetterRealtime";
+} from "@/app/loveletter/logic";
+import { useLoveLetterRealtime } from "@/app/loveletter/useRealtime";
 import { startLoveLetterGame, updateLoveLetterGameState } from "@/lib/gameDb";
 import { RuleBook } from "@/components/RuleBook";
 

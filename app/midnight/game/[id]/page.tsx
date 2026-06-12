@@ -3,15 +3,15 @@
 import { useCallback, useState, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import type { MidnightGameState, MidnightCard } from "@/app/midnightLogic";
+import type { MidnightGameState, MidnightCard } from "@/app/midnight/logic";
 import {
   bid,
   callMidnight,
   startNextRound,
   createInitialMidnightState,
   restartGame,
-} from "@/app/midnightLogic";
-import { useMidnightRealtime } from "@/lib/useMidnightRealtime";
+} from "@/app/midnight/logic";
+import { useMidnightRealtime } from "@/app/midnight/useRealtime";
 import {
   startMidnightPartyGame,
   updateMidnightPartyGameState,

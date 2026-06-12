@@ -1,4 +1,4 @@
-import type { GuessEntry, HitBlowGameState } from "./hitBlowTypes";
+import type { GuessEntry, HitBlowGameState } from "./types";
 
 const DIGITS = 4;
 

@@ -1,12 +1,12 @@
 import { supabase } from "@/lib/supabase";
-import type { GameState } from "@/app/types";
-import type { HitBlowGameState } from "@/app/hitBlowTypes";
-import type { NoThanksGameState } from "@/app/nothanksLogic";
-import type { LoveLetterGameState } from "@/app/loveLetterLogic";
-import type { ValueTalkGameState } from "@/app/valueTalkLogic";
-import type { MidnightGameState } from "@/app/midnightLogic";
-import type { AbyssGameState } from "@/app/abyssLogic";
-import type { SecretWordGameState } from "@/app/secretWordLogic";
+import type { GameState } from "@/app/elemental/types";
+import type { HitBlowGameState } from "@/app/hitblow/types";
+import type { NoThanksGameState } from "@/app/nothanks/logic";
+import type { LoveLetterGameState } from "@/app/loveletter/logic";
+import type { ValueTalkGameState } from "@/app/valuetalk/logic";
+import type { MidnightGameState } from "@/app/midnight/logic";
+import type { AbyssGameState } from "@/app/abyss/logic";
+import type { SecretWordGameState } from "@/app/secretword/logic";
 
 /** lost_cities_games の1行。ゲーム状態は game_state JSON に集約 */
 export interface LostCitiesGameRow {

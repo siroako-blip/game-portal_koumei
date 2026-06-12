@@ -3,7 +3,7 @@
 import { useCallback, useState, Suspense, useEffect, useRef } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import type { SecretWordGameState, SecretWordMessage } from "@/app/secretWordLogic";
+import type { SecretWordGameState, SecretWordMessage } from "@/app/secretword/logic";
 import {
   getPlayerWord,
   endDiscussion,
@@ -11,8 +11,8 @@ import {
   vote,
   getRemainingDiscussionSeconds,
   createInitialSecretWordState,
-} from "@/app/secretWordLogic";
-import { useSecretWordRealtime } from "@/lib/useSecretWordRealtime";
+} from "@/app/secretword/logic";
+import { useSecretWordRealtime } from "@/app/secretword/useRealtime";
 import {
   startSecretWordGame,
   updateSecretWordGameState,

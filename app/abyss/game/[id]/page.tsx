@@ -3,7 +3,7 @@
 import { useCallback, useState, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import type { AbyssGameState } from "@/app/abyssLogic";
+import type { AbyssGameState } from "@/app/abyss/logic";
 import {
   applyOxygenAndMaybeFinishRound,
   switchDirectionToUp,
@@ -15,8 +15,8 @@ import {
   createInitialAbyssState,
   OXYGEN_MAX,
   TOTAL_ROUNDS,
-} from "@/app/abyssLogic";
-import { useAbyssRealtime } from "@/lib/useAbyssRealtime";
+} from "@/app/abyss/logic";
+import { useAbyssRealtime } from "@/app/abyss/useRealtime";
 import {
   startAbyssSalvageGame,
   updateAbyssSalvageGameState,

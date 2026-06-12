@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { createGame, getGame, joinGame, startGame } from "@/lib/gameDb";
-import { createInitialState } from "@/app/gameLogic";
-import { COLOR_ICONS } from "@/app/components/Card";
-import { COLORS, COLOR_LABELS } from "@/app/types";
+import { createInitialState } from "@/app/elemental/logic";
+import { COLOR_ICONS } from "@/app/elemental/components/Card";
+import { COLORS, COLOR_LABELS } from "@/app/elemental/types";
 
 function generatePlayerId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();

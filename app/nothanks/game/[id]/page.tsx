@@ -3,7 +3,7 @@
 import { useCallback, useState, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import type { NoThanksGameState } from "@/app/nothanksLogic";
+import type { NoThanksGameState } from "@/app/nothanks/logic";
 import {
   createInitialNoThanksState,
   payChip,
@@ -12,8 +12,8 @@ import {
   getWinnerIndex,
   scoreForCards,
   restartGame,
-} from "@/app/nothanksLogic";
-import { useNoThanksRealtime } from "@/lib/useNoThanksRealtime";
+} from "@/app/nothanks/logic";
+import { useNoThanksRealtime } from "@/app/nothanks/useRealtime";
 import { startNoThanksGame, updateNoThanksGameState } from "@/lib/gameDb";
 import { RuleBook } from "@/components/RuleBook";
 

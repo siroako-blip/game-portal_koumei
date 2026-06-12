@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import type { Card as CardType, CardColor, GameState, PlayerScore } from "@/app/types";
-import { COLORS, COLOR_LABELS } from "@/app/types";
+import type { Card as CardType, CardColor, GameState, PlayerScore } from "@/app/elemental/types";
+import { COLORS, COLOR_LABELS } from "@/app/elemental/types";
 import {
   playCard,
   playCardP2,
@@ -13,10 +13,10 @@ import {
   canPlayCard,
   calculatePlayerScore,
   createInitialState,
-} from "@/app/gameLogic";
-import { Card, COLOR_ICONS } from "@/app/components/Card";
+} from "@/app/elemental/logic";
+import { Card, COLOR_ICONS } from "@/app/elemental/components/Card";
 import { updateGameState } from "@/lib/gameDb";
-import { useGameRealtime } from "@/lib/useGameRealtime";
+import { useGameRealtime } from "@/app/elemental/useRealtime";
 import { usePresence } from "@/lib/usePresence";
 
 const EMOTES = ["👀", "👏", "😱", "🔥"] as const;

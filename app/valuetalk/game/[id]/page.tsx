@@ -3,11 +3,11 @@
 import { useCallback, useState, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import type { ValueTalkGameState } from "@/app/valueTalkLogic";
-import { playCard, updateDescription, changeTheme, restartGame } from "@/app/valueTalkLogic";
-import { useValueTalkRealtime } from "@/lib/useValueTalkRealtime";
+import type { ValueTalkGameState } from "@/app/valuetalk/logic";
+import { playCard, updateDescription, changeTheme, restartGame } from "@/app/valuetalk/logic";
+import { useValueTalkRealtime } from "@/app/valuetalk/useRealtime";
 import { startValueTalkGame, updateValueTalkGameState } from "@/lib/gameDb";
-import { createInitialValueTalkState } from "@/app/valueTalkLogic";
+import { createInitialValueTalkState } from "@/app/valuetalk/logic";
 import { RuleBook } from "@/components/RuleBook";
 
 type PlayerRole = number | "spectator";

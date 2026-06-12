@@ -8,7 +8,7 @@ import {
   getAbyssSalvageGame,
   joinAbyssSalvageGame,
 } from "@/lib/gameDb";
-import { TOTAL_ROUNDS } from "@/app/abyssLogic";
+import { TOTAL_ROUNDS } from "@/app/abyss/logic";
 
 function generatePlayerId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();

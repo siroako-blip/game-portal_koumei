@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { createValueTalkGame, getValueTalkGame, joinValueTalkGame } from "@/lib/gameDb";
-import type { ValueTalkDifficulty } from "@/app/valueTalkLogic";
+import type { ValueTalkDifficulty } from "@/app/valuetalk/logic";
 
 function generatePlayerId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();

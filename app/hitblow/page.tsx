@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { createHitBlowGame, getHitBlowGame, joinHitBlowGame, startHitBlowGame } from "@/lib/gameDb";
-import { createInitialHitBlowState } from "@/app/hitBlowLogic";
+import { createInitialHitBlowState } from "@/app/hitblow/logic";
 
 function generatePlayerId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();

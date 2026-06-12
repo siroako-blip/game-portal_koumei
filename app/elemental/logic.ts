@@ -1,4 +1,4 @@
-// app/gameLogic.ts
+// app/elemental/logic.ts
 
 import type { Card, CardColor, GameState } from "./types";
 import type { ColorScoreDetail, PlayerScore } from "./types";

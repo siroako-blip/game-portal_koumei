@@ -3,9 +3,9 @@
 import { useCallback, useState, useRef, useEffect, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import type { HitBlowGameState } from "@/app/hitBlowTypes";
-import { setSecret, submitGuess, isValidGuess, getMergedHistory } from "@/app/hitBlowLogic";
-import { useHitBlowRealtime } from "@/lib/useHitBlowRealtime";
+import type { HitBlowGameState } from "@/app/hitblow/types";
+import { setSecret, submitGuess, isValidGuess, getMergedHistory } from "@/app/hitblow/logic";
+import { useHitBlowRealtime } from "@/app/hitblow/useRealtime";
 import { usePresence } from "@/lib/usePresence";
 import { updateHitBlowGameState } from "@/lib/gameDb";
 
