@@ -6,152 +6,202 @@ type GameEntry = {
   href: string;
   icon: string;
   title: string;
+  subtitle: string;
   desc: string;
-  cardClass: string;
-  titleClass: string;
-  descClass: string;
-  iconBgClass: string;
+  /** 上半分パネルのグラデーション */
+  panelClass: string;
+  /** パネルに薄く散らす装飾アイコン */
+  decoIcon: string;
+  /** カテゴリバッジ */
+  tag: string;
+  tagClass: string;
 };
 
 const GAMES: GameEntry[] = [
   {
     href: "/elemental",
     icon: "🔮",
-    title: "Elemental Paths (Card Game)",
-    desc: "精霊の道 — 5つの属性を極めるカード対戦",
-    cardClass:
-      "bg-stone-100 border-amber-700/50 hover:bg-amber-50 hover:border-amber-600",
-    titleClass: "text-stone-900 group-hover:text-amber-800",
-    descClass: "text-stone-600",
-    iconBgClass: "bg-amber-200/70",
+    title: "Elemental Paths",
+    subtitle: "精霊の道",
+    desc: "5つの属性を極めるカード対戦",
+    panelClass: "bg-gradient-to-br from-amber-400 via-orange-500 to-red-500",
+    decoIcon: "🌿",
+    tag: "カード · 2人",
+    tagClass: "bg-amber-100 text-amber-800",
   },
   {
     href: "/hitblow",
     icon: "🎯",
-    title: "Hit and Blow (Logic Game)",
-    desc: "数字当て推理ゲーム — 2人対戦",
-    cardClass:
-      "bg-stone-100 border-amber-700/50 hover:bg-amber-50 hover:border-amber-600",
-    titleClass: "text-stone-900 group-hover:text-amber-800",
-    descClass: "text-stone-600",
-    iconBgClass: "bg-orange-200/70",
+    title: "Hit and Blow",
+    subtitle: "数字当て推理",
+    desc: "ヒントを頼りに4桁を当てる",
+    panelClass: "bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-500",
+    decoIcon: "🔢",
+    tag: "推理 · 2人",
+    tagClass: "bg-yellow-100 text-yellow-800",
   },
   {
     href: "/nothanks",
     icon: "🎁",
-    title: "Cursed Gifts (No Thanks!)",
-    desc: "呪いの贈り物 — 3〜5人用",
-    cardClass:
-      "bg-purple-950/80 border-purple-700/50 hover:bg-purple-900/80 hover:border-purple-600",
-    titleClass: "text-purple-100 group-hover:text-purple-200",
-    descClass: "text-purple-300",
-    iconBgClass: "bg-purple-800/80",
+    title: "Cursed Gifts",
+    subtitle: "呪いの贈り物",
+    desc: "チップで回避か、引き取るか",
+    panelClass: "bg-gradient-to-br from-fuchsia-500 via-purple-600 to-purple-900",
+    decoIcon: "👻",
+    tag: "カード · 3〜5人",
+    tagClass: "bg-purple-100 text-purple-800",
   },
   {
     href: "/loveletter",
     icon: "💌",
-    title: "Court Intrigue (Love Letter)",
-    desc: "王宮の陰謀 — 2〜4人用",
-    cardClass:
-      "bg-red-950/80 border-amber-700/50 hover:bg-red-900/80 hover:border-amber-600",
-    titleClass: "text-amber-100 group-hover:text-amber-50",
-    descClass: "text-amber-200/90",
-    iconBgClass: "bg-red-900/80",
+    title: "Court Intrigue",
+    subtitle: "王宮の陰謀",
+    desc: "1枚の手札で宮廷を出し抜く",
+    panelClass: "bg-gradient-to-br from-rose-500 via-red-600 to-red-900",
+    decoIcon: "👑",
+    tag: "カード · 2〜4人",
+    tagClass: "bg-rose-100 text-rose-800",
   },
   {
     href: "/valuetalk",
     icon: "💬",
-    title: "Value Talk (協力)",
-    desc: "数字をたとえ話で伝える ito風ゲーム",
-    cardClass:
-      "bg-orange-100 border-orange-300 hover:bg-orange-50 hover:border-orange-400",
-    titleClass: "text-orange-900 group-hover:text-orange-800",
-    descClass: "text-orange-600",
-    iconBgClass: "bg-orange-200/80",
+    title: "Value Talk",
+    subtitle: "たとえ話で伝える",
+    desc: "数字をたとえて小さい順に並べる",
+    panelClass: "bg-gradient-to-br from-orange-300 via-orange-400 to-amber-500",
+    decoIcon: "💭",
+    tag: "協力 · ito風",
+    tagClass: "bg-orange-100 text-orange-800",
   },
   {
     href: "/midnight",
     icon: "🌙",
-    title: "Midnight Party (対戦)",
-    desc: "合計値を推理してビッド — コヨーテ風 2〜10人",
-    cardClass:
-      "bg-purple-950/80 border-fuchsia-600/50 hover:bg-purple-900/80 hover:border-fuchsia-500",
-    titleClass: "text-fuchsia-200 group-hover:text-fuchsia-100",
-    descClass: "text-purple-300",
-    iconBgClass: "bg-fuchsia-900/70",
+    title: "Midnight Party",
+    subtitle: "合計値を推理",
+    desc: "見えない自分の数字を読み合う",
+    panelClass: "bg-gradient-to-br from-fuchsia-500 via-purple-600 to-indigo-800",
+    decoIcon: "✨",
+    tag: "対戦 · 2〜10人",
+    tagClass: "bg-fuchsia-100 text-fuchsia-800",
   },
   {
     href: "/abyss",
     icon: "🤿",
-    title: "Abyss Salvage (ボード)",
-    desc: "深海探検 — 遺跡を拾い酸素を共有して帰還 2〜6人",
-    cardClass:
-      "bg-slate-900/90 border-cyan-600/50 hover:bg-slate-800 hover:border-cyan-500",
-    titleClass: "text-cyan-200 group-hover:text-cyan-100",
-    descClass: "text-cyan-300/90",
-    iconBgClass: "bg-cyan-900/70",
+    title: "Abyss Salvage",
+    subtitle: "深海探検",
+    desc: "酸素を共有し遺跡を持ち帰る",
+    panelClass: "bg-gradient-to-br from-cyan-400 via-teal-500 to-blue-800",
+    decoIcon: "🫧",
+    tag: "ボード · 2〜6人",
+    tagClass: "bg-cyan-100 text-cyan-800",
   },
   {
     href: "/secretword",
     icon: "🐺",
-    title: "Secret Word (会話)",
-    desc: "ワードウルフ風 — お題を推理してウルフを当てる 3〜8人",
-    cardClass:
-      "bg-emerald-950/90 border-emerald-600/50 hover:bg-emerald-900/80 hover:border-emerald-500",
-    titleClass: "text-emerald-200 group-hover:text-emerald-100",
-    descClass: "text-emerald-300/90",
-    iconBgClass: "bg-emerald-900/70",
+    title: "Secret Word",
+    subtitle: "ワードウルフ風",
+    desc: "1人だけ違うお題を見抜く",
+    panelClass: "bg-gradient-to-br from-emerald-400 via-teal-500 to-emerald-800",
+    decoIcon: "🌲",
+    tag: "会話 · 3〜8人",
+    tagClass: "bg-emerald-100 text-emerald-800",
   },
 ];
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col p-6 gap-8 items-center justify-center bg-gradient-to-b from-stone-100 to-orange-50/60 text-stone-900">
-      <div className="text-center space-y-3 fade-in-up">
-        <div className="flex justify-center items-end gap-2 text-4xl">
-          <span className="animate-bob">🎲</span>
-          <span className="text-6xl animate-float drop-shadow-lg">🏰</span>
-          <span className="animate-bob bob-delay-2">🃏</span>
-        </div>
-        <h1 className="text-4xl md:text-5xl font-bold drop-shadow-sm tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-700 via-orange-600 to-rose-600">
-          ゲームポータル
-        </h1>
-        <p className="text-stone-600 text-sm md:text-base">
-          ✨ 遊びたいゲームを選んでください ✨
-        </p>
+    <div className="portal-grid-bg min-h-screen text-stone-900 relative overflow-hidden">
+      {/* ゆっくり漂う装飾オーブ（やわらかい色のにじみ） */}
+      <div className="pointer-events-none absolute -top-24 -left-24 w-80 h-80 rounded-full bg-orange-300/25 blur-3xl animate-drift" />
+      <div className="pointer-events-none absolute top-1/3 -right-28 w-96 h-96 rounded-full bg-sky-300/20 blur-3xl animate-drift drift-delay" />
+      <div className="pointer-events-none absolute -bottom-28 left-1/4 w-80 h-80 rounded-full bg-fuchsia-300/20 blur-3xl animate-drift" />
+
+      {/* 背景に浮かぶゲームモチーフ（薄く・ゆっくり動く） */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden select-none" aria-hidden>
+        {/* その場で浮遊＋ゆらぎ */}
+        <span className="absolute top-[12%] left-[6%] text-6xl opacity-[0.26] animate-float-icon float-d1">🎲</span>
+        <span className="absolute top-[24%] right-[10%] text-7xl opacity-[0.24] animate-float-icon float-d3">🃏</span>
+        <span className="absolute top-[58%] left-[12%] text-6xl opacity-[0.24] animate-float-icon float-d5">🎯</span>
+        <span className="absolute top-[70%] right-[14%] text-7xl opacity-[0.22] animate-float-icon float-d2">🧩</span>
+        <span className="absolute top-[42%] left-[46%] text-5xl opacity-[0.20] animate-float-icon float-d6">🎮</span>
+        {/* ゆっくり回転 */}
+        <span className="absolute top-[85%] left-[40%] text-6xl opacity-[0.24] animate-spin-slow">♠️</span>
+        <span className="absolute top-[8%] left-[68%] text-5xl opacity-[0.24] animate-spin-slow float-d4">♦️</span>
+        {/* 斜めに横断していく */}
+        <span className="absolute bottom-0 left-[20%] text-5xl [--float-opacity:0.28] animate-float-across float-d2">♥️</span>
+        <span className="absolute bottom-0 left-[55%] text-6xl [--float-opacity:0.26] animate-float-across float-d5">♣️</span>
+        <span className="absolute bottom-0 left-[80%] text-5xl [--float-opacity:0.28] animate-float-across float-d7">🎲</span>
       </div>
 
-      <div className="w-full max-w-md flex flex-col gap-4">
-        {GAMES.map((game, i) => (
-          <Link
-            key={game.href}
-            href={game.href}
-            className={`w-full px-5 py-4 rounded-xl border-4 shadow-lg transition-all text-left group
-              hover:-translate-y-1 hover:shadow-xl active:translate-y-0 active:shadow-md
-              fade-in-up fade-delay-${i + 1} flex items-center gap-4 ${game.cardClass}`}
-          >
-            <span
-              className={`shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center text-3xl shadow-inner
-                group-hover-wiggle group-hover:scale-110 transition-transform ${game.iconBgClass}`}
+      <div className="relative mx-auto max-w-3xl px-4 py-10 md:py-14">
+        {/* ヘッダー */}
+        <header className="text-center space-y-3 mb-10 fade-in-up">
+          <div className="flex justify-center items-end gap-2 text-3xl">
+            <span className="animate-bob">🎲</span>
+            <span className="text-5xl animate-float drop-shadow">🎮</span>
+            <span className="animate-bob bob-delay-2">🃏</span>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600">
+            ゲームポータル
+          </h1>
+          <p className="text-stone-500 text-sm">遊びたいゲームを選んでください</p>
+        </header>
+
+        {/* 2列グリッド */}
+        <div className="grid grid-cols-2 gap-3 md:gap-5">
+          {GAMES.map((game, i) => (
+            <Link
+              key={game.href}
+              href={game.href}
+              className={`group rounded-2xl bg-white border border-stone-200 shadow-sm overflow-hidden
+                hover:shadow-xl hover:-translate-y-1 hover:border-stone-300
+                active:translate-y-0 active:shadow-md transition-all
+                fade-in-up fade-delay-${i + 1} flex flex-col`}
             >
-              {game.icon}
-            </span>
-            <span className="min-w-0">
-              <span className={`block text-lg md:text-xl font-bold ${game.titleClass}`}>
-                {game.title}
-              </span>
-              <span className={`block text-sm mt-0.5 ${game.descClass}`}>{game.desc}</span>
-            </span>
-            <span className="ml-auto text-2xl opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0 duration-300">
-              ▶️
-            </span>
-          </Link>
-        ))}
-      </div>
+              {/* 上半分：テーマ色パネル */}
+              <div
+                className={`relative h-24 md:h-28 ${game.panelClass} flex items-center justify-center overflow-hidden`}
+              >
+                {/* 背景に薄く散らす装飾 */}
+                <span className="absolute -top-2 -left-2 text-5xl opacity-15 select-none rotate-12">
+                  {game.decoIcon}
+                </span>
+                <span className="absolute -bottom-3 -right-1 text-6xl opacity-15 select-none -rotate-12">
+                  {game.decoIcon}
+                </span>
+                {/* メインアイコン */}
+                <span className="relative text-4xl md:text-5xl drop-shadow-lg group-hover:scale-110 group-hover-wiggle transition-transform">
+                  {game.icon}
+                </span>
+                {/* カテゴリタグ */}
+                <span
+                  className={`absolute top-2 right-2 text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm ${game.tagClass}`}
+                >
+                  {game.tag}
+                </span>
+              </div>
 
-      <footer className="mt-8 text-center text-stone-500 text-xs max-w-md px-4 fade-in-up fade-delay-8">
-        ※ これは非公式のファンプロジェクトであり、オリジナルのゲームとは関係ありません。
-      </footer>
+              {/* 下半分：白地の情報 */}
+              <div className="p-3 md:p-4 flex flex-col gap-0.5 flex-1">
+                <span className="text-[11px] font-bold text-stone-400 leading-none">
+                  {game.subtitle}
+                </span>
+                <span className="text-sm md:text-base font-extrabold text-stone-800 leading-snug">
+                  {game.title}
+                </span>
+                <span className="text-xs text-stone-500 mt-1 leading-snug">{game.desc}</span>
+                <span className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-orange-600 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
+                  あそぶ <span aria-hidden>→</span>
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        <footer className="mt-10 text-center text-stone-400 text-xs fade-in-up fade-delay-8">
+          ※ これは非公式のファンプロジェクトであり、オリジナルのゲームとは関係ありません。
+        </footer>
+      </div>
     </div>
   );
 }

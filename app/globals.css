@@ -20,6 +20,78 @@ body {
   background-size: 22px 22px;
 }
 
+/* ポータル（グリッド版）：明るいニュートラル地に、淡い色オーブ＋ドットの奥行き背景 */
+.portal-grid-bg {
+  background-color: #f6f6f5;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 8% 0%, rgba(251, 146, 60, 0.16) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 95% 12%, rgba(56, 189, 248, 0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 55% at 50% 100%, rgba(168, 85, 247, 0.12) 0%, transparent 60%),
+    radial-gradient(rgba(120, 113, 108, 0.10) 1px, transparent 1px);
+  background-size: auto, auto, auto, 24px 24px;
+  background-attachment: fixed;
+}
+
+/* 背景でゆっくり漂う装飾オーブ */
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -24px) scale(1.08); }
+}
+.animate-drift {
+  animation: drift 14s ease-in-out infinite;
+}
+.drift-delay {
+  animation-delay: 7s;
+}
+
+/* 背景の装飾アイコン：上下に浮かびながらゆっくり回転 */
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-26px) rotate(6deg); }
+}
+.animate-float-icon {
+  animation: floatIcon 9s ease-in-out infinite;
+}
+
+/* 背景の装飾アイコン：画面を斜めにゆっくり横断 */
+@keyframes floatAcross {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: var(--float-opacity, 0.12); }
+  90% { opacity: var(--float-opacity, 0.12); }
+  100% { transform: translate(40px, -120px) rotate(40deg); opacity: 0; }
+}
+.animate-float-across {
+  animation: floatAcross 22s linear infinite;
+}
+
+/* ゆっくり一回転（サイコロ等に） */
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spinSlow 24s linear infinite;
+}
+
+.float-d1 { animation-delay: 0s; }
+.float-d2 { animation-delay: 1.5s; }
+.float-d3 { animation-delay: 3s; }
+.float-d4 { animation-delay: 4.5s; }
+.float-d5 { animation-delay: 6s; }
+.float-d6 { animation-delay: 8s; }
+.float-d7 { animation-delay: 11s; }
+
+/* ポータル：温かいクリーム/羊皮紙の統一背景（紙の繊維風テクスチャ付き） */
+.portal-parchment {
+  background-color: #faf3e3;
+  background-image:
+    radial-gradient(ellipse at 15% 0%, rgba(217, 180, 120, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 100%, rgba(200, 150, 90, 0.14) 0%, transparent 55%),
+    radial-gradient(rgba(150, 110, 60, 0.07) 1px, transparent 1px);
+  background-size: auto, auto, 20px 20px;
+  background-attachment: fixed;
+}
+
 /* エモート：上に浮かび上がりながらフェードアウト */
 @keyframes emoteFloat {
   0% {
