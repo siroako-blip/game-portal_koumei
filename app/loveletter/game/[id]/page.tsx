@@ -106,6 +106,11 @@ function GameContent() {
       const discardable = getDiscardableCards(state, myIndex);
       if (!discardable.includes(rank)) return;
 
+      // 指名できる対象がいない場合（全員保護中/脱落）は、効果なしでそのまま捨てる（王子(5)は自分を指名できるので除く）
+      if (cardNeedsTarget(rank) && rank !== 5 && getValidTargets(state, myIndex).length === 0) {
+        submitPlay(rank);
+        return;
+      }
       if (cardNeedsGuardGuess(rank)) {
         setSelectedCard(rank);
         setSelectedTarget(null);

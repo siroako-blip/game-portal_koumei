@@ -177,9 +177,10 @@ export function callMidnight(state: MidnightGameState, playerIndex: number): Mid
   const { total, usedDeck } = calculateTotal(state.hands, state.deck);
   const bidder = state.currentBidderIndex;
   const challenger = playerIndex;
-  // 合計 < 宣言値 → チャレンジした人（Midnight!と言った人）の負け（見込み違い）
-  // 合計 >= 宣言値 → 宣言した人（bidder）の負け（オーバーした）
-  const bidderLoses = total >= state.currentBid;
+  // 宣言は「合計は宣言値以上ある」という主張。
+  // 合計 < 宣言値 → 宣言した人（bidder）の負け（言い過ぎ＝オーバーした）
+  // 合計 >= 宣言値 → チャレンジした人の負け（宣言は妥当だった＝見込み違い）
+  const bidderLoses = total < state.currentBid;
   const loserIndex = bidderLoses ? bidder : challenger;
 
   const newLives = [...state.lives];

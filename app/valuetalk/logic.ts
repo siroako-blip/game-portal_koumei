@@ -308,15 +308,22 @@ export function playCard(
     const smallest = smallerCards.length > 0 ? Math.min(...smallerCards.map((x) => x.card)) : card;
     const whoHadSmallest = smallerCards.find((x) => x.card === smallest);
     const life = state.life - 1;
-    const phase = life <= 0 ? "gameover" : "playing";
     const message =
       whoHadSmallest !== undefined
         ? `ブブー！失敗！ Player ${whoHadSmallest.playerIndex + 1} のカード(${smallest})の方が小さかった！`
         : `ブブー！失敗！`;
+    const failureInfo: LastFailure = {
+      message,
+      playedCard: card,
+      playerIndex,
+      smallerCards,
+    };
 
-    // 小さいカードを全員の手札から除去（捨て札）
+    // 出したカードは場に置かれたまま（ito公式）。小さいカードは全員の手札から捨て札に。
+    const played_cards = [...state.played_cards, { card, description, playerIndex }];
     const newPlayersCorrected = state.players.map((p, i) => {
-      const newHand = p.hand.filter((c) => c >= card);
+      const baseHand = i === playerIndex ? handWithoutCard : p.hand;
+      const newHand = baseHand.filter((c) => c > card);
       const desc: Record<number, string> = {};
       newHand.forEach((c) => {
         if (p.descriptions[c] !== undefined) desc[c] = p.descriptions[c]!;
@@ -324,17 +331,31 @@ export function playCard(
       return { ...p, hand: newHand, descriptions: desc };
     });
 
+    if (life <= 0) {
+      return {
+        ...state,
+        phase: "gameover",
+        life,
+        players: newPlayersCorrected,
+        played_cards,
+        lastFailure: failureInfo,
+      };
+    }
+
+    // 失敗で全員の手札が空になったら次のレベルへ（失敗情報は表示用に残す）
+    if (newPlayersCorrected.every((p) => p.hand.length === 0)) {
+      const nextLevel = state.level + 1;
+      const dealt = dealNextLevel({ ...state, life, players: newPlayersCorrected }, nextLevel);
+      return { ...dealt, lastFailure: failureInfo };
+    }
+
     return {
       ...state,
-      phase,
+      phase: "playing",
       life,
       players: newPlayersCorrected,
-      lastFailure: {
-        message,
-        playedCard: card,
-        playerIndex,
-        smallerCards,
-      },
+      played_cards,
+      lastFailure: failureInfo,
     };
   }
 
@@ -362,6 +383,7 @@ export function playCard(
 
   return {
     ...state,
+    phase: "playing",
     players: newPlayers,
     played_cards,
     lastFailure: null,

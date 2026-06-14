@@ -207,20 +207,26 @@ export function playCard(params: PlayCardParams): LoveLetterGameState | null {
     return { ...countessResult, lastPriestReveal: null };
   }
 
-  // 以下は対象が必要
-  if (targetIndex === undefined || targetIndex === playerIndex) {
-    if (cardRank === 5) {
-      // 王子(5): 自分を指名可能
-    } else if (cardRank !== 5) {
-      return null; // 他は自分を指名不可
-    }
+  // 以下は対象が必要（王子(5)のみ自分を指名可能）
+  if (cardRank !== 5 && targetIndex === playerIndex) return null;
+
+  // 指名できる対象が誰もいない（全員が保護中 or 脱落）場合は、効果なしで捨てるだけ（公式ルール）
+  if (targetIndex === undefined && cardRank !== 5) {
+    const hasValidTarget = players.some(
+      (p, i) => i !== playerIndex && !p.isEliminated && !p.isProtected
+    );
+    if (hasValidTarget) return null; // 対象がいるのに未指定は不正
+    log = `${playerNames(playerIndex)}が${CARD_NAMES[cardRank]}を捨てました（指名できる対象がいないため効果なし）。`;
+    const next = nextTurnIndex({ ...state, players, discardPile, turnIndex: state.turnIndex });
+    const result = applyHandmaidClearAndAdvance(state, players, discardPile, next, log);
+    return { ...result, lastPriestReveal: null };
   }
 
   const target =
     targetIndex !== undefined ? players[targetIndex]! : player;
   if (targetIndex !== undefined && (!target || target.isEliminated)) return null;
-  if (targetIndex !== undefined && target.isProtected && cardRank !== 5) {
-    // 僧侶で保護されている（王子は「捨てさせる」なので保護を無視するか？ 通常ルールでは王子は保護を無視しない。保護中は選べない）
+  if (targetIndex !== undefined && targetIndex !== playerIndex && target.isProtected) {
+    // 僧侶(4)で保護中のプレイヤーは指名できない（王子(5)も例外ではない）
     return null;
   }
 
@@ -311,19 +317,47 @@ export function playCard(params: PlayCardParams): LoveLetterGameState | null {
       // 王子(5): 自分か他者1人を指名し、手札を捨てさせ山札から引かせる（山札切れなら除外カード）
       const targetP = targetIndex !== undefined ? players[targetIndex]! : player;
       const targetIdx = targetIndex !== undefined ? targetIndex : playerIndex;
+      const forcedDiscard = targetP.hand[0];
       targetP.hand = []; // 捨てる
+      const princeDiscardPile =
+        forcedDiscard !== undefined
+          ? [...discardPile, { playerIndex: targetIdx, rank: forcedDiscard }]
+          : discardPile;
+
+      // 姫(8)を捨てさせられたら即脱落（公式ルール）。新しいカードは引けない。
+      if (forcedDiscard === 8) {
+        targetP.isEliminated = true;
+        log = `${playerNames(playerIndex)}が王子で${playerNames(targetIdx)}を指名→姫を捨てさせられ、${playerNames(targetIdx)}は脱落しました。`;
+        const alive = countAlive(players);
+        if (alive <= 1) {
+          const winnerIdx = players.findIndex((p) => !p.isEliminated);
+          return {
+            ...state,
+            players,
+            discardPile: princeDiscardPile,
+            logs: [...state.logs, log],
+            phase: "finished",
+            winner: winnerIdx >= 0 ? winnerIdx : null,
+            lastPriestReveal: null,
+          };
+        }
+        const next = nextTurnIndex({ ...state, players, discardPile: princeDiscardPile, turnIndex: state.turnIndex });
+        const result = applyHandmaidClearAndAdvance(state, players, princeDiscardPile, next, log);
+        return { ...result, lastPriestReveal: null };
+      }
+
       const drawn = state.deck.length > 0
         ? state.deck[state.deck.length - 1]!
         : state.removedCard;
       const newDeck = state.deck.length > 0 ? state.deck.slice(0, -1) : [];
       targetP.hand.push(drawn);
-      log = `${playerNames(playerIndex)}が王子で${playerNames(targetIdx)}を指名し、手札を捨てさせて${CARD_NAMES[drawn]}を引かせました。`;
-      // 姫(8)を引いて捨てた場合の即脱落は「手札を捨てさせた」時点では発生しない（引いたカードは手札にあり、次のターンで捨てる）。なのでここでは脱落チェック不要。
-      const next = nextTurnIndex({ ...state, players: players.map((p, i) => ({ ...p, hand: [...p.hand] })), discardPile, deck: newDeck, turnIndex: state.turnIndex });
+      // 捨てさせたカードは公開情報、引いたカードは非公開（ログに出さない）
+      log = `${playerNames(playerIndex)}が王子で${playerNames(targetIdx)}を指名し、${CARD_NAMES[forcedDiscard!]}を捨てさせて新しいカードを引かせました。`;
+      const next = nextTurnIndex({ ...state, players, discardPile: princeDiscardPile, deck: newDeck, turnIndex: state.turnIndex });
       const princeResult = applyHandmaidClearAndAdvance(
         { ...state, deck: newDeck },
         players,
-        discardPile,
+        princeDiscardPile,
         next,
         log
       );
@@ -357,31 +391,28 @@ function applyHandmaidClearAndAdvance(
   log: string
 ): LoveLetterGameState {
   let deck = state.deck;
-  const updatedPlayers = players.map((p, i) => {
-    if (i !== nextTurnIdx) return p;
-    const hand = [...p.hand];
-    if (deck.length > 0 && !p.isEliminated) {
-      hand.push(deck[deck.length - 1]!);
-      deck = deck.slice(0, -1);
-    }
-    return { ...p, hand, isProtected: false };
-  });
 
-  // 山札が空ならラウンド終了：脱落していない者の手札の最大が勝ち
+  // 山札が空なら次の手番は始まらずラウンド終了（最後の1枚を引いた人はターンを終えている）。
+  // 生存者の手札（全員1枚）の最大が勝ち。同点なら捨て札の合計が大きい方（公式ルール）。
   if (deck.length === 0) {
-    let maxRank = -1;
     let winnerIdx: number | null = null;
-    updatedPlayers.forEach((p, i) => {
+    let bestRank = -1;
+    let bestDiscardSum = -1;
+    const discardSumOf = (i: number) =>
+      discardPile.filter((d) => d.playerIndex === i).reduce((s, d) => s + d.rank, 0);
+    players.forEach((p, i) => {
       if (p.isEliminated) return;
       const r = p.hand[0] ?? -1;
-      if (r > maxRank) {
-        maxRank = r;
+      const ds = discardSumOf(i);
+      if (r > bestRank || (r === bestRank && ds > bestDiscardSum)) {
+        bestRank = r;
+        bestDiscardSum = ds;
         winnerIdx = i;
       }
     });
     return {
       ...state,
-      players: updatedPlayers,
+      players,
       deck,
       discardPile,
       turnIndex: nextTurnIdx,
@@ -391,6 +422,16 @@ function applyHandmaidClearAndAdvance(
       lastPriestReveal: null,
     };
   }
+
+  const updatedPlayers = players.map((p, i) => {
+    if (i !== nextTurnIdx) return p;
+    const hand = [...p.hand];
+    if (!p.isEliminated) {
+      hand.push(deck[deck.length - 1]!);
+      deck = deck.slice(0, -1);
+    }
+    return { ...p, hand, isProtected: false };
+  });
 
   return {
     ...state,

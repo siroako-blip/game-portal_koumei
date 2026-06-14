@@ -84,29 +84,50 @@ export default function MidnightPartyLobbyPage() {
       >
         ゲーム選択に戻る
       </Link>
-      <div className="text-center space-y-2">
+      <div className="text-center space-y-3 fade-in-up">
+        <div className="flex justify-center items-end gap-3">
+          <span className="text-3xl animate-twinkle">⭐</span>
+          <span className="text-7xl drop-shadow-lg animate-float">🌙</span>
+          <span className="text-3xl animate-twinkle" style={{ animationDelay: "0.6s" }}>✨</span>
+        </div>
         <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 via-purple-200 to-cyan-300 drop-shadow-sm tracking-wider font-serif">
           Midnight Party
         </h1>
         <p className="text-purple-300 text-sm md:text-base">
-          合計値を推理してビッド — コヨーテ風（{MIN_PLAYERS}〜{MAX_PLAYERS}人）
+          🃏 合計値を推理してビッド — コヨーテ風（{MIN_PLAYERS}〜{MAX_PLAYERS}人）
         </p>
+        {/* 自分のカードだけ見えないイメージ */}
+        <div className="flex justify-center gap-2 pt-2">
+          {["5", "12", "?", "8"].map((label, i) => (
+            <div
+              key={i}
+              className={`w-10 h-14 rounded-lg flex items-center justify-center text-lg font-extrabold shadow-lg border-2 pop-in fade-delay-${i + 1}
+                ${
+                  label === "?"
+                    ? "bg-gradient-to-b from-fuchsia-600 to-purple-800 text-white border-fuchsia-400 animate-bob"
+                    : "bg-purple-100 text-purple-900 border-purple-300"
+                }`}
+            >
+              {label}
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="w-full max-w-sm rounded-2xl bg-purple-900/60 p-6 border-2 border-fuchsia-500/50 shadow-xl shadow-fuchsia-500/10 flex flex-col gap-6">
+      <div className="w-full max-w-sm rounded-2xl bg-purple-900/60 p-6 border-2 border-fuchsia-500/50 shadow-xl shadow-fuchsia-500/10 flex flex-col gap-6 fade-in-up fade-delay-2">
         <button
           type="button"
           onClick={handleCreate}
           disabled={!!loading}
-          className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white font-bold text-lg hover:from-fuchsia-400 hover:to-purple-500 border-2 border-fuchsia-400/80 shadow-lg disabled:opacity-50 transition-all active:scale-95"
+          className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white font-bold text-lg hover:from-fuchsia-400 hover:to-purple-500 border-b-4 border-purple-800 shadow-lg disabled:opacity-50 transition-all active:border-b-0 active:translate-y-1"
         >
-          {loading === "create" ? "部屋を開いています…" : "部屋を作成 (Host)"}
+          {loading === "create" ? "⏳ 部屋を開いています…" : "🌃 パーティーを開く (Host)"}
         </button>
 
         <div className="border-t border-fuchsia-500/30 pt-5">
           <p className="text-sm text-fuchsia-200 font-bold mb-2 flex items-center gap-2">
             <span className="w-2 h-2 bg-fuchsia-400 rounded-full animate-pulse" />
-            参加する (Join)
+            🎟️ 参加する (Join)
           </p>
           <div className="flex gap-2">
             <input
@@ -130,24 +151,24 @@ export default function MidnightPartyLobbyPage() {
 
         {error && (
           <div
-            className="bg-red-900/40 border-l-4 border-fuchsia-400 text-red-200 p-3 text-sm rounded space-y-2"
+            className="bg-red-900/40 border-l-4 border-fuchsia-400 text-red-200 p-3 text-sm rounded space-y-2 pop-in"
             role="alert"
           >
-            <p>{error}</p>
+            <p>⚠️ {error}</p>
             {fullGameId && (
               <Link
                 href={`/midnight/game/${fullGameId}`}
                 className="inline-block px-4 py-2 rounded-lg bg-fuchsia-500 text-white font-bold hover:bg-fuchsia-400 border-2 border-fuchsia-400 text-sm"
               >
-                観戦する
+                👀 観戦する
               </Link>
             )}
           </div>
         )}
       </div>
 
-      <div className="rounded-xl bg-purple-900/40 p-4 border border-fuchsia-500/30 max-w-md text-sm text-purple-200 shadow-inner">
-        <p className="font-bold text-fuchsia-200 mb-1 font-serif">ルール概要</p>
+      <div className="rounded-xl bg-purple-900/40 p-4 border border-fuchsia-500/30 max-w-md text-sm text-purple-200 shadow-inner fade-in-up fade-delay-3">
+        <p className="font-bold text-fuchsia-200 mb-1 font-serif">📜 ルール概要</p>
         <p>
           自分のカードだけ見えません。他人のカードは全部見えるので、合計値を推理して「より大きい数字」を宣言するか、「Midnight!」でチャレンジ。合計が宣言より小さければ宣言者の負け、以上ならチャレンジした人の負け。ライフ0で脱落。
         </p>

@@ -116,18 +116,28 @@ export function playCard(
   target: "expedition" | "discard",
   color?: CardColor
 ): GameState {
+  if (state.phase !== "play") return state;
+  if (!state.player1Hand.some((c) => c.id === card.id)) return state;
+  if (
+    target === "expedition" &&
+    !canPlayOnExpedition(state.player1Expeditions[card.color], card)
+  ) {
+    return state;
+  }
+
   const next = { ...state };
   next.player1Hand = state.player1Hand.filter((c) => c.id !== card.id);
   next.selectedCard = null;
 
-  if (target === "discard" && color) {
-    next.discardPiles = { ...state.discardPiles, [color]: [...state.discardPiles[color], card] };
-    next.lastDiscardedColor = color;
+  if (target === "discard") {
+    // 捨て札は必ずカード自身の色の山に置く
+    next.discardPiles = { ...state.discardPiles, [card.color]: [...state.discardPiles[card.color], card] };
+    next.lastDiscardedColor = card.color;
     next.logs = appendLog(state, `P1:「${COLOR_LABELS[card.color]}」の${card.value === "wager" ? "契約" : card.value}を捨てました`);
-  } else if (target === "expedition" && color) {
+  } else {
     next.player1Expeditions = {
       ...state.player1Expeditions,
-      [color]: [...state.player1Expeditions[color], card],
+      [card.color]: [...state.player1Expeditions[card.color], card],
     };
     next.lastDiscardedColor = null;
     next.logs = appendLog(state, `P1:「${COLOR_LABELS[card.color]}」の${card.value === "wager" ? "契約" : card.value}を道に置きました`);
@@ -143,18 +153,28 @@ export function playCardP2(
   target: "expedition" | "discard",
   color?: CardColor
 ): GameState {
+  if (state.phase !== "play") return state;
+  if (!state.player2Hand.some((c) => c.id === card.id)) return state;
+  if (
+    target === "expedition" &&
+    !canPlayOnExpedition(state.player2Expeditions[card.color], card)
+  ) {
+    return state;
+  }
+
   const next = { ...state };
   next.player2Hand = state.player2Hand.filter((c) => c.id !== card.id);
   next.selectedCard = null;
 
-  if (target === "discard" && color) {
-    next.discardPiles = { ...state.discardPiles, [color]: [...state.discardPiles[color], card] };
-    next.lastDiscardedColor = color;
+  if (target === "discard") {
+    // 捨て札は必ずカード自身の色の山に置く
+    next.discardPiles = { ...state.discardPiles, [card.color]: [...state.discardPiles[card.color], card] };
+    next.lastDiscardedColor = card.color;
     next.logs = appendLog(state, `P2:「${COLOR_LABELS[card.color]}」の${card.value === "wager" ? "契約" : card.value}を捨てました`);
-  } else if (target === "expedition" && color) {
+  } else {
     next.player2Expeditions = {
       ...state.player2Expeditions,
-      [color]: [...state.player2Expeditions[color], card],
+      [card.color]: [...state.player2Expeditions[card.color], card],
     };
     next.lastDiscardedColor = null;
     next.logs = appendLog(state, `P2:「${COLOR_LABELS[card.color]}」の${card.value === "wager" ? "契約" : card.value}を道に置きました`);
@@ -168,6 +188,8 @@ export function drawCard(
   state: GameState,
   source: "deck" | CardColor
 ): GameState {
+  if (state.phase !== "draw") return state;
+
   const next = { ...state };
   let drawn: Card | null = null;
 
@@ -187,18 +209,19 @@ export function drawCard(
     }
   }
 
-  if (drawn) {
-    const prefix = state.currentPlayer === "player1" ? "P1:" : "P2:";
-    if (source === "deck") {
-      next.logs = appendLog(state, `${prefix}山札から引きました`);
-    } else {
-      next.logs = appendLog(state, `${prefix}「${COLOR_LABELS[source]}」の捨て札から引きました`);
-    }
-    if (state.currentPlayer === "player1") {
-      next.player1Hand = [...state.player1Hand, drawn];
-    } else {
-      next.player2Hand = [...state.player2Hand, drawn];
-    }
+  // 無効なドロー（空の山・直前に捨てた色の山）では状態を一切変えない
+  if (!drawn) return state;
+
+  const prefix = state.currentPlayer === "player1" ? "P1:" : "P2:";
+  if (source === "deck") {
+    next.logs = appendLog(state, `${prefix}山札から引きました`);
+  } else {
+    next.logs = appendLog(state, `${prefix}「${COLOR_LABELS[source]}」の捨て札から引きました`);
+  }
+  if (state.currentPlayer === "player1") {
+    next.player1Hand = [...state.player1Hand, drawn];
+  } else {
+    next.player2Hand = [...state.player2Hand, drawn];
   }
 
   next.phase = "play";

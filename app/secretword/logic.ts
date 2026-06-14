@@ -138,6 +138,7 @@ export function vote(
 ): SecretWordGameState | null {
   if (state.phase !== "voting") return null;
   if (voterIndex === targetIndex) return null;
+  if (voterIndex < 0 || voterIndex >= state.votes.length) return null;
   if (targetIndex < 0 || targetIndex >= state.votes.length) return null;
   const votes = [...state.votes];
   votes[voterIndex] = targetIndex;

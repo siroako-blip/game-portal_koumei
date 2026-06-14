@@ -78,27 +78,27 @@ export default function ElementalLobbyPage() {
       <Link href="/" className="absolute top-4 left-4 text-stone-600 hover:text-orange-600 text-sm font-bold underline">
         ← ゲーム選択に戻る
       </Link>
-      <div className="text-center space-y-3">
-        <div className="text-7xl drop-shadow-lg animate-bounce">🔮</div>
+      <div className="text-center space-y-3 fade-in-up">
+        <div className="text-7xl drop-shadow-lg animate-float">🔮</div>
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-700 via-orange-600 to-red-600 drop-shadow-sm">
           Elemental Paths
         </h1>
         <p className="text-stone-600 font-medium text-sm md:text-base">精霊の道 — 5つの属性を極める旅</p>
         {/* 5属性のアイコン */}
         <div className="flex justify-center gap-3 pt-2">
-          {COLORS.map((color) => (
+          {COLORS.map((color, i) => (
             <div
               key={color}
-              className="flex flex-col items-center gap-1 bg-white/70 rounded-xl px-3 py-2 shadow border border-amber-200"
+              className={`flex flex-col items-center gap-1 bg-white/70 rounded-xl px-3 py-2 shadow border border-amber-200 pop-in fade-delay-${i + 1}`}
             >
-              <span className="text-2xl">{COLOR_ICONS[color]}</span>
+              <span className={`text-2xl animate-bob bob-delay-${i}`}>{COLOR_ICONS[color]}</span>
               <span className="text-[10px] font-bold text-stone-500">{COLOR_LABELS[color]}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="w-full max-w-sm rounded-2xl bg-white/80 p-6 border border-amber-200 flex flex-col gap-6 shadow-lg relative z-10">
+      <div className="w-full max-w-sm rounded-2xl bg-white/80 p-6 border border-amber-200 flex flex-col gap-6 shadow-lg relative z-10 fade-in-up fade-delay-2">
         <button
           type="button"
           onClick={handleCreate}

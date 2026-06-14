@@ -73,29 +73,46 @@ export default function LoveLetterLobbyPage() {
   return (
     <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-red-950 to-amber-950/80 text-amber-100">
       <Link href="/" className="absolute top-4 left-4 text-amber-200 hover:text-amber-100 text-sm font-medium underline">
-        ゲーム選択に戻る
+        ← ゲーム選択に戻る
       </Link>
-      <div className="text-center space-y-2">
-        <h1 className="text-4xl md:text-5xl font-bold text-amber-50 drop-shadow-sm tracking-wider font-serif">
+      <div className="text-center space-y-3 fade-in-up">
+        <div className="flex justify-center items-end gap-3">
+          <span className="text-4xl animate-twinkle">✨</span>
+          <span className="text-7xl drop-shadow-lg animate-float">💌</span>
+          <span className="text-4xl animate-twinkle">✨</span>
+        </div>
+        <h1 className="text-4xl md:text-5xl font-bold drop-shadow-sm tracking-wider font-serif text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-yellow-200 to-amber-300">
           Court Intrigue
         </h1>
-        <p className="text-amber-200/90 text-sm md:text-base">王宮の陰謀 — Love Letter 風・2〜4人用</p>
+        <p className="text-amber-200/90 text-sm md:text-base">🏰 王宮の陰謀 — Love Letter 風・2〜4人用</p>
+        {/* 宮廷の登場人物 */}
+        <div className="flex justify-center gap-3 pt-2">
+          {["💂", "🛡️", "🤴", "👸"].map((icon, i) => (
+            <div
+              key={i}
+              className={`w-11 h-11 rounded-xl bg-red-900/70 border border-amber-500/50 shadow
+                flex items-center justify-center text-2xl pop-in fade-delay-${i + 1} animate-bob bob-delay-${i}`}
+            >
+              {icon}
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="w-full max-w-sm rounded-xl bg-red-900/50 p-6 border-4 border-amber-600/60 flex flex-col gap-6 shadow-2xl relative z-10">
+      <div className="w-full max-w-sm rounded-xl bg-red-900/50 p-6 border-4 border-amber-600/60 flex flex-col gap-6 shadow-2xl relative z-10 fade-in-up fade-delay-2">
         <button
           type="button"
           onClick={handleCreate}
           disabled={!!loading}
-          className="w-full px-6 py-4 rounded-xl bg-red-800 text-amber-50 font-bold text-lg hover:bg-red-700 border-2 border-amber-500/70 shadow-lg disabled:opacity-50 transition-all active:scale-95"
+          className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-red-800 to-rose-800 text-amber-50 font-bold text-lg hover:from-red-700 hover:to-rose-700 border-b-4 border-red-950 shadow-lg disabled:opacity-50 transition-all active:border-b-0 active:translate-y-1"
         >
-          {loading === "create" ? "部屋を開いています…" : "部屋を作成 (Host)"}
+          {loading === "create" ? "⏳ 部屋を開いています…" : "👑 王宮を開く (Host)"}
         </button>
 
         <div className="border-t-2 border-amber-600/40 pt-5">
           <p className="text-sm text-amber-200 font-bold mb-2 flex items-center gap-2">
-            <span className="w-2 h-2 bg-amber-400 rounded-full" />
-            参加する (Join)
+            <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
+            🎟️ 参加する (Join)
           </p>
           <div className="flex gap-2">
             <input
@@ -118,22 +135,22 @@ export default function LoveLetterLobbyPage() {
         </div>
 
         {error && (
-          <div className="bg-red-950/80 border-l-4 border-red-400 text-amber-100 p-3 text-sm rounded space-y-2" role="alert">
-            <p>{error}</p>
+          <div className="bg-red-950/80 border-l-4 border-red-400 text-amber-100 p-3 text-sm rounded space-y-2 pop-in" role="alert">
+            <p>⚠️ {error}</p>
             {fullGameId && (
               <Link
                 href={`/loveletter/game/${fullGameId}`}
                 className="inline-block px-4 py-2 rounded-lg bg-amber-600 text-red-950 font-bold hover:bg-amber-500 border-2 border-amber-500 text-sm"
               >
-                観戦する
+                👀 観戦する
               </Link>
             )}
           </div>
         )}
       </div>
 
-      <div className="rounded-xl bg-red-900/30 p-4 border-4 border-amber-600/40 max-w-md text-sm text-amber-100/90 shadow-inner">
-        <p className="font-bold text-amber-50 mb-1 font-serif">ルール概要</p>
+      <div className="rounded-xl bg-red-900/30 p-4 border-4 border-amber-600/40 max-w-md text-sm text-amber-100/90 shadow-inner fade-in-up fade-delay-3">
+        <p className="font-bold text-amber-50 mb-1 font-serif">📜 ルール概要</p>
         <p>手札から1枚を捨て、その効果を発動。兵士で数字を当てる、男爵で手札比較、王子で手札を捨てさせる… 最後の1人になるか、山札が尽きた時点で手札が強い人が勝ち。2人以上で開始できます。</p>
       </div>
 

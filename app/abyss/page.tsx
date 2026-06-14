@@ -85,29 +85,46 @@ export default function AbyssSalvageLobbyPage() {
       >
         ゲーム選択に戻る
       </Link>
-      <div className="text-center space-y-2">
+      <div className="text-center space-y-3 fade-in-up">
+        <div className="flex justify-center items-end gap-3">
+          <span className="text-4xl animate-bob">🫧</span>
+          <span className="text-7xl drop-shadow-lg animate-float">🤿</span>
+          <span className="text-4xl animate-bob bob-delay-2">🐠</span>
+        </div>
         <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-cyan-200 to-teal-400 drop-shadow-sm tracking-wider font-serif">
           Abyss Salvage
         </h1>
         <p className="text-cyan-200/80 text-sm md:text-base">
-          深海探検 — 遺跡を拾い、酸素を共有して帰還（{MIN_PLAYERS}〜{MAX_PLAYERS}人・全{TOTAL_ROUNDS}ラウンド）
+          🌊 深海探検 — 遺跡を拾い、酸素を共有して帰還（{MIN_PLAYERS}〜{MAX_PLAYERS}人・全{TOTAL_ROUNDS}ラウンド）
         </p>
+        {/* 深海への道のり */}
+        <div className="flex justify-center gap-3 pt-2">
+          {["⚓", "🐙", "💎", "🏺"].map((icon, i) => (
+            <div
+              key={i}
+              className={`w-11 h-11 rounded-xl bg-slate-900/80 border border-cyan-500/40 shadow shadow-cyan-500/20
+                flex items-center justify-center text-2xl pop-in fade-delay-${i + 1} animate-bob bob-delay-${i}`}
+            >
+              {icon}
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="w-full max-w-sm rounded-2xl bg-slate-900/70 p-6 border-2 border-cyan-500/40 shadow-xl shadow-cyan-500/10 flex flex-col gap-6">
+      <div className="w-full max-w-sm rounded-2xl bg-slate-900/70 p-6 border-2 border-cyan-500/40 shadow-xl shadow-cyan-500/10 flex flex-col gap-6 fade-in-up fade-delay-2">
         <button
           type="button"
           onClick={handleCreate}
           disabled={!!loading}
-          className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 text-white font-bold text-lg hover:from-cyan-500 hover:to-teal-500 border-2 border-cyan-400/60 shadow-lg disabled:opacity-50 transition-all active:scale-95"
+          className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 text-white font-bold text-lg hover:from-cyan-500 hover:to-teal-500 border-b-4 border-cyan-800 shadow-lg disabled:opacity-50 transition-all active:border-b-0 active:translate-y-1"
         >
-          {loading === "create" ? "部屋を開いています…" : "部屋を作成 (Host)"}
+          {loading === "create" ? "⏳ 部屋を開いています…" : "🚢 潜水艦を出航させる (Host)"}
         </button>
 
         <div className="border-t border-cyan-500/30 pt-5">
           <p className="text-sm text-cyan-200 font-bold mb-2 flex items-center gap-2">
-            <span className="w-2 h-2 bg-cyan-400 rounded-full" />
-            参加する (Join)
+            <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
+            🎟️ 参加する (Join)
           </p>
           <div className="flex gap-2">
             <input
@@ -131,24 +148,24 @@ export default function AbyssSalvageLobbyPage() {
 
         {error && (
           <div
-            className="bg-red-900/40 border-l-4 border-cyan-400 text-red-200 p-3 text-sm rounded space-y-2"
+            className="bg-red-900/40 border-l-4 border-cyan-400 text-red-200 p-3 text-sm rounded space-y-2 pop-in"
             role="alert"
           >
-            <p>{error}</p>
+            <p>⚠️ {error}</p>
             {fullGameId && (
               <Link
                 href={`/abyss/game/${fullGameId}`}
                 className="inline-block px-4 py-2 rounded-lg bg-cyan-600 text-white font-bold hover:bg-cyan-500 border-2 border-cyan-400 text-sm"
               >
-                観戦する
+                👀 観戦する
               </Link>
             )}
           </div>
         )}
       </div>
 
-      <div className="rounded-xl bg-slate-900/50 p-4 border border-cyan-500/30 max-w-md text-sm text-cyan-100/90">
-        <p className="font-bold text-cyan-200 mb-1 font-serif">ルール概要</p>
+      <div className="rounded-xl bg-slate-900/50 p-4 border border-cyan-500/30 max-w-md text-sm text-cyan-100/90 fade-in-up fade-delay-3">
+        <p className="font-bold text-cyan-200 mb-1 font-serif">📜 ルール概要</p>
         <p>
           1隻の潜水艦から出発し、深く潜って遺跡チップを拾う。酸素は全員で共有（初期25）。持っている遺跡の数だけ毎ターン酸素を消費。サイコロ2つで移動（持っている数だけ出目から引く）。他のプレイヤーのマスは飛び越える。全員が戻るか酸素0でラウンド終了。3ラウンドで総得点を競う。
         </p>

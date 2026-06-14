@@ -73,29 +73,42 @@ export default function HitBlowLobbyPage() {
   return (
     <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-stone-100 to-orange-50/60 text-stone-900">
       <Link href="/" className="absolute top-4 left-4 text-stone-600 hover:text-amber-600 text-sm font-medium underline">
-        ゲーム選択に戻る
+        ← ゲーム選択に戻る
       </Link>
-      <div className="text-center space-y-2">
-        <h1 className="text-4xl md:text-5xl font-bold text-stone-900 drop-shadow-sm tracking-wider">
+      <div className="text-center space-y-3 fade-in-up">
+        <div className="text-7xl drop-shadow-lg animate-float">🎯</div>
+        <h1 className="text-4xl md:text-5xl font-bold drop-shadow-sm tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-700 via-orange-600 to-red-600">
           Hit and Blow
         </h1>
-        <p className="text-stone-600 text-sm md:text-base">数字当て推理ゲーム — 2人対戦</p>
+        <p className="text-stone-600 text-sm md:text-base">🕵️ 数字当て推理ゲーム — 2人対戦</p>
+        {/* 秘密の4桁イメージ */}
+        <div className="flex justify-center gap-2 pt-2">
+          {["1", "2", "3", "?"].map((digit, i) => (
+            <div
+              key={i}
+              className={`w-11 h-14 rounded-xl flex items-center justify-center text-2xl font-extrabold shadow border-2 pop-in fade-delay-${i + 1}
+                ${digit === "?" ? "bg-amber-600 text-white border-amber-700 animate-bob" : "bg-white/90 text-stone-700 border-amber-300"}`}
+            >
+              {digit}
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="w-full max-w-sm rounded-xl bg-stone-100 p-6 border-4 border-amber-700/50 flex flex-col gap-6 shadow-2xl relative z-10">
+      <div className="w-full max-w-sm rounded-xl bg-stone-100 p-6 border-4 border-amber-700/50 flex flex-col gap-6 shadow-2xl relative z-10 fade-in-up fade-delay-2">
         <button
           type="button"
           onClick={handleCreate}
           disabled={!!loading}
-          className="w-full px-6 py-4 rounded-xl bg-amber-600 text-white font-bold text-lg hover:bg-amber-500 border-2 border-amber-700 shadow-lg disabled:opacity-50 transition-all active:scale-95"
+          className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold text-lg hover:from-amber-500 hover:to-orange-500 border-b-4 border-amber-800 shadow-lg disabled:opacity-50 transition-all active:border-b-0 active:translate-y-1"
         >
-          {loading === "create" ? "作成中…" : "ゲームを作成 (Host)"}
+          {loading === "create" ? "⏳ 作成中…" : "🎯 ゲームを作成 (Host)"}
         </button>
 
         <div className="border-t-2 border-amber-700/40 pt-5">
           <p className="text-sm text-stone-700 font-bold mb-2 flex items-center gap-2">
-            <span className="w-2 h-2 bg-amber-500 rounded-full" />
-            ゲームに参加 (Join)
+            <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
+            🎟️ ゲームに参加 (Join)
           </p>
           <div className="flex gap-2">
             <input
@@ -118,23 +131,23 @@ export default function HitBlowLobbyPage() {
         </div>
 
         {error && (
-          <div className="bg-red-100 border-l-4 border-red-500 text-red-800 p-3 text-sm rounded space-y-2" role="alert">
-            <p>{error}</p>
+          <div className="bg-red-100 border-l-4 border-red-500 text-red-800 p-3 text-sm rounded space-y-2 pop-in" role="alert">
+            <p>⚠️ {error}</p>
             {fullGameId && (
               <Link
                 href={`/hitblow/game/${fullGameId}`}
                 className="inline-block px-4 py-2 rounded-lg bg-amber-600 text-white font-bold hover:bg-amber-500 border-2 border-amber-700 text-sm"
               >
-                観戦する
+                👀 観戦する
               </Link>
             )}
           </div>
         )}
       </div>
 
-      <div className="rounded-xl bg-amber-50/80 p-4 border-4 border-amber-800 max-w-md text-sm text-stone-700 shadow-inner">
-        <p className="font-bold text-amber-900 mb-1 font-serif">ルール</p>
-        <p>両者が4桁の秘密の数字を設定後、先攻（Player 1）から交互に相手の数字を予想。H（位置も数字も一致）とB（数字のみ一致）のヒントで先に4Hを出した方が勝ち（サドンデス）。</p>
+      <div className="rounded-xl bg-amber-50/80 p-4 border-4 border-amber-800 max-w-md text-sm text-stone-700 shadow-inner fade-in-up fade-delay-3">
+        <p className="font-bold text-amber-900 mb-1 font-serif">📜 ルール</p>
+        <p>両者が4桁の秘密の数字を設定後、先攻（Player 1）から交互に相手の数字を予想。<b className="text-red-600">H</b>（位置も数字も一致）と<b className="text-amber-600">B</b>（数字のみ一致）のヒントで先に4Hを出した方が勝ち（サドンデス）。</p>
       </div>
 
       <footer className="mt-8 text-center text-stone-500 text-xs max-w-md px-4">

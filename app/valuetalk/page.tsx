@@ -77,18 +77,39 @@ export default function ValueTalkLobbyPage() {
   return (
     <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-orange-50 to-amber-50/80 text-orange-900">
       <Link href="/" className="absolute top-4 left-4 text-orange-700 hover:text-orange-800 text-sm font-medium underline">
-        ゲーム選択に戻る
+        ← ゲーム選択に戻る
       </Link>
-      <div className="text-center space-y-2">
-        <h1 className="text-4xl md:text-5xl font-bold text-orange-800 drop-shadow-sm tracking-wider font-serif">
+      <div className="text-center space-y-3 fade-in-up">
+        <div className="flex justify-center items-end gap-2">
+          <span className="text-4xl animate-bob">🗨️</span>
+          <span className="text-7xl drop-shadow-lg animate-float">💬</span>
+          <span className="text-4xl animate-bob bob-delay-2">💭</span>
+        </div>
+        <h1 className="text-4xl md:text-5xl font-bold drop-shadow-sm tracking-wider font-serif text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-700">
           Value Talk
         </h1>
-        <p className="text-orange-600 text-sm md:text-base">数字を「たとえ話」で伝える協力ゲーム — ito風</p>
+        <p className="text-orange-600 text-sm md:text-base">🤝 数字を「たとえ話」で伝える協力ゲーム — ito風</p>
+        {/* 小さい順に並べるイメージ */}
+        <div className="flex justify-center items-center gap-2 pt-2">
+          {["1", "→", "34", "→", "67", "→", "100"].map((label, i) =>
+            label === "→" ? (
+              <span key={i} className="text-orange-400 font-bold">→</span>
+            ) : (
+              <div
+                key={i}
+                className={`w-11 h-11 rounded-full bg-white border-2 border-orange-300 shadow
+                  flex items-center justify-center text-sm font-extrabold text-orange-700 pop-in fade-delay-${Math.floor(i / 2) + 1}`}
+              >
+                {label}
+              </div>
+            )
+          )}
+        </div>
       </div>
 
-      <div className="w-full max-w-sm rounded-2xl bg-white/90 p-6 border-4 border-orange-300 shadow-xl flex flex-col gap-6">
+      <div className="w-full max-w-sm rounded-2xl bg-white/90 p-6 border-4 border-orange-300 shadow-xl flex flex-col gap-6 fade-in-up fade-delay-2">
         <div>
-          <p className="text-sm text-orange-700 font-bold mb-2">お題の難易度</p>
+          <p className="text-sm text-orange-700 font-bold mb-2">🎚️ お題の難易度</p>
           <select
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value as ValueTalkDifficulty)}
@@ -106,15 +127,15 @@ export default function ValueTalkLobbyPage() {
           type="button"
           onClick={handleCreate}
           disabled={!!loading}
-          className="w-full px-6 py-4 rounded-xl bg-orange-400 text-white font-bold text-lg hover:bg-orange-500 border-2 border-orange-500 shadow-lg disabled:opacity-50 transition-all active:scale-95"
+          className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-orange-400 to-amber-500 text-white font-bold text-lg hover:from-orange-500 hover:to-amber-600 border-b-4 border-orange-600 shadow-lg disabled:opacity-50 transition-all active:border-b-0 active:translate-y-1"
         >
-          {loading === "create" ? "部屋を開いています…" : "部屋を作成 (Host)"}
+          {loading === "create" ? "⏳ 部屋を開いています…" : "💬 部屋を作成 (Host)"}
         </button>
 
         <div className="border-t-2 border-orange-200 pt-5">
           <p className="text-sm text-orange-700 font-bold mb-2 flex items-center gap-2">
-            <span className="w-2 h-2 bg-orange-400 rounded-full" />
-            参加する (Join)
+            <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
+            🎟️ 参加する (Join)
           </p>
           <div className="flex gap-2">
             <input
@@ -137,22 +158,22 @@ export default function ValueTalkLobbyPage() {
         </div>
 
         {error && (
-          <div className="bg-red-100 border-l-4 border-red-400 text-red-800 p-3 text-sm rounded space-y-2" role="alert">
-            <p>{error}</p>
+          <div className="bg-red-100 border-l-4 border-red-400 text-red-800 p-3 text-sm rounded space-y-2 pop-in" role="alert">
+            <p>⚠️ {error}</p>
             {fullGameId && (
               <Link
                 href={`/valuetalk/game/${fullGameId}`}
                 className="inline-block px-4 py-2 rounded-lg bg-orange-400 text-white font-bold hover:bg-orange-500 border-2 border-orange-500 text-sm"
               >
-                観戦する
+                👀 観戦する
               </Link>
             )}
           </div>
         )}
       </div>
 
-      <div className="rounded-xl bg-amber-50/90 p-4 border-4 border-orange-200 max-w-md text-sm text-orange-800 shadow-inner">
-        <p className="font-bold text-orange-900 mb-1 font-serif">ルール概要</p>
+      <div className="rounded-xl bg-amber-50/90 p-4 border-4 border-orange-200 max-w-md text-sm text-orange-800 shadow-inner fade-in-up fade-delay-3">
+        <p className="font-bold text-orange-900 mb-1 font-serif">📜 ルール概要</p>
         <p>お題に沿って、手札の数字を「たとえ話」で表現。小さい順に場に出していく協力ゲーム。誰かが大きい数字を先に出してしまうとライフ減少！全員の手札がなくなればレベルクリア。</p>
       </div>
 

@@ -31,3 +31,95 @@ body {
     opacity: 0;
   }
 }
+
+/* ===== 共通アニメーション ===== */
+
+/* ふわふわ浮遊（ヒーローアイコン用） */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.animate-float {
+  animation: floatY 3s ease-in-out infinite;
+}
+
+/* ゆっくり揺れる（装飾アイコン用） */
+@keyframes swing {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+.animate-swing {
+  animation: swing 2.5s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+/* 下からフェードイン（出現演出） */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out both;
+}
+.fade-delay-1 { animation-delay: 0.1s; }
+.fade-delay-2 { animation-delay: 0.2s; }
+.fade-delay-3 { animation-delay: 0.3s; }
+.fade-delay-4 { animation-delay: 0.4s; }
+.fade-delay-5 { animation-delay: 0.5s; }
+.fade-delay-6 { animation-delay: 0.6s; }
+.fade-delay-7 { animation-delay: 0.7s; }
+.fade-delay-8 { animation-delay: 0.8s; }
+
+/* ぽんっと出現（アイコンバッジ用） */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  70% { transform: scale(1.15); }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.pop-in {
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* きらめき（タイトル装飾用） */
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+.animate-twinkle {
+  animation: twinkle 1.8s ease-in-out infinite;
+}
+
+/* ぷるぷる震える（ホバー時のアイコン用） */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+.group:hover .group-hover-wiggle {
+  animation: wiggle 0.4s ease-in-out;
+}
+
+/* 波のように上下する（複数アイコンを並べて delay をずらす） */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-bob {
+  animation: bob 1.6s ease-in-out infinite;
+}
+.bob-delay-1 { animation-delay: 0.15s; }
+.bob-delay-2 { animation-delay: 0.3s; }
+.bob-delay-3 { animation-delay: 0.45s; }
+.bob-delay-4 { animation-delay: 0.6s; }

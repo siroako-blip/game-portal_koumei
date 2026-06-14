@@ -73,29 +73,46 @@ export default function NoThanksLobbyPage() {
   return (
     <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-purple-950 to-stone-900 text-stone-100">
       <Link href="/" className="absolute top-4 left-4 text-purple-200 hover:text-purple-100 text-sm font-medium underline">
-        ゲーム選択に戻る
+        ← ゲーム選択に戻る
       </Link>
-      <div className="text-center space-y-2">
-        <h1 className="text-4xl md:text-5xl font-bold text-purple-100 drop-shadow-sm tracking-wider font-serif">
+      <div className="text-center space-y-3 fade-in-up">
+        <div className="flex justify-center items-end gap-3">
+          <span className="text-4xl animate-swing">🕯️</span>
+          <span className="text-7xl drop-shadow-lg animate-float">🎁</span>
+          <span className="text-4xl animate-swing">🕯️</span>
+        </div>
+        <h1 className="text-4xl md:text-5xl font-bold drop-shadow-sm tracking-wider font-serif text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-fuchsia-200 to-purple-300">
           Cursed Gifts
         </h1>
-        <p className="text-purple-300 text-sm md:text-base">呪いの贈り物 — No Thanks! 風・3〜5人用</p>
+        <p className="text-purple-300 text-sm md:text-base">👻 呪いの贈り物 — No Thanks! 風・3〜5人用</p>
+        {/* 洋館の住人たち */}
+        <div className="flex justify-center gap-3 pt-2">
+          {["👻", "💀", "🦇", "🪙"].map((icon, i) => (
+            <div
+              key={i}
+              className={`w-11 h-11 rounded-xl bg-purple-900/70 border border-purple-600/60 shadow
+                flex items-center justify-center text-2xl pop-in fade-delay-${i + 1} animate-bob bob-delay-${i}`}
+            >
+              {icon}
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="w-full max-w-sm rounded-xl bg-purple-900/60 p-6 border-4 border-purple-700/70 flex flex-col gap-6 shadow-2xl relative z-10">
+      <div className="w-full max-w-sm rounded-xl bg-purple-900/60 p-6 border-4 border-purple-700/70 flex flex-col gap-6 shadow-2xl relative z-10 fade-in-up fade-delay-2">
         <button
           type="button"
           onClick={handleCreate}
           disabled={!!loading}
-          className="w-full px-6 py-4 rounded-xl bg-purple-700 text-white font-bold text-lg hover:bg-purple-600 border-2 border-purple-500 shadow-lg disabled:opacity-50 transition-all active:scale-95"
+          className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-purple-700 to-fuchsia-700 text-white font-bold text-lg hover:from-purple-600 hover:to-fuchsia-600 border-b-4 border-purple-900 shadow-lg disabled:opacity-50 transition-all active:border-b-0 active:translate-y-1"
         >
-          {loading === "create" ? "洋館を開いています…" : "洋館の主になる (Host)"}
+          {loading === "create" ? "⏳ 洋館を開いています…" : "🏚️ 洋館の主になる (Host)"}
         </button>
 
         <div className="border-t-2 border-purple-600/50 pt-5">
           <p className="text-sm text-purple-200 font-bold mb-2 flex items-center gap-2">
-            <span className="w-2 h-2 bg-purple-400 rounded-full" />
-            旅人として参加 (Join)
+            <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
+            🚶 旅人として参加 (Join)
           </p>
           <div className="flex gap-2">
             <input
@@ -118,22 +135,22 @@ export default function NoThanksLobbyPage() {
         </div>
 
         {error && (
-          <div className="bg-red-900/60 border-l-4 border-red-500 text-red-100 p-3 text-sm rounded space-y-2" role="alert">
-            <p>{error}</p>
+          <div className="bg-red-900/60 border-l-4 border-red-500 text-red-100 p-3 text-sm rounded space-y-2 pop-in" role="alert">
+            <p>⚠️ {error}</p>
             {fullGameId && (
               <Link
                 href={`/nothanks/game/${fullGameId}`}
                 className="inline-block px-4 py-2 rounded-lg bg-purple-600 text-white font-bold hover:bg-purple-500 border-2 border-purple-500 text-sm"
               >
-                観戦する
+                👀 観戦する
               </Link>
             )}
           </div>
         )}
       </div>
 
-      <div className="rounded-xl bg-purple-900/40 p-4 border-4 border-purple-700/50 max-w-md text-sm text-purple-200 shadow-inner">
-        <p className="font-bold text-purple-100 mb-1 font-serif">ルール概要</p>
+      <div className="rounded-xl bg-purple-900/40 p-4 border-4 border-purple-700/50 max-w-md text-sm text-purple-200 shadow-inner fade-in-up fade-delay-3">
+        <p className="font-bold text-purple-100 mb-1 font-serif">📜 ルール概要</p>
         <p>場のカードにチップを払ってパスするか、カード（と乗ったチップ）を引き取るか。引き取ると手番はそのままもう一度。カードの数字はマイナス点、チップはプラス。連番は最小の数字だけカウント。3人以上で開始できます。</p>
       </div>
 

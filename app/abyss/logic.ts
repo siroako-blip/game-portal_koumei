@@ -43,6 +43,8 @@ export interface AbyssGameState {
   currentPlayerIndex: number;
   oxygenConsumedThisTurn?: boolean;
   movedThisTurn?: boolean;
+  /** このターンに「拾う/置く」を実行済みか（1ターンに1回まで） */
+  actionDoneThisTurn?: boolean;
   roundForfeited?: boolean;
   lastDice?: [number, number];
 }
@@ -169,6 +171,7 @@ export function switchDirectionToUp(
   if (state.phase !== "playing") return null;
   if (state.currentPlayerIndex !== playerIndex) return null;
   if (!state.oxygenConsumedThisTurn) return null;
+  if (state.movedThisTurn) return null; // 方向転換は移動前のみ
   const player = state.players[playerIndex];
   if (player.direction !== "down") return null;
   const players = [...state.players];
@@ -238,6 +241,7 @@ export function pickUpLoot(
 ): AbyssGameState | null {
   if (state.phase !== "playing") return null;
   if (state.currentPlayerIndex !== playerIndex) return null;
+  if (!state.movedThisTurn || state.actionDoneThisTurn) return null; // 行動は移動後に1回まで
   const player = state.players[playerIndex];
   if (player.position < 0) return null;
   const cell = state.path[player.position];
@@ -256,7 +260,7 @@ export function pickUpLoot(
     ...player,
     holdingLoot: [...player.holdingLoot, ...added],
   };
-  return { ...state, path, players };
+  return { ...state, path, players, actionDoneThisTurn: true };
 }
 
 /**
@@ -268,6 +272,7 @@ export function putDownLoot(
 ): AbyssGameState | null {
   if (state.phase !== "playing") return null;
   if (state.currentPlayerIndex !== playerIndex) return null;
+  if (!state.movedThisTurn || state.actionDoneThisTurn) return null; // 行動は移動後に1回まで
   const player = state.players[playerIndex];
   if (player.position < 0 || player.holdingLoot.length === 0) return null;
   const cell = state.path[player.position];
@@ -280,19 +285,29 @@ export function putDownLoot(
     ...player,
     holdingLoot: player.holdingLoot.slice(0, -1),
   };
-  return { ...state, path, players };
+  return { ...state, path, players, actionDoneThisTurn: true };
 }
 
 /**
  * ターン終了（次のプレイヤーへ）。酸素・移動フラグをリセット。
+ * 帰還済み（isReturned）のプレイヤーは手番を飛ばす（酸素を消費させない）。
  */
 export function endTurn(state: AbyssGameState): AbyssGameState {
-  const nextIndex = (state.currentPlayerIndex + 1) % state.players.length;
+  const n = state.players.length;
+  let nextIndex = state.currentPlayerIndex;
+  for (let i = 1; i <= n; i++) {
+    const idx = (state.currentPlayerIndex + i) % n;
+    if (!state.players[idx].isReturned) {
+      nextIndex = idx;
+      break;
+    }
+  }
   return {
     ...state,
     currentPlayerIndex: nextIndex,
     oxygenConsumedThisTurn: false,
     movedThisTurn: false,
+    actionDoneThisTurn: false,
   };
 }
 
@@ -319,13 +334,10 @@ export function endRound(
   const droppedChips: Loot[] = [];
 
   // 1. 生存者判定
+  // 帰還済み（isReturned）なら酸素切れでも獲得物を得点化できる。
+  // 没収されるのは海中に残ったプレイヤーの分だけ。
   for (let i = 0; i < playerCount; i++) {
     const p = state.players[i];
-    if (oxygenDepleted) {
-      newScores[i] = p.score;
-      droppedChips.push(...p.holdingLoot);
-      continue;
-    }
     if (p.isReturned) {
       const add = p.holdingLoot.reduce((s, l) => s + l.score, 0);
       newScores[i] = p.score + add;
