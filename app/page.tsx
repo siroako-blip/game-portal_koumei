@@ -116,8 +116,9 @@ export default function HomePage() {
       <div className="pointer-events-none absolute top-1/3 -right-28 w-96 h-96 rounded-full bg-sky-300/20 blur-3xl animate-drift drift-delay" />
       <div className="pointer-events-none absolute -bottom-28 left-1/4 w-80 h-80 rounded-full bg-fuchsia-300/20 blur-3xl animate-drift" />
 
-      {/* 背景に浮かぶゲームモチーフ（薄く・ゆっくり動く） */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden select-none" aria-hidden>
+      {/* 背景に浮かぶゲームモチーフ（薄く・ゆっくり動く）
+          スマホ等の狭い画面ではカードと重なって読みにくいので非表示、sm以上で表示 */}
+      <div className="hidden sm:block pointer-events-none absolute inset-0 overflow-hidden select-none" aria-hidden>
         {/* その場で浮遊＋ゆらぎ */}
         <span className="absolute top-[12%] left-[6%] text-6xl opacity-[0.26] animate-float-icon float-d1">🎲</span>
         <span className="absolute top-[24%] right-[10%] text-7xl opacity-[0.24] animate-float-icon float-d3">🃏</span>
