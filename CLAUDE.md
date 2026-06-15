@@ -23,6 +23,7 @@
 | `coyote` | Coyote | 2〜10人 | `coyote_games` |
 | `deepsea` | Deep Sea Adventure | 2〜6人 | `deep_sea_games` |
 | `wordwolf` | Word Wolf | 3〜8人 | `word_wolf_games` |
+| `poker` | Poker（テキサスホールデム） | 2〜6人 | `poker_games` |
 
 > ℹ️ ディレクトリ名・コード識別子・DBテーブル名はすべて正式名称に統一済み。旧コードネーム（`value_talk_games` / `midnight_party_games` / `abyss_salvage_games` / `secret_word_games`）から `supabase/migrations/20260615000000_rename_codename_tables.sql` でリネームした。**この rename SQL は本番 Supabase の SQL Editor で実行する必要がある**（実行前は旧テーブル名のまま）。
 

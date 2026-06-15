@@ -14,7 +14,8 @@ export type RuleBookGameType =
   | "ito"
   | "coyote"
   | "deepsea"
-  | "nothanks";
+  | "nothanks"
+  | "poker";
 
 // よく使うスタイル（各 body 内で再利用）
 const UL = "list-disc pl-5 space-y-2 text-stone-700";
@@ -26,6 +27,63 @@ const RULE_CONTENT: Record<
   RuleBookGameType,
   { title: string; subtitle?: string; sections: { heading: string; body: React.ReactNode }[] }
 > = {
+  poker: {
+    title: "Poker（ポーカー）",
+    subtitle: "テキサスホールデム — 2〜6人",
+    sections: [
+      {
+        heading: "🎯 目的",
+        body: (
+          <p className="text-stone-700">
+            自分だけの<strong>ホールカード2枚</strong>と、場の<strong>共通カード5枚</strong>を組み合わせて最強の5枚の役を作り、チップを賭けて勝負します。最終的にチップを多く集めた人が勝ち。
+          </p>
+        ),
+      },
+      {
+        heading: "🃏 ゲームの流れ",
+        body: (
+          <ul className={UL}>
+            <li>各自に手札（ホールカード）2枚が配られる（<strong>自分だけ</strong>が見える）。</li>
+            <li><span className={KEY}>プリフロップ</span>：手札だけでベッティング。</li>
+            <li><span className={KEY}>フロップ</span>：共通カード3枚オープン → ベッティング。</li>
+            <li><span className={KEY}>ターン</span>：共通カード+1枚 → ベッティング。</li>
+            <li><span className={KEY}>リバー</span>：共通カード+1枚（計5枚）→ ベッティング。</li>
+            <li><span className={KEY}>ショーダウン</span>：残った人で役を比べ、ポットを獲得。</li>
+          </ul>
+        ),
+      },
+      {
+        heading: "💰 アクション",
+        body: (
+          <ul className={UL}>
+            <li><span className={KEY}>フォールド</span>：降りる（賭けたチップは戻らない）。</li>
+            <li><span className={KEY}>チェック</span>：賭けずに次へ（ベットが無いときのみ）。</li>
+            <li><span className={KEY}>コール</span>：直前のベットに合わせる。</li>
+            <li><span className={KEY}>レイズ</span>：上乗せして賭け上げる。</li>
+            <li><span className={KEY}>オールイン</span>：持ちチップを全て賭ける。</li>
+          </ul>
+        ),
+      },
+      {
+        heading: "🏆 役の強さ（強い順）",
+        body: (
+          <p className="text-stone-700">
+            ロイヤルフラッシュ ＞ ストレートフラッシュ ＞ フォーカード ＞ フルハウス ＞ フラッシュ ＞ ストレート ＞ スリーカード ＞ ツーペア ＞ ワンペア ＞ ハイカード。
+            <br />
+            <span className="text-stone-500 text-sm">ストレートは A-2-3-4-5（ホイール）も成立。</span>
+          </p>
+        ),
+      },
+      {
+        heading: "♠️ 勝敗",
+        body: (
+          <p className="text-stone-700">
+            ショーダウンで最も強い役の人がポットを獲得（同点なら山分け）。オールインが絡むと<strong>サイドポット</strong>に分かれます。チップが0になると脱落し、<strong>最後の1人</strong>になったら勝ちです。
+          </p>
+        ),
+      },
+    ],
+  },
   lostcities: {
     title: "Lost Cities（ロストシティ）",
     subtitle: "属性の道を切り拓く2人用カードゲーム",

@@ -106,6 +106,17 @@ const GAMES: GameEntry[] = [
     tag: "会話 · 3〜8人",
     tagClass: "bg-emerald-100 text-emerald-800",
   },
+  {
+    href: "/poker",
+    icon: "🃏",
+    title: "Poker",
+    subtitle: "ポーカー",
+    desc: "役とチップで競うテキサスホールデム",
+    panelClass: "bg-gradient-to-br from-green-600 via-emerald-700 to-green-900",
+    decoIcon: "♠️",
+    tag: "カード · 2〜6人",
+    tagClass: "bg-green-100 text-green-800",
+  },
 ];
 
 export default function HomePage() {

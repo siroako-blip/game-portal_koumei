@@ -7,6 +7,7 @@ import type { ItoGameState } from "@/app/ito/logic";
 import type { CoyoteGameState } from "@/app/coyote/logic";
 import type { DeepSeaGameState } from "@/app/deepsea/logic";
 import type { WordWolfGameState } from "@/app/wordwolf/logic";
+import type { PokerGameState } from "@/app/poker/logic";
 
 /** lost_cities_games の1行。ゲーム状態は game_state JSON に集約 */
 export interface LostCitiesGameRow {
@@ -630,6 +631,89 @@ export async function updateWordWolfGameState(
     .update({
       game_state: state,
       status: state.phase === "result" ? "finished" : "playing",
+    })
+    .eq("id", gameId);
+  if (error) throw error;
+}
+
+// ---------- Poker（テキサスホールデム） ----------
+
+/** poker_games の1行 */
+export interface PokerGameRow {
+  id: string;
+  created_at: string;
+  status: "waiting" | "playing" | "finished";
+  player_ids: string[];
+  game_state: PokerGameState | null;
+}
+
+/** Poker ゲーム作成（Host） */
+export async function createPokerGame(hostId: string): Promise<{ id: string }> {
+  const { data, error } = await supabase
+    .from("poker_games")
+    .insert({ player_ids: [hostId], status: "waiting" })
+    .select("id")
+    .single();
+  if (error) throw error;
+  return { id: data.id };
+}
+
+/** Poker 1件取得 */
+export async function getPokerGame(gameId: string): Promise<PokerGameRow | null> {
+  const { data, error } = await supabase
+    .from("poker_games")
+    .select("*")
+    .eq("id", gameId)
+    .single();
+  if (error) {
+    if (error.code === "PGRST116") return null;
+    throw error;
+  }
+  const row = data as { player_ids: string[] | unknown };
+  return {
+    ...data,
+    player_ids: Array.isArray(row.player_ids) ? row.player_ids : [],
+  } as PokerGameRow;
+}
+
+/** Poker 参加（Join）：player_ids に追加 */
+export async function joinPokerGame(gameId: string, guestId: string): Promise<void> {
+  const existing = await getPokerGame(gameId);
+  if (!existing || existing.status !== "waiting") throw new Error("参加できません");
+  if (existing.player_ids.includes(guestId)) return;
+  const nextIds = [...existing.player_ids, guestId];
+  const { error } = await supabase
+    .from("poker_games")
+    .update({ player_ids: nextIds })
+    .eq("id", gameId);
+  if (error) throw error;
+}
+
+/** Poker ゲーム開始（2〜6人） */
+export async function startPokerGame(
+  gameId: string,
+  initialState: PokerGameState
+): Promise<void> {
+  const { error } = await supabase
+    .from("poker_games")
+    .update({
+      game_state: initialState,
+      status: "playing",
+    })
+    .eq("id", gameId);
+  if (error) throw error;
+}
+
+/** Poker ゲーム状態を更新 */
+export async function updatePokerGameState(
+  gameId: string,
+  state: PokerGameState
+): Promise<void> {
+  const { error } = await supabase
+    .from("poker_games")
+    .update({
+      game_state: state,
+      status: state.phase === "gameover" ? "finished" : "playing",
     })
     .eq("id", gameId);
   if (error) throw error;
