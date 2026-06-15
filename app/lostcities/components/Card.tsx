@@ -92,10 +92,6 @@ export function Card({ card, faceDown, selected, onClick, compact }: CardProps) 
       <span className={`absolute top-0.5 left-1 font-extrabold leading-none drop-shadow-sm ${compact ? "text-[11px]" : "text-sm"}`}>
         {isWager ? "×2" : card.value}
       </span>
-      {/* 右下の値（回転） */}
-      <span className={`absolute bottom-0.5 right-1 font-extrabold leading-none rotate-180 drop-shadow-sm ${compact ? "text-[11px]" : "text-sm"}`}>
-        {isWager ? "×2" : card.value}
-      </span>
       {/* 中央のアイコン */}
       <span className={`absolute inset-0 flex items-center justify-center drop-shadow ${compact ? "text-base" : "text-2xl"}`}>
         {isWager ? "🤝" : COLOR_ICONS[card.color]}
