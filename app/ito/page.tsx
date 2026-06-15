@@ -33,7 +33,7 @@ export default function ItoLobbyPage() {
     try {
       const hostId = generatePlayerId();
       const { id } = await createItoGame(hostId);
-      router.push(`/valuetalk/game/${id}?pid=${encodeURIComponent(hostId)}&difficulty=${encodeURIComponent(difficulty)}`);
+      router.push(`/ito/game/${id}?pid=${encodeURIComponent(hostId)}&difficulty=${encodeURIComponent(difficulty)}`);
     } catch (e) {
       console.error(e);
       setError(e instanceof Error ? e.message : "ゲームの作成に失敗しました");
@@ -66,7 +66,7 @@ export default function ItoLobbyPage() {
         return;
       }
       await joinItoGame(trimmed, playerId);
-      router.push(`/valuetalk/game/${trimmed}?pid=${encodeURIComponent(playerId)}`);
+      router.push(`/ito/game/${trimmed}?pid=${encodeURIComponent(playerId)}`);
     } catch (e) {
       console.error(e);
       setError(e instanceof Error ? e.message : "参加に失敗しました");
@@ -162,7 +162,7 @@ export default function ItoLobbyPage() {
             <p>⚠️ {error}</p>
             {fullGameId && (
               <Link
-                href={`/valuetalk/game/${fullGameId}`}
+                href={`/ito/game/${fullGameId}`}
                 className="inline-block px-4 py-2 rounded-lg bg-orange-400 text-white font-bold hover:bg-orange-500 border-2 border-orange-500 text-sm"
               >
                 👀 観戦する

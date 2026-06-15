@@ -311,7 +311,7 @@ export async function updateLoveLetterGameState(gameId: string, state: LoveLette
 
 // ---------- ito ----------
 
-/** value_talk_games の1行 */
+/** ito_games の1行 */
 export interface ItoGameRow {
   id: string;
   created_at: string;
@@ -323,7 +323,7 @@ export interface ItoGameRow {
 /** ito ゲーム作成（Host） */
 export async function createItoGame(hostId: string): Promise<{ id: string }> {
   const { data, error } = await supabase
-    .from("value_talk_games")
+    .from("ito_games")
     .insert({ player_ids: [hostId], status: "waiting" })
     .select("id")
     .single();
@@ -334,7 +334,7 @@ export async function createItoGame(hostId: string): Promise<{ id: string }> {
 /** ito 1件取得 */
 export async function getItoGame(gameId: string): Promise<ItoGameRow | null> {
   const { data, error } = await supabase
-    .from("value_talk_games")
+    .from("ito_games")
     .select("*")
     .eq("id", gameId)
     .single();
@@ -356,7 +356,7 @@ export async function joinItoGame(gameId: string, guestId: string): Promise<void
   if (existing.player_ids.includes(guestId)) return;
   const nextIds = [...existing.player_ids, guestId];
   const { error } = await supabase
-    .from("value_talk_games")
+    .from("ito_games")
     .update({ player_ids: nextIds })
     .eq("id", gameId);
   if (error) throw error;
@@ -365,7 +365,7 @@ export async function joinItoGame(gameId: string, guestId: string): Promise<void
 /** ito ゲーム開始（2人以上推奨だが1人でも開始可） */
 export async function startItoGame(gameId: string, initialState: ItoGameState): Promise<void> {
   const { error } = await supabase
-    .from("value_talk_games")
+    .from("ito_games")
     .update({
       game_state: initialState,
       status: "playing",
@@ -377,7 +377,7 @@ export async function startItoGame(gameId: string, initialState: ItoGameState): 
 /** ito ゲーム状態を更新 */
 export async function updateItoGameState(gameId: string, state: ItoGameState): Promise<void> {
   const { error } = await supabase
-    .from("value_talk_games")
+    .from("ito_games")
     .update({
       game_state: state,
       status: state.phase === "gameover" ? "finished" : "playing",
@@ -388,7 +388,7 @@ export async function updateItoGameState(gameId: string, state: ItoGameState): P
 
 // ---------- Coyote ----------
 
-/** midnight_party_games の1行 */
+/** coyote_games の1行 */
 export interface CoyoteGameRow {
   id: string;
   created_at: string;
@@ -400,7 +400,7 @@ export interface CoyoteGameRow {
 /** Coyote ゲーム作成（Host） */
 export async function createCoyoteGame(hostId: string): Promise<{ id: string }> {
   const { data, error } = await supabase
-    .from("midnight_party_games")
+    .from("coyote_games")
     .insert({ player_ids: [hostId], status: "waiting" })
     .select("id")
     .single();
@@ -411,7 +411,7 @@ export async function createCoyoteGame(hostId: string): Promise<{ id: string }> 
 /** Coyote 1件取得 */
 export async function getCoyoteGame(gameId: string): Promise<CoyoteGameRow | null> {
   const { data, error } = await supabase
-    .from("midnight_party_games")
+    .from("coyote_games")
     .select("*")
     .eq("id", gameId)
     .single();
@@ -433,7 +433,7 @@ export async function joinCoyoteGame(gameId: string, guestId: string): Promise<v
   if (existing.player_ids.includes(guestId)) return;
   const nextIds = [...existing.player_ids, guestId];
   const { error } = await supabase
-    .from("midnight_party_games")
+    .from("coyote_games")
     .update({ player_ids: nextIds })
     .eq("id", gameId);
   if (error) throw error;
@@ -445,7 +445,7 @@ export async function startCoyoteGame(
   initialState: CoyoteGameState
 ): Promise<void> {
   const { error } = await supabase
-    .from("midnight_party_games")
+    .from("coyote_games")
     .update({
       game_state: initialState,
       status: "playing",
@@ -460,7 +460,7 @@ export async function updateCoyoteGameState(
   state: CoyoteGameState
 ): Promise<void> {
   const { error } = await supabase
-    .from("midnight_party_games")
+    .from("coyote_games")
     .update({
       game_state: state,
       status: state.phase === "gameover" ? "finished" : "playing",
@@ -471,7 +471,7 @@ export async function updateCoyoteGameState(
 
 // ---------- Deep Sea Adventure ----------
 
-/** abyss_salvage_games の1行 */
+/** deep_sea_games の1行 */
 export interface DeepSeaGameRow {
   id: string;
   created_at: string;
@@ -483,7 +483,7 @@ export interface DeepSeaGameRow {
 /** Deep Sea Adventure ゲーム作成（Host） */
 export async function createDeepSeaGame(hostId: string): Promise<{ id: string }> {
   const { data, error } = await supabase
-    .from("abyss_salvage_games")
+    .from("deep_sea_games")
     .insert({ player_ids: [hostId], status: "waiting" })
     .select("id")
     .single();
@@ -494,7 +494,7 @@ export async function createDeepSeaGame(hostId: string): Promise<{ id: string }>
 /** Deep Sea Adventure 1件取得 */
 export async function getDeepSeaGame(gameId: string): Promise<DeepSeaGameRow | null> {
   const { data, error } = await supabase
-    .from("abyss_salvage_games")
+    .from("deep_sea_games")
     .select("*")
     .eq("id", gameId)
     .single();
@@ -516,7 +516,7 @@ export async function joinDeepSeaGame(gameId: string, guestId: string): Promise<
   if (existing.player_ids.includes(guestId)) return;
   const nextIds = [...existing.player_ids, guestId];
   const { error } = await supabase
-    .from("abyss_salvage_games")
+    .from("deep_sea_games")
     .update({ player_ids: nextIds })
     .eq("id", gameId);
   if (error) throw error;
@@ -528,7 +528,7 @@ export async function startDeepSeaGame(
   initialState: DeepSeaGameState
 ): Promise<void> {
   const { error } = await supabase
-    .from("abyss_salvage_games")
+    .from("deep_sea_games")
     .update({
       game_state: initialState,
       status: "playing",
@@ -543,7 +543,7 @@ export async function updateDeepSeaGameState(
   state: DeepSeaGameState
 ): Promise<void> {
   const { error } = await supabase
-    .from("abyss_salvage_games")
+    .from("deep_sea_games")
     .update({
       game_state: state,
       status: state.phase === "gameover" ? "finished" : "playing",
@@ -554,7 +554,7 @@ export async function updateDeepSeaGameState(
 
 // ---------- Word Wolf ----------
 
-/** secret_word_games の1行 */
+/** word_wolf_games の1行 */
 export interface WordWolfGameRow {
   id: string;
   created_at: string;
@@ -566,7 +566,7 @@ export interface WordWolfGameRow {
 /** Word Wolf ゲーム作成（Host） */
 export async function createWordWolfGame(hostId: string): Promise<{ id: string }> {
   const { data, error } = await supabase
-    .from("secret_word_games")
+    .from("word_wolf_games")
     .insert({ player_ids: [hostId], status: "waiting" })
     .select("id")
     .single();
@@ -577,7 +577,7 @@ export async function createWordWolfGame(hostId: string): Promise<{ id: string }
 /** Word Wolf 1件取得 */
 export async function getWordWolfGame(gameId: string): Promise<WordWolfGameRow | null> {
   const { data, error } = await supabase
-    .from("secret_word_games")
+    .from("word_wolf_games")
     .select("*")
     .eq("id", gameId)
     .single();
@@ -599,7 +599,7 @@ export async function joinWordWolfGame(gameId: string, guestId: string): Promise
   if (existing.player_ids.includes(guestId)) return;
   const nextIds = [...existing.player_ids, guestId];
   const { error } = await supabase
-    .from("secret_word_games")
+    .from("word_wolf_games")
     .update({ player_ids: nextIds })
     .eq("id", gameId);
   if (error) throw error;
@@ -611,7 +611,7 @@ export async function startWordWolfGame(
   initialState: WordWolfGameState
 ): Promise<void> {
   const { error } = await supabase
-    .from("secret_word_games")
+    .from("word_wolf_games")
     .update({
       game_state: initialState,
       status: "playing",
@@ -626,7 +626,7 @@ export async function updateWordWolfGameState(
   state: WordWolfGameState
 ): Promise<void> {
   const { error } = await supabase
-    .from("secret_word_games")
+    .from("word_wolf_games")
     .update({
       game_state: state,
       status: state.phase === "result" ? "finished" : "playing",

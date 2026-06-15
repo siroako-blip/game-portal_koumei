@@ -19,7 +19,7 @@ export function useItoRealtime(gameId: string | null) {
 
       try {
         const { data, error } = await supabase
-          .from("value_talk_games")
+          .from("ito_games")
           .select("*")
           .eq("id", gameId)
           .single();
@@ -52,7 +52,7 @@ export function useItoRealtime(gameId: string | null) {
       .channel(`ito_${gameId}`)
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "value_talk_games", filter: `id=eq.${gameId}` },
+        { event: "*", schema: "public", table: "ito_games", filter: `id=eq.${gameId}` },
         () => fetchGame()
       )
       .subscribe();

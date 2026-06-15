@@ -30,7 +30,7 @@ export default function WordWolfLobbyPage() {
     try {
       const hostId = generatePlayerId();
       const { id } = await createWordWolfGame(hostId);
-      router.push(`/secretword/game/${id}?pid=${encodeURIComponent(hostId)}`);
+      router.push(`/wordwolf/game/${id}?pid=${encodeURIComponent(hostId)}`);
     } catch (e) {
       console.error(e);
       setError(e instanceof Error ? e.message : "ゲームの作成に失敗しました");
@@ -68,7 +68,7 @@ export default function WordWolfLobbyPage() {
       }
       const playerId = generatePlayerId();
       await joinWordWolfGame(trimmed, playerId);
-      router.push(`/secretword/game/${trimmed}?pid=${encodeURIComponent(playerId)}`);
+      router.push(`/wordwolf/game/${trimmed}?pid=${encodeURIComponent(playerId)}`);
     } catch (e) {
       console.error(e);
       setError(e instanceof Error ? e.message : "参加に失敗しました");
@@ -157,7 +157,7 @@ export default function WordWolfLobbyPage() {
             <p>⚠️ {error}</p>
             {fullGameId && (
               <Link
-                href={`/secretword/game/${fullGameId}`}
+                href={`/wordwolf/game/${fullGameId}`}
                 className="inline-block px-4 py-2 rounded-lg bg-emerald-500 text-white font-bold hover:bg-emerald-400 border-2 border-emerald-400 text-sm"
               >
                 👀 観戦する

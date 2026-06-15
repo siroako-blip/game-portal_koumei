@@ -19,7 +19,7 @@ export function useDeepSeaRealtime(gameId: string | null) {
 
       try {
         const { data, error } = await supabase
-          .from("abyss_salvage_games")
+          .from("deep_sea_games")
           .select("*")
           .eq("id", gameId)
           .single();
@@ -52,7 +52,7 @@ export function useDeepSeaRealtime(gameId: string | null) {
       .channel(`deepsea_${gameId}`)
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "abyss_salvage_games", filter: `id=eq.${gameId}` },
+        { event: "*", schema: "public", table: "deep_sea_games", filter: `id=eq.${gameId}` },
         () => fetchGame()
       )
       .subscribe();

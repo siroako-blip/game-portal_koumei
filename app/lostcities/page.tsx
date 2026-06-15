@@ -27,7 +27,7 @@ export default function LostCitiesLobbyPage() {
     try {
       const player1Id = generatePlayerId();
       const { id } = await createGame(player1Id);
-      router.push(`/elemental/game/${id}?pid=${encodeURIComponent(player1Id)}`);
+      router.push(`/lostcities/game/${id}?pid=${encodeURIComponent(player1Id)}`);
     } catch (e) {
       console.error(e);
       setError(e instanceof Error ? e.message : "ゲームの作成に失敗しました");
@@ -65,7 +65,7 @@ export default function LostCitiesLobbyPage() {
         const initialState = createInitialState();
         await startGame(trimmed, initialState);
       }
-      router.push(`/elemental/game/${trimmed}?pid=${encodeURIComponent(player2Id)}`);
+      router.push(`/lostcities/game/${trimmed}?pid=${encodeURIComponent(player2Id)}`);
     } catch (e) {
       console.error(e);
       setError(e instanceof Error ? e.message : "参加に失敗しました");
@@ -143,7 +143,7 @@ export default function LostCitiesLobbyPage() {
             <p>⚠️ {error}</p>
             {fullGameId && (
               <Link
-                href={`/elemental/game/${fullGameId}`}
+                href={`/lostcities/game/${fullGameId}`}
                 className="inline-block px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold hover:from-amber-400 hover:to-orange-500 text-sm shadow"
               >
                 👀 観戦する

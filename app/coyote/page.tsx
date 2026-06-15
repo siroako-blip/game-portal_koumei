@@ -30,7 +30,7 @@ export default function CoyoteLobbyPage() {
     try {
       const hostId = generatePlayerId();
       const { id } = await createCoyoteGame(hostId);
-      router.push(`/midnight/game/${id}?pid=${encodeURIComponent(hostId)}`);
+      router.push(`/coyote/game/${id}?pid=${encodeURIComponent(hostId)}`);
     } catch (e) {
       console.error(e);
       setError(e instanceof Error ? e.message : "ゲームの作成に失敗しました");
@@ -68,7 +68,7 @@ export default function CoyoteLobbyPage() {
       }
       const playerId = generatePlayerId();
       await joinCoyoteGame(trimmed, playerId);
-      router.push(`/midnight/game/${trimmed}?pid=${encodeURIComponent(playerId)}`);
+      router.push(`/coyote/game/${trimmed}?pid=${encodeURIComponent(playerId)}`);
     } catch (e) {
       console.error(e);
       setError(e instanceof Error ? e.message : "参加に失敗しました");
@@ -157,7 +157,7 @@ export default function CoyoteLobbyPage() {
             <p>⚠️ {error}</p>
             {fullGameId && (
               <Link
-                href={`/midnight/game/${fullGameId}`}
+                href={`/coyote/game/${fullGameId}`}
                 className="inline-block px-4 py-2 rounded-lg bg-fuchsia-500 text-white font-bold hover:bg-fuchsia-400 border-2 border-fuchsia-400 text-sm"
               >
                 👀 観戦する

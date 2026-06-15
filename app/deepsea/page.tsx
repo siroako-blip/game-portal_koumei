@@ -31,7 +31,7 @@ export default function DeepSeaLobbyPage() {
     try {
       const hostId = generatePlayerId();
       const { id } = await createDeepSeaGame(hostId);
-      router.push(`/abyss/game/${id}?pid=${encodeURIComponent(hostId)}`);
+      router.push(`/deepsea/game/${id}?pid=${encodeURIComponent(hostId)}`);
     } catch (e) {
       console.error(e);
       setError(e instanceof Error ? e.message : "ゲームの作成に失敗しました");
@@ -69,7 +69,7 @@ export default function DeepSeaLobbyPage() {
       }
       const playerId = generatePlayerId();
       await joinDeepSeaGame(trimmed, playerId);
-      router.push(`/abyss/game/${trimmed}?pid=${encodeURIComponent(playerId)}`);
+      router.push(`/deepsea/game/${trimmed}?pid=${encodeURIComponent(playerId)}`);
     } catch (e) {
       console.error(e);
       setError(e instanceof Error ? e.message : "参加に失敗しました");
@@ -154,7 +154,7 @@ export default function DeepSeaLobbyPage() {
             <p>⚠️ {error}</p>
             {fullGameId && (
               <Link
-                href={`/abyss/game/${fullGameId}`}
+                href={`/deepsea/game/${fullGameId}`}
                 className="inline-block px-4 py-2 rounded-lg bg-cyan-600 text-white font-bold hover:bg-cyan-500 border-2 border-cyan-400 text-sm"
               >
                 👀 観戦する

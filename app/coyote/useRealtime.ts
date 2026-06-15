@@ -19,7 +19,7 @@ export function useCoyoteRealtime(gameId: string | null) {
 
       try {
         const { data, error } = await supabase
-          .from("midnight_party_games")
+          .from("coyote_games")
           .select("*")
           .eq("id", gameId)
           .single();
@@ -52,7 +52,7 @@ export function useCoyoteRealtime(gameId: string | null) {
       .channel(`coyote_${gameId}`)
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "midnight_party_games", filter: `id=eq.${gameId}` },
+        { event: "*", schema: "public", table: "coyote_games", filter: `id=eq.${gameId}` },
         () => fetchGame()
       )
       .subscribe();

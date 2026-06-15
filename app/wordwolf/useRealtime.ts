@@ -19,7 +19,7 @@ export function useWordWolfRealtime(gameId: string | null) {
 
       try {
         const { data, error } = await supabase
-          .from("secret_word_games")
+          .from("word_wolf_games")
           .select("*")
           .eq("id", gameId)
           .single();
@@ -52,7 +52,7 @@ export function useWordWolfRealtime(gameId: string | null) {
       .channel(`wordwolf_${gameId}`)
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "secret_word_games", filter: `id=eq.${gameId}` },
+        { event: "*", schema: "public", table: "word_wolf_games", filter: `id=eq.${gameId}` },
         () => fetchGame()
       )
       .subscribe();

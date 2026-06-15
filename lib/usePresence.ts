@@ -49,7 +49,7 @@ function usePresenceChannel(gameId: string | null, userId: string | null): strin
 }
 
 /**
- * 2人対戦用のプレゼンスフック（elemental / hitblow が使用）。
+ * 2人対戦用のプレゼンスフック（lostcities / hitblow が使用）。
  * 相手・各プレイヤーのオンライン状態を返す。
  */
 export function usePresence(

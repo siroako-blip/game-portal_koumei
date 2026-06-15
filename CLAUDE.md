@@ -19,12 +19,12 @@
 | `hitblow` | Hit and Blow | 2人 | `hit_blow_games` |
 | `nothanks` | No Thanks! | 3〜5人 | `no_thanks_games` |
 | `loveletter` | Love Letter | 2〜4人 | `love_letter_games` |
-| `ito` | ito | 協力 | `value_talk_games` |
-| `coyote` | Coyote | 2〜10人 | `midnight_party_games` |
-| `deepsea` | Deep Sea Adventure | 2〜6人 | `abyss_salvage_games` |
-| `wordwolf` | Word Wolf | 3〜8人 | `secret_word_games` |
+| `ito` | ito | 協力 | `ito_games` |
+| `coyote` | Coyote | 2〜10人 | `coyote_games` |
+| `deepsea` | Deep Sea Adventure | 2〜6人 | `deep_sea_games` |
+| `wordwolf` | Word Wolf | 3〜8人 | `word_wolf_games` |
 
-> ℹ️ ディレクトリ名・コード識別子は正式名称に統一済み。一方 **DBテーブル名は旧コードネームのまま**（Supabase上の既存テーブルと一致させるため）。テーブル名を変える場合はマイグレーションが別途必要。
+> ℹ️ ディレクトリ名・コード識別子・DBテーブル名はすべて正式名称に統一済み。旧コードネーム（`value_talk_games` / `midnight_party_games` / `abyss_salvage_games` / `secret_word_games`）から `supabase/migrations/20260615000000_rename_codename_tables.sql` でリネームした。**この rename SQL は本番 Supabase の SQL Editor で実行する必要がある**（実行前は旧テーブル名のまま）。
 
 ## 技術スタック
 

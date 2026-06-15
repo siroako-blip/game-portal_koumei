@@ -16,6 +16,13 @@
 
 ---
 
+## 2026-06-15 — リネーム残課題の解消（旧ルート404修正・DBテーブル名を正式名へ統一）
+
+- リネーム時の修正漏れで、各ロビーの `router.push` が**存在しない旧ルート**（`/elemental/` `/midnight/` `/abyss/` `/valuetalk/` `/secretword/`）に飛び、ゲーム作成・参加で404になっていたのを修正。
+- **DBテーブル名も正式名へ統一**: `value_talk_games→ito_games` / `midnight_party_games→coyote_games` / `abyss_salvage_games→deep_sea_games` / `secret_word_games→word_wolf_games`。旧コードネームのままでは将来混乱するため、既存の `lost_cities_games` 等の規約に合わせた。
+- rename は `supabase/migrations/20260615000000_rename_codename_tables.sql` で実施（本番 Supabase の SQL Editor で実行済み）。**冪等な DO ブロック**で書き、ポリシー名は本番実体に依存せず「全削除→正式名で貼り直し」とした（最初に書いた `alter policy ... rename` が本番のポリシー名不一致で失敗したため）。
+- 併せて古いコメント（`usePresence.ts` / `lostcities/logic.ts`）と `CLAUDE.md` の対応表・注記を更新。
+
 ## 2026-06-15 — ディレクトリ・識別子を正式ゲーム名へリネーム / 再戦投票を追加
 
 - ゲームのフォルダ名とコード識別子を正式名称に統一: `elemental→lostcities` / `midnight→coyote` / `abyss→deepsea` / `valuetalk→ito` / `secretword→wordwolf`。可読性と一貫性のため。
