@@ -47,6 +47,8 @@ export interface LoveLetterGameState {
   logs: string[];
   /** 神父(2)で見た手札（actorIndex のプレイヤーだけがUIで見る。次の手番でクリア） */
   lastPriestReveal?: { actorIndex: number; targetIndex: number; rank: number } | null;
+  /** 再戦に同意したプレイヤーの pid 配列（合意制。全員揃ったら restartLoveLetterGame で新ゲームへ） */
+  rematchVotes?: string[];
 }
 
 const DECK_TEMPLATE = [

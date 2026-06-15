@@ -4,10 +4,12 @@ import { useCallback, useState, useRef, useEffect, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import type { HitBlowGameState } from "@/app/hitblow/types";
-import { setSecret, submitGuess, isValidGuess, getMergedHistory, createInitialHitBlowState } from "@/app/hitblow/logic";
+import { setSecret, submitGuess, isValidGuess, getMergedHistory, restartGame } from "@/app/hitblow/logic";
 import { useHitBlowRealtime } from "@/app/hitblow/useRealtime";
 import { usePresence } from "@/lib/usePresence";
 import { updateHitBlowGameState } from "@/lib/gameDb";
+import { PresenceDot } from "@/components/PresenceDot";
+import { castRematchVote, rematchCount, hasVotedRematch } from "@/lib/rematch";
 
 type PlayerRole = "player1" | "player2" | "spectator";
 
@@ -108,18 +110,24 @@ function HitBlowGameContent() {
     }
   }, [gameId, state, myRole, guessInput]);
 
+  // 合意制再戦: 自分の同意を votes に加え、全員（両者）同意で初めて restartGame。即リセットしない。
   const handleRematch = useCallback(async () => {
-    if (myRole === "spectator") return;
-    if (!gameId || !state || !state.winner) return;
+    if (myRole === "spectator" || !gameId || !state || !pid) return; // 観戦者は不可
+    const allPids = [hostId, guestId];
+    const { votes, allAgreed } = castRematchVote(state.rematchVotes, pid, allPids);
+    const next = allAgreed ? restartGame(state) : { ...state, rematchVotes: votes };
+    if (!next) return;
     setIsSubmitting(true);
     try {
-      await updateHitBlowGameState(gameId, createInitialHitBlowState());
-      setGuessInput("");
-      setSecretInput("");
+      await updateHitBlowGameState(gameId, next);
+      if (allAgreed) {
+        setGuessInput("");
+        setSecretInput("");
+      }
     } finally {
       setIsSubmitting(false);
     }
-  }, [gameId, state, myRole]);
+  }, [gameId, state, myRole, pid, hostId, guestId]);
 
   if (loading || !gameId) {
     return (
@@ -183,9 +191,6 @@ function HitBlowGameContent() {
   const opponentIsSet = myRole === "player1" ? state.p2IsSet : state.p1IsSet;
   const iAmSet = myRole === "player1" ? state.p1IsSet : state.p2IsSet;
 
-  const StatusIcon = ({ status }: { status: "online" | "offline" | null }) =>
-    status === "online" ? <span title="オンライン">🟢</span> : <span title="オフライン">🔴</span>;
-
   return (
     <div className="min-h-screen flex flex-col p-4 gap-4 bg-stone-200">
       {showDisconnectBanner && (
@@ -208,12 +213,12 @@ function HitBlowGameContent() {
           <h1 className="text-2xl font-bold text-stone-900 font-serif">Hit and Blow</h1>
           {!isSpectator && opponentStatus !== null && (
             <span className="text-sm text-stone-700 flex items-center gap-1">
-              相手 <StatusIcon status={opponentStatus} />
+              相手 <PresenceDot online={opponentStatus === "online"} />
             </span>
           )}
           {isSpectator && (player1Status !== null || player2Status !== null) && (
             <span className="text-sm text-stone-700 flex items-center gap-2">
-              Player 1 <StatusIcon status={player1Status ?? "offline"} /> / Player 2 <StatusIcon status={player2Status ?? "offline"} />
+              Player 1 <PresenceDot online={player1Status === "online"} /> / Player 2 <PresenceDot online={player2Status === "online"} />
             </span>
           )}
         </div>
@@ -307,16 +312,22 @@ function HitBlowGameContent() {
               }
             </p>
           )}
-          {!isSpectator && (
-            <button
-              type="button"
-              onClick={handleRematch}
-              disabled={isSubmitting}
-              className="mt-4 px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold shadow-lg border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 disabled:opacity-50 transition-all"
-            >
-              🔄 もう一度遊ぶ
-            </button>
-          )}
+          {!isSpectator && (() => {
+            // 合意制: 同意人数を表示し、自分が同意済みなら無効化
+            const allPids = [hostId, guestId];
+            const { agreed, total } = rematchCount(state.rematchVotes, allPids);
+            const voted = hasVotedRematch(state.rematchVotes, pid);
+            return (
+              <button
+                type="button"
+                onClick={handleRematch}
+                disabled={isSubmitting || voted}
+                className="mt-4 px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold shadow-lg border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 disabled:opacity-50 transition-all"
+              >
+                {voted ? `相手の同意を待っています (${agreed}/${total})` : `🔄 もう一度遊ぶ (${agreed}/${total})`}
+              </button>
+            );
+          })()}
         </div>
       )}
 

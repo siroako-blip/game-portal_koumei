@@ -19,6 +19,8 @@ export interface NoThanksGameState {
   playerChips: number[];
   /** 各プレイヤーが引き取ったカード（player_ids の順） */
   playerCards: number[][];
+  /** 再戦に同意したプレイヤーの pid 配列（合意制。全員揃ったら restartGame で新ゲームへ） */
+  rematchVotes?: string[];
 }
 
 const CARD_MIN = 3;

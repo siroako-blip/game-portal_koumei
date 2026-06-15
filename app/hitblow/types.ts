@@ -32,4 +32,6 @@ export interface HitBlowGameState {
   p2History: GuessEntry[];
   /** 先に4Hを出した方の勝者（サドンデス） */
   winner: "player1" | "player2" | null;
+  /** 合意制再戦の同意者pid配列（全員同意で restartGame が呼ばれる。未定義は空とみなす） */
+  rematchVotes?: string[];
 }

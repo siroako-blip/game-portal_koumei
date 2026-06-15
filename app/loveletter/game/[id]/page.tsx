@@ -17,6 +17,7 @@ import {
 } from "@/app/loveletter/logic";
 import { useLoveLetterRealtime } from "@/app/loveletter/useRealtime";
 import { startLoveLetterGame, updateLoveLetterGameState } from "@/lib/gameDb";
+import { castRematchVote, rematchCount, hasVotedRematch } from "@/lib/rematch";
 import { RuleBook } from "@/components/RuleBook";
 import { usePresenceMany } from "@/lib/usePresence";
 import { PresenceDot } from "@/components/PresenceDot";
@@ -79,9 +80,11 @@ function GameContent() {
     }
   }, [gameId, isHost, playerIds.length]);
 
+  // 再戦は合意制: 自分の同意を rematchVotes に追加し、ルーム内全員が揃ったら新ゲームへ。
   const handleRematch = useCallback(async () => {
-    if (isSpectator || !gameId || !state) return;
-    const next = restartLoveLetterGame(state);
+    if (isSpectator || !gameId || !state || !pid) return; // 観戦者は不可
+    const { votes, allAgreed } = castRematchVote(state.rematchVotes, pid, playerIds);
+    const next = allAgreed ? restartLoveLetterGame(state) : { ...state, rematchVotes: votes };
     if (!next) return;
     setIsSubmitting(true);
     try {
@@ -89,7 +92,7 @@ function GameContent() {
     } finally {
       setIsSubmitting(false);
     }
-  }, [gameId, state, isSpectator]);
+  }, [gameId, state, pid, playerIds, isSpectator]);
 
   const submitPlay = useCallback(
     async (cardRank: number, targetIndex?: number, guess?: number) => {
@@ -413,16 +416,22 @@ function GameContent() {
                 ? "あなたの勝ち！"
                 : `${playerLabel(state.winner)} の勝ち！`}
           </p>
-          {!isSpectator && (
-            <button
-              type="button"
-              onClick={handleRematch}
-              disabled={isSubmitting}
-              className="mt-4 px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-red-600 hover:from-amber-500 hover:to-red-500 text-amber-50 font-bold shadow-lg border-b-4 border-red-900 active:border-b-0 active:translate-y-1 disabled:opacity-50 transition-all"
-            >
-              🔄 もう一度遊ぶ
-            </button>
-          )}
+          {!isSpectator && (() => {
+            const { agreed, total } = rematchCount(state.rematchVotes, playerIds);
+            const voted = hasVotedRematch(state.rematchVotes, pid);
+            return (
+              <button
+                type="button"
+                onClick={handleRematch}
+                disabled={isSubmitting || voted}
+                className="mt-4 px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-red-600 hover:from-amber-500 hover:to-red-500 text-amber-50 font-bold shadow-lg border-b-4 border-red-900 active:border-b-0 active:translate-y-1 disabled:opacity-50 transition-all"
+              >
+                {voted
+                  ? `みんなの同意を待っています (${agreed}/${total})`
+                  : `🔄 もう一度遊ぶ (${agreed}/${total})`}
+              </button>
+            );
+          })()}
         </div>
       )}
 

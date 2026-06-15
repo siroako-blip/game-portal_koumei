@@ -47,6 +47,16 @@ export function createInitialHitBlowState(): HitBlowGameState {
   };
 }
 
+/**
+ * 再戦（合意制）。勝者が確定しているとき（state.winner あり）のみ新しい初期状態を返す。
+ * 勝者がいなければ null を返し、呼び出し側は何もしない。
+ * 新しい初期状態は rematchVotes を持たないため、投票は自動的にクリアされる。
+ */
+export function restartGame(state: HitBlowGameState): HitBlowGameState | null {
+  if (!state.winner) return null;
+  return createInitialHitBlowState();
+}
+
 /** 自分の秘密を設定する（セットアップフェーズ）。両者設定済みなら play に移行 */
 export function setSecret(
   state: HitBlowGameState,
