@@ -72,7 +72,7 @@ export default function HitBlowLobbyPage() {
 
   return (
     <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-stone-100 to-orange-50/60 text-stone-900">
-      <Link href="/" className="absolute top-4 left-4 text-stone-600 hover:text-amber-600 text-sm font-medium underline">
+      <Link href="/" className="absolute top-4 left-4 z-20 text-stone-600 hover:text-amber-600 text-sm font-medium underline">
         ← ゲーム選択に戻る
       </Link>
       <div className="text-center space-y-3 fade-in-up">

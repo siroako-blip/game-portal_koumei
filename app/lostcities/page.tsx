@@ -75,7 +75,7 @@ export default function LostCitiesLobbyPage() {
 
   return (
     <div className="parchment-bg min-h-screen flex flex-col p-4 gap-6 items-center justify-center text-stone-800">
-      <Link href="/" className="absolute top-4 left-4 text-stone-600 hover:text-orange-600 text-sm font-bold underline">
+      <Link href="/" className="absolute top-4 left-4 z-20 text-stone-600 hover:text-orange-600 text-sm font-bold underline">
         ← ゲーム選択に戻る
       </Link>
       <div className="text-center space-y-3 fade-in-up">

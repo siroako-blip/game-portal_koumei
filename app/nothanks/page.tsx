@@ -72,7 +72,7 @@ export default function NoThanksLobbyPage() {
 
   return (
     <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-purple-950 to-stone-900 text-stone-100">
-      <Link href="/" className="absolute top-4 left-4 text-purple-200 hover:text-purple-100 text-sm font-medium underline">
+      <Link href="/" className="absolute top-4 left-4 z-20 text-purple-200 hover:text-purple-100 text-sm font-medium underline">
         ← ゲーム選択に戻る
       </Link>
       <div className="text-center space-y-3 fade-in-up">

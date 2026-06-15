@@ -72,7 +72,7 @@ export default function LoveLetterLobbyPage() {
 
   return (
     <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-red-950 to-amber-950/80 text-amber-100">
-      <Link href="/" className="absolute top-4 left-4 text-amber-200 hover:text-amber-100 text-sm font-medium underline">
+      <Link href="/" className="absolute top-4 left-4 z-20 text-amber-200 hover:text-amber-100 text-sm font-medium underline">
         ← ゲーム選択に戻る
       </Link>
       <div className="text-center space-y-3 fade-in-up">
