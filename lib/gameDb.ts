@@ -153,7 +153,7 @@ export async function updateHitBlowGameState(gameId: string, state: HitBlowGameS
   if (error) throw error;
 }
 
-// ---------- Cursed Gifts (No Thanks!) ----------
+// ---------- No Thanks! ----------
 
 /** no_thanks_games の1行（3〜5人用） */
 export interface NoThanksGameRow {
@@ -164,7 +164,7 @@ export interface NoThanksGameRow {
   game_state: NoThanksGameState | null;
 }
 
-/** Cursed Gifts ゲーム作成（Host） */
+/** No Thanks! ゲーム作成（Host） */
 export async function createNoThanksGame(hostId: string): Promise<{ id: string }> {
   const { data, error } = await supabase
     .from("no_thanks_games")
@@ -175,7 +175,7 @@ export async function createNoThanksGame(hostId: string): Promise<{ id: string }
   return { id: data.id };
 }
 
-/** Cursed Gifts 1件取得 */
+/** No Thanks! 1件取得 */
 export async function getNoThanksGame(gameId: string): Promise<NoThanksGameRow | null> {
   const { data, error } = await supabase
     .from("no_thanks_games")
@@ -193,7 +193,7 @@ export async function getNoThanksGame(gameId: string): Promise<NoThanksGameRow |
   } as NoThanksGameRow;
 }
 
-/** Cursed Gifts 参加（Join）：player_ids に追加。最大5人まで */
+/** No Thanks! 参加（Join）：player_ids に追加。最大5人まで */
 export async function joinNoThanksGame(gameId: string, guestId: string): Promise<void> {
   const existing = await getNoThanksGame(gameId);
   if (!existing || existing.status !== "waiting") throw new Error("参加できません");
@@ -207,7 +207,7 @@ export async function joinNoThanksGame(gameId: string, guestId: string): Promise
   if (error) throw error;
 }
 
-/** Cursed Gifts ゲーム開始：game_state を書き込む（3人以上で開始） */
+/** No Thanks! ゲーム開始：game_state を書き込む（3人以上で開始） */
 export async function startNoThanksGame(gameId: string, initialState: NoThanksGameState): Promise<void> {
   const { error } = await supabase
     .from("no_thanks_games")
@@ -219,7 +219,7 @@ export async function startNoThanksGame(gameId: string, initialState: NoThanksGa
   if (error) throw error;
 }
 
-/** Cursed Gifts ゲーム状態を更新 */
+/** No Thanks! ゲーム状態を更新 */
 export async function updateNoThanksGameState(gameId: string, state: NoThanksGameState): Promise<void> {
   const { error } = await supabase
     .from("no_thanks_games")
@@ -231,7 +231,7 @@ export async function updateNoThanksGameState(gameId: string, state: NoThanksGam
   if (error) throw error;
 }
 
-// ---------- Court Intrigue (Love Letter) ----------
+// ---------- Love Letter ----------
 
 /** love_letter_games の1行（2〜4人用） */
 export interface LoveLetterGameRow {
@@ -242,7 +242,7 @@ export interface LoveLetterGameRow {
   game_state: LoveLetterGameState | null;
 }
 
-/** Court Intrigue ゲーム作成（Host） */
+/** Love Letter ゲーム作成（Host） */
 export async function createLoveLetterGame(hostId: string): Promise<{ id: string }> {
   const { data, error } = await supabase
     .from("love_letter_games")
@@ -253,7 +253,7 @@ export async function createLoveLetterGame(hostId: string): Promise<{ id: string
   return { id: data.id };
 }
 
-/** Court Intrigue 1件取得 */
+/** Love Letter 1件取得 */
 export async function getLoveLetterGame(gameId: string): Promise<LoveLetterGameRow | null> {
   const { data, error } = await supabase
     .from("love_letter_games")
@@ -271,7 +271,7 @@ export async function getLoveLetterGame(gameId: string): Promise<LoveLetterGameR
   } as LoveLetterGameRow;
 }
 
-/** Court Intrigue 参加（Join）：player_ids に追加。最大4人まで */
+/** Love Letter 参加（Join）：player_ids に追加。最大4人まで */
 export async function joinLoveLetterGame(gameId: string, guestId: string): Promise<void> {
   const existing = await getLoveLetterGame(gameId);
   if (!existing || existing.status !== "waiting") throw new Error("参加できません");
@@ -285,7 +285,7 @@ export async function joinLoveLetterGame(gameId: string, guestId: string): Promi
   if (error) throw error;
 }
 
-/** Court Intrigue ゲーム開始（2人以上で開始） */
+/** Love Letter ゲーム開始（2人以上で開始） */
 export async function startLoveLetterGame(gameId: string, initialState: LoveLetterGameState): Promise<void> {
   const { error } = await supabase
     .from("love_letter_games")
@@ -297,7 +297,7 @@ export async function startLoveLetterGame(gameId: string, initialState: LoveLett
   if (error) throw error;
 }
 
-/** Court Intrigue ゲーム状態を更新 */
+/** Love Letter ゲーム状態を更新 */
 export async function updateLoveLetterGameState(gameId: string, state: LoveLetterGameState): Promise<void> {
   const { error } = await supabase
     .from("love_letter_games")
@@ -309,7 +309,7 @@ export async function updateLoveLetterGameState(gameId: string, state: LoveLette
   if (error) throw error;
 }
 
-// ---------- Value Talk ----------
+// ---------- ito ----------
 
 /** value_talk_games の1行 */
 export interface ValueTalkGameRow {
@@ -320,7 +320,7 @@ export interface ValueTalkGameRow {
   game_state: ValueTalkGameState | null;
 }
 
-/** Value Talk ゲーム作成（Host） */
+/** ito ゲーム作成（Host） */
 export async function createValueTalkGame(hostId: string): Promise<{ id: string }> {
   const { data, error } = await supabase
     .from("value_talk_games")
@@ -331,7 +331,7 @@ export async function createValueTalkGame(hostId: string): Promise<{ id: string 
   return { id: data.id };
 }
 
-/** Value Talk 1件取得 */
+/** ito 1件取得 */
 export async function getValueTalkGame(gameId: string): Promise<ValueTalkGameRow | null> {
   const { data, error } = await supabase
     .from("value_talk_games")
@@ -349,7 +349,7 @@ export async function getValueTalkGame(gameId: string): Promise<ValueTalkGameRow
   } as ValueTalkGameRow;
 }
 
-/** Value Talk 参加（Join）：player_ids に追加 */
+/** ito 参加（Join）：player_ids に追加 */
 export async function joinValueTalkGame(gameId: string, guestId: string): Promise<void> {
   const existing = await getValueTalkGame(gameId);
   if (!existing || existing.status !== "waiting") throw new Error("参加できません");
@@ -362,7 +362,7 @@ export async function joinValueTalkGame(gameId: string, guestId: string): Promis
   if (error) throw error;
 }
 
-/** Value Talk ゲーム開始（2人以上推奨だが1人でも開始可） */
+/** ito ゲーム開始（2人以上推奨だが1人でも開始可） */
 export async function startValueTalkGame(gameId: string, initialState: ValueTalkGameState): Promise<void> {
   const { error } = await supabase
     .from("value_talk_games")
@@ -374,7 +374,7 @@ export async function startValueTalkGame(gameId: string, initialState: ValueTalk
   if (error) throw error;
 }
 
-/** Value Talk ゲーム状態を更新 */
+/** ito ゲーム状態を更新 */
 export async function updateValueTalkGameState(gameId: string, state: ValueTalkGameState): Promise<void> {
   const { error } = await supabase
     .from("value_talk_games")
@@ -386,7 +386,7 @@ export async function updateValueTalkGameState(gameId: string, state: ValueTalkG
   if (error) throw error;
 }
 
-// ---------- Midnight Party ----------
+// ---------- Coyote ----------
 
 /** midnight_party_games の1行 */
 export interface MidnightPartyGameRow {
@@ -397,7 +397,7 @@ export interface MidnightPartyGameRow {
   game_state: MidnightGameState | null;
 }
 
-/** Midnight Party ゲーム作成（Host） */
+/** Coyote ゲーム作成（Host） */
 export async function createMidnightPartyGame(hostId: string): Promise<{ id: string }> {
   const { data, error } = await supabase
     .from("midnight_party_games")
@@ -408,7 +408,7 @@ export async function createMidnightPartyGame(hostId: string): Promise<{ id: str
   return { id: data.id };
 }
 
-/** Midnight Party 1件取得 */
+/** Coyote 1件取得 */
 export async function getMidnightPartyGame(gameId: string): Promise<MidnightPartyGameRow | null> {
   const { data, error } = await supabase
     .from("midnight_party_games")
@@ -426,7 +426,7 @@ export async function getMidnightPartyGame(gameId: string): Promise<MidnightPart
   } as MidnightPartyGameRow;
 }
 
-/** Midnight Party 参加（Join）：player_ids に追加 */
+/** Coyote 参加（Join）：player_ids に追加 */
 export async function joinMidnightPartyGame(gameId: string, guestId: string): Promise<void> {
   const existing = await getMidnightPartyGame(gameId);
   if (!existing || existing.status !== "waiting") throw new Error("参加できません");
@@ -439,7 +439,7 @@ export async function joinMidnightPartyGame(gameId: string, guestId: string): Pr
   if (error) throw error;
 }
 
-/** Midnight Party ゲーム開始（2〜10人） */
+/** Coyote ゲーム開始（2〜10人） */
 export async function startMidnightPartyGame(
   gameId: string,
   initialState: MidnightGameState
@@ -454,7 +454,7 @@ export async function startMidnightPartyGame(
   if (error) throw error;
 }
 
-/** Midnight Party ゲーム状態を更新 */
+/** Coyote ゲーム状態を更新 */
 export async function updateMidnightPartyGameState(
   gameId: string,
   state: MidnightGameState
@@ -469,7 +469,7 @@ export async function updateMidnightPartyGameState(
   if (error) throw error;
 }
 
-// ---------- Abyss Salvage ----------
+// ---------- Deep Sea Adventure ----------
 
 /** abyss_salvage_games の1行 */
 export interface AbyssSalvageGameRow {
@@ -480,7 +480,7 @@ export interface AbyssSalvageGameRow {
   game_state: AbyssGameState | null;
 }
 
-/** Abyss Salvage ゲーム作成（Host） */
+/** Deep Sea Adventure ゲーム作成（Host） */
 export async function createAbyssSalvageGame(hostId: string): Promise<{ id: string }> {
   const { data, error } = await supabase
     .from("abyss_salvage_games")
@@ -491,7 +491,7 @@ export async function createAbyssSalvageGame(hostId: string): Promise<{ id: stri
   return { id: data.id };
 }
 
-/** Abyss Salvage 1件取得 */
+/** Deep Sea Adventure 1件取得 */
 export async function getAbyssSalvageGame(gameId: string): Promise<AbyssSalvageGameRow | null> {
   const { data, error } = await supabase
     .from("abyss_salvage_games")
@@ -509,7 +509,7 @@ export async function getAbyssSalvageGame(gameId: string): Promise<AbyssSalvageG
   } as AbyssSalvageGameRow;
 }
 
-/** Abyss Salvage 参加（Join）：player_ids に追加 */
+/** Deep Sea Adventure 参加（Join）：player_ids に追加 */
 export async function joinAbyssSalvageGame(gameId: string, guestId: string): Promise<void> {
   const existing = await getAbyssSalvageGame(gameId);
   if (!existing || existing.status !== "waiting") throw new Error("参加できません");
@@ -522,7 +522,7 @@ export async function joinAbyssSalvageGame(gameId: string, guestId: string): Pro
   if (error) throw error;
 }
 
-/** Abyss Salvage ゲーム開始（2〜6人） */
+/** Deep Sea Adventure ゲーム開始（2〜6人） */
 export async function startAbyssSalvageGame(
   gameId: string,
   initialState: AbyssGameState
@@ -537,7 +537,7 @@ export async function startAbyssSalvageGame(
   if (error) throw error;
 }
 
-/** Abyss Salvage ゲーム状態を更新 */
+/** Deep Sea Adventure ゲーム状態を更新 */
 export async function updateAbyssSalvageGameState(
   gameId: string,
   state: AbyssGameState
@@ -552,7 +552,7 @@ export async function updateAbyssSalvageGameState(
   if (error) throw error;
 }
 
-// ---------- Secret Word ----------
+// ---------- Word Wolf ----------
 
 /** secret_word_games の1行 */
 export interface SecretWordGameRow {
@@ -563,7 +563,7 @@ export interface SecretWordGameRow {
   game_state: SecretWordGameState | null;
 }
 
-/** Secret Word ゲーム作成（Host） */
+/** Word Wolf ゲーム作成（Host） */
 export async function createSecretWordGame(hostId: string): Promise<{ id: string }> {
   const { data, error } = await supabase
     .from("secret_word_games")
@@ -574,7 +574,7 @@ export async function createSecretWordGame(hostId: string): Promise<{ id: string
   return { id: data.id };
 }
 
-/** Secret Word 1件取得 */
+/** Word Wolf 1件取得 */
 export async function getSecretWordGame(gameId: string): Promise<SecretWordGameRow | null> {
   const { data, error } = await supabase
     .from("secret_word_games")
@@ -592,7 +592,7 @@ export async function getSecretWordGame(gameId: string): Promise<SecretWordGameR
   } as SecretWordGameRow;
 }
 
-/** Secret Word 参加（Join）：player_ids に追加 */
+/** Word Wolf 参加（Join）：player_ids に追加 */
 export async function joinSecretWordGame(gameId: string, guestId: string): Promise<void> {
   const existing = await getSecretWordGame(gameId);
   if (!existing || existing.status !== "waiting") throw new Error("参加できません");
@@ -605,7 +605,7 @@ export async function joinSecretWordGame(gameId: string, guestId: string): Promi
   if (error) throw error;
 }
 
-/** Secret Word ゲーム開始（3〜8人） */
+/** Word Wolf ゲーム開始（3〜8人） */
 export async function startSecretWordGame(
   gameId: string,
   initialState: SecretWordGameState
@@ -620,7 +620,7 @@ export async function startSecretWordGame(
   if (error) throw error;
 }
 
-/** Secret Word ゲーム状態を更新 */
+/** Word Wolf ゲーム状態を更新 */
 export async function updateSecretWordGameState(
   gameId: string,
   state: SecretWordGameState

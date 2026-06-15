@@ -1,4 +1,4 @@
--- Abyss Salvage（深海探検風）ボードゲーム用テーブル
+-- Deep Sea Adventure ボードゲーム用テーブル
 create table if not exists public.abyss_salvage_games (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),

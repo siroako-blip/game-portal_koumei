@@ -1,4 +1,4 @@
--- Secret Word（ワードウルフ風）会話ゲーム用テーブル
+-- Word Wolf 会話ゲーム用テーブル
 create table if not exists public.secret_word_games (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),

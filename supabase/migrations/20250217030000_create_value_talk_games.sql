@@ -1,4 +1,4 @@
--- Value Talk（ito風）協力ゲーム用テーブル
+-- ito 協力ゲーム用テーブル
 create table if not exists public.value_talk_games (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),

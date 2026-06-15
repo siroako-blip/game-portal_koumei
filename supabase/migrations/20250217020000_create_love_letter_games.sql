@@ -1,4 +1,4 @@
--- Court Intrigue (Love Letter 風) 用テーブル（2〜4人）
+-- Love Letter 用テーブル（2〜4人）
 create table if not exists public.love_letter_games (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),

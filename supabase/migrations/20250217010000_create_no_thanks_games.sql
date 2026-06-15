@@ -1,4 +1,4 @@
--- Cursed Gifts (No Thanks!) 用テーブル（3〜5人）
+-- No Thanks! 用テーブル（3〜5人）
 create table if not exists public.no_thanks_games (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
