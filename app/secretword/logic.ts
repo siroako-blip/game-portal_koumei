@@ -1,5 +1,5 @@
 /**
- * Secret Word（ワードウルフ風）会話ゲームロジック
+ * Word Wolf（ワードウルフ）会話ゲームロジック
  * 多数派は同じ単語、少数派（ウルフ）1人のみ別単語。議論→投票→結果。
  */
 
@@ -202,4 +202,15 @@ export function getRemainingDiscussionSeconds(state: SecretWordGameState): numbe
   if (state.phase !== "discussion") return 0;
   const remaining = Math.ceil((state.discussionEndsAt - Date.now()) / 1000);
   return Math.max(0, remaining);
+}
+
+/**
+ * 再戦：結果発表後、同じメンバーで最初から遊び直す。
+ * 新しいお題・新しいウルフを割り当て直し、討論フェーズから再開する。
+ */
+export function restartSecretWordGame(
+  state: SecretWordGameState
+): SecretWordGameState | null {
+  if (state.phase !== "result") return null;
+  return createInitialSecretWordState(state.assignments.length);
 }

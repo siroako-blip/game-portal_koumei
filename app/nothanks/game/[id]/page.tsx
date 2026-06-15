@@ -16,6 +16,8 @@ import {
 import { useNoThanksRealtime } from "@/app/nothanks/useRealtime";
 import { startNoThanksGame, updateNoThanksGameState } from "@/lib/gameDb";
 import { RuleBook } from "@/components/RuleBook";
+import { usePresenceMany } from "@/lib/usePresence";
+import { PresenceDot } from "@/components/PresenceDot";
 
 type PlayerRole = number | "spectator"; // number = player index (0-based)
 
@@ -49,6 +51,7 @@ function GameContent() {
 
   const { gameData, loading, error } = useNoThanksRealtime(gameId);
   const playerIds: string[] = Array.isArray(gameData?.player_ids) ? gameData.player_ids : [];
+  const { isOnline } = usePresenceMany(gameId, pid || null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const playerIndex = pid ? playerIds.indexOf(pid) : -1;
@@ -109,7 +112,7 @@ function GameContent() {
   if (loading || !gameId) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-purple-950 text-purple-100">
-        <h1 className="text-2xl font-bold font-serif">Cursed Gifts</h1>
+        <h1 className="text-2xl font-bold font-serif">No Thanks!</h1>
         <p className="text-purple-300">読み込み中…</p>
       </div>
     );
@@ -118,7 +121,7 @@ function GameContent() {
   if (error || !gameData) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-purple-950 text-purple-100">
-        <h1 className="text-2xl font-bold font-serif">Cursed Gifts</h1>
+        <h1 className="text-2xl font-bold font-serif">No Thanks!</h1>
         <p className="text-red-400">ゲームの取得に失敗しました</p>
         <Link href="/nothanks" className="text-purple-300 underline font-medium">ロビーに戻る</Link>
       </div>
@@ -130,8 +133,8 @@ function GameContent() {
     const canStart = playerIds.length >= 3 && isHost;
     return (
       <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-purple-950 to-stone-900 text-stone-100">
-        <h1 className="text-3xl font-bold font-serif text-purple-100">Cursed Gifts</h1>
-        <p className="text-purple-300">不気味な洋館で呪いの贈り物を押し付け合うゲーム</p>
+        <h1 className="text-3xl font-bold font-serif text-purple-100">No Thanks!</h1>
+        <p className="text-purple-300">数字カード（と乗ったチップ）を押し付け合うゲーム</p>
         <div className="rounded-xl bg-purple-900/60 p-6 border-4 border-purple-700/70 shadow-2xl max-w-md w-full">
           <p className="text-sm text-purple-200 font-medium mb-2">参加者: {playerIds.length}人</p>
           {playerIds.length < 3 && (
@@ -169,7 +172,7 @@ function GameContent() {
   if (!state) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-purple-950 text-purple-100">
-        <h1 className="text-2xl font-bold font-serif">Cursed Gifts</h1>
+        <h1 className="text-2xl font-bold font-serif">No Thanks!</h1>
         <p className="text-purple-300">ゲームデータを読み込めません</p>
         <Link href="/nothanks" className="text-purple-300 underline font-medium">ロビーに戻る</Link>
       </div>
@@ -194,7 +197,7 @@ function GameContent() {
               👀 観戦モード
             </span>
           )}
-          <h1 className="text-2xl font-bold font-serif text-purple-100">Cursed Gifts</h1>
+          <h1 className="text-2xl font-bold font-serif text-purple-100">No Thanks!</h1>
         </div>
         <Link href="/nothanks" className="text-purple-300 text-sm underline hover:text-purple-200 font-medium">
           ロビーに戻る
@@ -263,6 +266,7 @@ function GameContent() {
             >
               <p className="text-sm font-bold text-purple-100 mb-2 flex items-center gap-1.5">
                 {label}
+                <PresenceDot online={isOnline(playerIds[i])} />
                 {isCurrent && state.phase === "playing" && <span className="text-amber-400 text-xs">← 手番</span>}
               </p>
               <p className="text-xs text-purple-300 mb-1">チップ: {chips} 枚</p>
@@ -348,7 +352,7 @@ export default function NoThanksGamePage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-purple-950 text-purple-100">
-          <h1 className="text-2xl font-bold font-serif">Cursed Gifts</h1>
+          <h1 className="text-2xl font-bold font-serif">No Thanks!</h1>
           <p className="text-purple-300">読み込み中…</p>
         </div>
       }

@@ -91,10 +91,10 @@ export default function SecretWordLobbyPage() {
           <span className="text-4xl animate-bob bob-delay-2">🌲</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-cyan-300 drop-shadow-sm tracking-wider font-serif">
-          Secret Word
+          Word Wolf
         </h1>
         <p className="text-emerald-300 text-sm md:text-base">
-          🗣️ ワードウルフ風 — お題を推理してウルフを当てる（{MIN_PLAYERS}〜{MAX_PLAYERS}人）
+          🗣️ ワードウルフ — お題を推理してウルフを当てる（{MIN_PLAYERS}〜{MAX_PLAYERS}人）
         </p>
         {/* 市民の中に1人だけウルフ */}
         <div className="flex justify-center gap-3 pt-2">

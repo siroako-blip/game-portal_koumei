@@ -1,5 +1,5 @@
 /**
- * Court Intrigue (Love Letter 風) ゲームロジック
+ * Love Letter（ラブレター）ゲームロジック
  * 2〜4人用。16枚のカード（1=兵士x5, 2=神父x2, 3=男爵x2, 4=僧侶x2, 5=王子x2, 6=王x1, 7=大臣x1, 8=姫x1）
  */
 
@@ -91,6 +91,17 @@ export function createInitialLoveLetterState(playerCount: number): LoveLetterGam
     winner: null,
     logs: ["ゲーム開始。"],
   };
+}
+
+/**
+ * 再戦：ゲーム終了後、同じメンバーで最初から遊び直す。
+ * 人数を維持してデッキを配り直す。
+ */
+export function restartLoveLetterGame(
+  state: LoveLetterGameState
+): LoveLetterGameState | null {
+  if (state.phase !== "finished") return null;
+  return createInitialLoveLetterState(state.players.length);
 }
 
 /** 脱落していないプレイヤー数を返す */

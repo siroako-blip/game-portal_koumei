@@ -86,9 +86,9 @@ export default function ValueTalkLobbyPage() {
           <span className="text-4xl animate-bob bob-delay-2">💭</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-bold drop-shadow-sm tracking-wider font-serif text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-700">
-          Value Talk
+          ito
         </h1>
-        <p className="text-orange-600 text-sm md:text-base">🤝 数字を「たとえ話」で伝える協力ゲーム — ito風</p>
+        <p className="text-orange-600 text-sm md:text-base">🤝 イト — 数字を「たとえ話」で伝える協力ゲーム</p>
         {/* 小さい順に並べるイメージ */}
         <div className="flex justify-center items-center gap-2 pt-2">
           {["1", "→", "34", "→", "67", "→", "100"].map((label, i) =>

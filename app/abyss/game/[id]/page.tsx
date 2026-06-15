@@ -13,6 +13,7 @@ import {
   putDownLoot,
   endTurnAndMaybeFinishRound,
   createInitialAbyssState,
+  restartAbyssGame,
   OXYGEN_MAX,
   TOTAL_ROUNDS,
 } from "@/app/abyss/logic";
@@ -22,6 +23,8 @@ import {
   updateAbyssSalvageGameState,
 } from "@/lib/gameDb";
 import { RuleBook } from "@/components/RuleBook";
+import { usePresenceMany } from "@/lib/usePresence";
+import { PresenceDot } from "@/components/PresenceDot";
 
 const MIN_PLAYERS = 2;
 const MAX_PLAYERS = 6;
@@ -58,6 +61,7 @@ function GameContent() {
 
   const { gameData, loading, error } = useAbyssRealtime(gameId);
   const playerIds: string[] = Array.isArray(gameData?.player_ids) ? gameData.player_ids : [];
+  const { isOnline } = usePresenceMany(gameId, pid || null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const playerIndex = pid ? playerIds.indexOf(pid) : -1;
@@ -160,10 +164,22 @@ function GameContent() {
     }
   }, [gameId, state]);
 
+  const handleRematch = useCallback(async () => {
+    if (isSpectator || !gameId || !state) return;
+    const next = restartAbyssGame(state);
+    if (!next) return;
+    setIsSubmitting(true);
+    try {
+      await updateAbyssSalvageGameState(gameId, next);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [gameId, state, isSpectator]);
+
   if (loading || !gameId) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-slate-950 via-blue-950 to-slate-950 text-cyan-100">
-        <h1 className="text-2xl font-bold font-serif text-cyan-200">Abyss Salvage</h1>
+        <h1 className="text-2xl font-bold font-serif text-cyan-200">Deep Sea Adventure</h1>
         <p className="text-cyan-300/80">読み込み中…</p>
       </div>
     );
@@ -172,7 +188,7 @@ function GameContent() {
   if (error || !gameData) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-slate-950 to-blue-950 text-cyan-100">
-        <h1 className="text-2xl font-bold font-serif">Abyss Salvage</h1>
+        <h1 className="text-2xl font-bold font-serif">Deep Sea Adventure</h1>
         <p className="text-red-400">ゲームの取得に失敗しました</p>
         <Link href="/abyss" className="text-cyan-400 underline font-medium">ロビーに戻る</Link>
       </div>
@@ -184,7 +200,7 @@ function GameContent() {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-slate-950 via-blue-950 to-slate-950 text-cyan-100">
         <h1 className="text-3xl font-bold font-serif text-transparent bg-clip-text bg-gradient-to-b from-cyan-200 to-teal-400">
-          Abyss Salvage
+          Deep Sea Adventure
         </h1>
         <p className="text-cyan-200/80">深海探検</p>
         <div className="rounded-2xl bg-slate-900/70 p-6 border-2 border-cyan-500/40 shadow-xl max-w-md w-full">
@@ -221,7 +237,7 @@ function GameContent() {
   if (!state) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-slate-950 to-blue-950 text-cyan-100">
-        <h1 className="text-2xl font-bold font-serif">Abyss Salvage</h1>
+        <h1 className="text-2xl font-bold font-serif">Deep Sea Adventure</h1>
         <p className="text-slate-400">ゲームデータを読み込めません</p>
         <Link href="/abyss" className="text-cyan-400 underline font-medium">ロビーに戻る</Link>
       </div>
@@ -246,7 +262,7 @@ function GameContent() {
             </span>
           )}
           <h1 className="text-2xl font-bold font-serif text-transparent bg-clip-text bg-gradient-to-b from-cyan-200 to-teal-400">
-            Abyss Salvage
+            Deep Sea Adventure
           </h1>
           <span className="text-cyan-200/80 text-sm">ラウンド {state.round} / {TOTAL_ROUNDS}</span>
         </div>
@@ -269,6 +285,20 @@ function GameContent() {
             style={{ width: `${(state.oxygen / OXYGEN_MAX) * 100}%` }}
           />
         </div>
+      </section>
+
+      {/* プレイヤー一覧（オンライン状態） */}
+      <section className="rounded-lg bg-slate-800/50 px-4 py-2 border border-cyan-500/20 flex flex-wrap gap-x-4 gap-y-1 items-center">
+        {state.players.map((_, i) => (
+          <span key={i} className="inline-flex items-center gap-1.5 text-sm text-cyan-100">
+            <span
+              className="inline-block w-3 h-3 rounded-full border border-slate-900"
+              style={{ backgroundColor: PLAYER_COLORS[i % PLAYER_COLORS.length] }}
+            />
+            {playerLabel(i)}
+            <PresenceDot online={isOnline(playerIds[i])} />
+          </span>
+        ))}
       </section>
 
       {/* 自分の持ち物（重さ） */}
@@ -395,12 +425,24 @@ function GameContent() {
                 </span>
               ))}
           </div>
-          <Link
-            href="/abyss"
-            className="inline-block mt-4 px-6 py-3 rounded-xl bg-cyan-600 text-white font-bold hover:bg-cyan-500"
-          >
-            ロビーに戻る
-          </Link>
+          <div className="flex flex-wrap gap-3 mt-4">
+            {!isSpectator && (
+              <button
+                type="button"
+                onClick={handleRematch}
+                disabled={isSubmitting}
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 text-white font-bold hover:from-cyan-500 hover:to-teal-500 border-b-4 border-teal-800 active:border-b-0 active:translate-y-1 disabled:opacity-50 transition-all"
+              >
+                🔄 もう一度遊ぶ
+              </button>
+            )}
+            <Link
+              href="/abyss"
+              className="inline-block px-6 py-3 rounded-xl bg-slate-700 text-white font-bold hover:bg-slate-600"
+            >
+              ロビーに戻る
+            </Link>
+          </div>
         </div>
       )}
 
@@ -499,7 +541,7 @@ export default function AbyssSalvageGamePage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-slate-950 to-blue-950 text-cyan-100">
-          <h1 className="text-2xl font-bold font-serif">Abyss Salvage</h1>
+          <h1 className="text-2xl font-bold font-serif">Deep Sea Adventure</h1>
           <p className="text-cyan-300/80">読み込み中…</p>
         </div>
       }

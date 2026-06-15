@@ -9,8 +9,8 @@ const RULE_CONTENT: Record<
   { title: string; subtitle?: string; sections: { heading: string; body: React.ReactNode }[] }
 > = {
   loveletter: {
-    title: "Court Intrigue (Love Letter)",
-    subtitle: "王宮の陰謀 — 2〜4人",
+    title: "Love Letter（ラブレター）",
+    subtitle: "1枚の手札で出し抜く心理戦 — 2〜4人",
     sections: [
       {
         heading: "目的",
@@ -56,7 +56,7 @@ const RULE_CONTENT: Record<
     ],
   },
   valuetalk: {
-    title: "Value Talk",
+    title: "ito（イト）",
     subtitle: "数字をたとえ話で伝える協力ゲーム",
     sections: [
       {
@@ -107,8 +107,8 @@ const RULE_CONTENT: Record<
     ],
   },
   midnight: {
-    title: "Midnight Party",
-    subtitle: "コヨーテ風・合計値を推理してビッド — 2〜10人",
+    title: "Coyote（コヨーテ）",
+    subtitle: "合計値を推理してビッド — 2〜10人",
     sections: [
       {
         heading: "目的",
@@ -172,8 +172,8 @@ const RULE_CONTENT: Record<
     ],
   },
   abyss: {
-    title: "Abyss Salvage",
-    subtitle: "深海探検・酸素を共有して帰還 — 2〜6人",
+    title: "Deep Sea Adventure（深海探検）",
+    subtitle: "酸素を共有して帰還 — 2〜6人",
     sections: [
       {
         heading: "目的",
@@ -224,8 +224,8 @@ const RULE_CONTENT: Record<
     ],
   },
   nothanks: {
-    title: "Cursed Gifts (No Thanks!)",
-    subtitle: "呪いの贈り物を押し付け合うゲーム — 3〜5人",
+    title: "No Thanks!（ノーサンキュー）",
+    subtitle: "カードを押し付け合うゲーム — 3〜5人",
     sections: [
       {
         heading: "目的",

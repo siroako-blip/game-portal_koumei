@@ -81,9 +81,9 @@ export default function ElementalLobbyPage() {
       <div className="text-center space-y-3 fade-in-up">
         <div className="text-7xl drop-shadow-lg animate-float">🔮</div>
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-700 via-orange-600 to-red-600 drop-shadow-sm">
-          Elemental Paths
+          Lost Cities
         </h1>
-        <p className="text-stone-600 font-medium text-sm md:text-base">精霊の道 — 5つの属性を極める旅</p>
+        <p className="text-stone-600 font-medium text-sm md:text-base">ロストシティ — 5色の探検路を数字順に伸ばすカード対戦</p>
         {/* 5属性のアイコン */}
         <div className="flex justify-center gap-3 pt-2">
           {COLORS.map((color, i) => (
@@ -108,7 +108,7 @@ export default function ElementalLobbyPage() {
             shadow-lg shadow-orange-300/60 border-b-4 border-orange-700
             active:border-b-0 active:translate-y-1 disabled:opacity-50 transition-all"
         >
-          {loading === "create" ? "道を開いています…" : "🗺️ 精霊の道を開く (Host)"}
+          {loading === "create" ? "道を開いています…" : "🗺️ ロストシティを始める (Host)"}
         </button>
 
         <div className="border-t-2 border-amber-200 pt-5">
@@ -164,7 +164,7 @@ export default function ElementalLobbyPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm">
           <div className="bg-white text-stone-900 rounded-2xl border border-amber-200 w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
             <div className="bg-amber-100 p-4 border-b border-amber-200 flex justify-between items-center sticky top-0">
-              <h2 className="text-xl font-extrabold text-amber-800">📜 精霊の道 — ルール</h2>
+              <h2 className="text-xl font-extrabold text-amber-800">📜 ロストシティ — ルール</h2>
               <button onClick={() => setShowRules(false)} className="p-1 hover:bg-amber-200/80 rounded-full transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

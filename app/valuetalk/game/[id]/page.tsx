@@ -6,6 +6,8 @@ import Link from "next/link";
 import type { ValueTalkGameState } from "@/app/valuetalk/logic";
 import { playCard, updateDescription, changeTheme, restartGame } from "@/app/valuetalk/logic";
 import { useValueTalkRealtime } from "@/app/valuetalk/useRealtime";
+import { usePresenceMany } from "@/lib/usePresence";
+import { PresenceDot } from "@/components/PresenceDot";
 import { startValueTalkGame, updateValueTalkGameState } from "@/lib/gameDb";
 import { createInitialValueTalkState } from "@/app/valuetalk/logic";
 import { RuleBook } from "@/components/RuleBook";
@@ -42,6 +44,7 @@ function GameContent() {
 
   const { gameData, loading, error } = useValueTalkRealtime(gameId);
   const playerIds: string[] = Array.isArray(gameData?.player_ids) ? gameData.player_ids : [];
+  const { isOnline } = usePresenceMany(gameId, pid || null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [draftDescriptions, setDraftDescriptions] = useState<Record<number, string>>({});
 
@@ -128,7 +131,7 @@ function GameContent() {
   if (loading || !gameId) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-orange-50 to-amber-50 text-orange-900">
-        <h1 className="text-2xl font-bold font-serif">Value Talk</h1>
+        <h1 className="text-2xl font-bold font-serif">ito</h1>
         <p className="text-orange-600">読み込み中…</p>
       </div>
     );
@@ -137,7 +140,7 @@ function GameContent() {
   if (error || !gameData) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-orange-50 to-amber-50 text-orange-900">
-        <h1 className="text-2xl font-bold font-serif">Value Talk</h1>
+        <h1 className="text-2xl font-bold font-serif">ito</h1>
         <p className="text-red-600">ゲームの取得に失敗しました</p>
         <Link href="/valuetalk" className="text-orange-600 underline font-medium">ロビーに戻る</Link>
       </div>
@@ -148,7 +151,7 @@ function GameContent() {
     const canStart = playerIds.length >= 1;
     return (
       <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-orange-50 to-amber-50 text-orange-900">
-        <h1 className="text-3xl font-bold font-serif text-orange-800">Value Talk</h1>
+        <h1 className="text-3xl font-bold font-serif text-orange-800">ito</h1>
         <p className="text-orange-600">協力して数字を当てよう</p>
         <div className="rounded-2xl bg-white/90 p-6 border-4 border-orange-300 shadow-xl max-w-md w-full">
           <p className="text-sm text-orange-700 font-medium mb-2">参加者: {playerIds.length}人</p>
@@ -180,7 +183,7 @@ function GameContent() {
   if (!state) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-orange-50 to-amber-50 text-orange-900">
-        <h1 className="text-2xl font-bold font-serif">Value Talk</h1>
+        <h1 className="text-2xl font-bold font-serif">ito</h1>
         <p className="text-orange-600">ゲームデータを読み込めません</p>
         <Link href="/valuetalk" className="text-orange-600 underline font-medium">ロビーに戻る</Link>
       </div>
@@ -199,7 +202,7 @@ function GameContent() {
               👀 観戦モード
             </span>
           )}
-          <h1 className="text-2xl font-bold font-serif text-orange-800">Value Talk</h1>
+          <h1 className="text-2xl font-bold font-serif text-orange-800">ito</h1>
           <span className="text-orange-600 text-sm">
             ♥ {state.life} ライフ　レベル {state.level}
           </span>
@@ -266,7 +269,10 @@ function GameContent() {
               i === myIndex ? "bg-orange-100 border-orange-400" : "bg-white/80 border-orange-200"
             }`}
           >
-            <p className="text-sm font-bold text-orange-800 mb-2">{playerLabel(i)}</p>
+            <p className="text-sm font-bold text-orange-800 mb-2 flex items-center gap-1.5">
+              {playerLabel(i)}
+              <PresenceDot online={isOnline(playerIds[i])} />
+            </p>
             <p className="text-xs text-orange-600 mb-1">手札: {p.hand.length}枚</p>
             <div className="flex flex-col gap-3">
               {i === myIndex && !isSpectator ? (
@@ -353,7 +359,7 @@ export default function ValueTalkGamePage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-orange-50 to-amber-50 text-orange-900">
-          <h1 className="text-2xl font-bold font-serif">Value Talk</h1>
+          <h1 className="text-2xl font-bold font-serif">ito</h1>
           <p className="text-orange-600">読み込み中…</p>
         </div>
       }

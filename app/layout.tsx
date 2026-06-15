@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Elemental Paths",
-  description: "精霊の道 — 5つの属性を極める旅",
+  title: "ゲームポータル",
+  description: "ロストシティ・ラブレター・コヨーテなど定番ボードゲームで遊べるオンライン対戦ポータル",
 };
 
 // スマートフォンで等倍表示させるための viewport 設定。

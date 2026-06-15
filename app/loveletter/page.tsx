@@ -82,9 +82,9 @@ export default function LoveLetterLobbyPage() {
           <span className="text-4xl animate-twinkle">✨</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-bold drop-shadow-sm tracking-wider font-serif text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-yellow-200 to-amber-300">
-          Court Intrigue
+          Love Letter
         </h1>
-        <p className="text-amber-200/90 text-sm md:text-base">🏰 王宮の陰謀 — Love Letter 風・2〜4人用</p>
+        <p className="text-amber-200/90 text-sm md:text-base">🏰 ラブレター — 1枚の手札で出し抜く心理戦・2〜4人用</p>
         {/* 宮廷の登場人物 */}
         <div className="flex justify-center gap-3 pt-2">
           {["💂", "🛡️", "🤴", "👸"].map((icon, i) => (

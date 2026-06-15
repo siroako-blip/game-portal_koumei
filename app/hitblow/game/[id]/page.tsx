@@ -4,7 +4,7 @@ import { useCallback, useState, useRef, useEffect, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import type { HitBlowGameState } from "@/app/hitblow/types";
-import { setSecret, submitGuess, isValidGuess, getMergedHistory } from "@/app/hitblow/logic";
+import { setSecret, submitGuess, isValidGuess, getMergedHistory, createInitialHitBlowState } from "@/app/hitblow/logic";
 import { useHitBlowRealtime } from "@/app/hitblow/useRealtime";
 import { usePresence } from "@/lib/usePresence";
 import { updateHitBlowGameState } from "@/lib/gameDb";
@@ -107,6 +107,19 @@ function HitBlowGameContent() {
       setIsSubmitting(false);
     }
   }, [gameId, state, myRole, guessInput]);
+
+  const handleRematch = useCallback(async () => {
+    if (myRole === "spectator") return;
+    if (!gameId || !state || !state.winner) return;
+    setIsSubmitting(true);
+    try {
+      await updateHitBlowGameState(gameId, createInitialHitBlowState());
+      setGuessInput("");
+      setSecretInput("");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [gameId, state, myRole]);
 
   if (loading || !gameId) {
     return (
@@ -293,6 +306,16 @@ function HitBlowGameContent() {
                 : <>あなたの秘密の数字 <span className="font-mono font-bold">{myRole === "player1" ? state.p1Secret : state.p2Secret}</span> を相手に当てられました。</>
               }
             </p>
+          )}
+          {!isSpectator && (
+            <button
+              type="button"
+              onClick={handleRematch}
+              disabled={isSubmitting}
+              className="mt-4 px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold shadow-lg border-b-4 border-orange-800 active:border-b-0 active:translate-y-1 disabled:opacity-50 transition-all"
+            >
+              🔄 もう一度遊ぶ
+            </button>
           )}
         </div>
       )}

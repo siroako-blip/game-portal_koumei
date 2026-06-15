@@ -91,10 +91,10 @@ export default function MidnightPartyLobbyPage() {
           <span className="text-3xl animate-twinkle" style={{ animationDelay: "0.6s" }}>✨</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 via-purple-200 to-cyan-300 drop-shadow-sm tracking-wider font-serif">
-          Midnight Party
+          Coyote
         </h1>
         <p className="text-purple-300 text-sm md:text-base">
-          🃏 合計値を推理してビッド — コヨーテ風（{MIN_PLAYERS}〜{MAX_PLAYERS}人）
+          🃏 コヨーテ — 合計値を推理してビッド（{MIN_PLAYERS}〜{MAX_PLAYERS}人）
         </p>
         {/* 自分のカードだけ見えないイメージ */}
         <div className="flex justify-center gap-2 pt-2">

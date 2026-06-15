@@ -82,9 +82,9 @@ export default function NoThanksLobbyPage() {
           <span className="text-4xl animate-swing">🕯️</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-bold drop-shadow-sm tracking-wider font-serif text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-fuchsia-200 to-purple-300">
-          Cursed Gifts
+          No Thanks!
         </h1>
-        <p className="text-purple-300 text-sm md:text-base">👻 呪いの贈り物 — No Thanks! 風・3〜5人用</p>
+        <p className="text-purple-300 text-sm md:text-base">👻 ノーサンキュー — チップで回避か、引き取るか・3〜5人用</p>
         {/* 洋館の住人たち */}
         <div className="flex justify-center gap-3 pt-2">
           {["👻", "💀", "🦇", "🪙"].map((icon, i) => (

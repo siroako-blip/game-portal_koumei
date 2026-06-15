@@ -133,7 +133,7 @@ function GameContent() {
   if (loading || !gameId) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-emerald-950 via-teal-950 to-emerald-950 text-emerald-100">
-        <h1 className="text-2xl font-bold font-serif text-emerald-200">Secret Word</h1>
+        <h1 className="text-2xl font-bold font-serif text-emerald-200">Word Wolf</h1>
         <p className="text-emerald-300/80">読み込み中…</p>
       </div>
     );
@@ -142,7 +142,7 @@ function GameContent() {
   if (error || !gameData) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-emerald-950 to-teal-950 text-emerald-100">
-        <h1 className="text-2xl font-bold font-serif">Secret Word</h1>
+        <h1 className="text-2xl font-bold font-serif">Word Wolf</h1>
         <p className="text-red-400">ゲームの取得に失敗しました</p>
         <Link href="/secretword" className="text-emerald-400 underline font-medium">ロビーに戻る</Link>
       </div>
@@ -154,9 +154,9 @@ function GameContent() {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-emerald-950 via-teal-950 to-emerald-950 text-emerald-100">
         <h1 className="text-3xl font-bold font-serif text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-300">
-          Secret Word
+          Word Wolf
         </h1>
-        <p className="text-emerald-300/80">ワードウルフ風</p>
+        <p className="text-emerald-300/80">ワードウルフ</p>
         <div className="rounded-2xl bg-emerald-900/60 p-6 border-2 border-emerald-500/40 shadow-xl max-w-md w-full">
           <p className="text-sm text-emerald-200 font-medium mb-2">
             参加者: {playerIds.length}人（{MIN_PLAYERS}〜{MAX_PLAYERS}人で開始）
@@ -191,7 +191,7 @@ function GameContent() {
   if (!state) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-emerald-950 to-teal-950 text-emerald-100">
-        <h1 className="text-2xl font-bold font-serif">Secret Word</h1>
+        <h1 className="text-2xl font-bold font-serif">Word Wolf</h1>
         <p className="text-emerald-400/80">ゲームデータを読み込めません</p>
         <Link href="/secretword" className="text-emerald-400 underline font-medium">ロビーに戻る</Link>
       </div>
@@ -206,7 +206,7 @@ function GameContent() {
       <header className="flex-shrink-0 flex flex-wrap items-center justify-between gap-2 p-4 border-b border-emerald-500/30">
         <div className="flex items-center gap-2 flex-wrap">
           <h1 className="text-xl font-bold font-serif text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-300">
-            Secret Word
+            Word Wolf
           </h1>
           <span className="px-2 py-1 rounded-lg bg-emerald-800/60 text-emerald-200 text-sm font-medium">
             あなたのお題: {myWord}
@@ -378,7 +378,7 @@ export default function SecretWordGamePage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-emerald-950 to-teal-950 text-emerald-100">
-          <h1 className="text-2xl font-bold font-serif">Secret Word</h1>
+          <h1 className="text-2xl font-bold font-serif">Word Wolf</h1>
           <p className="text-emerald-300/80">読み込み中…</p>
         </div>
       }

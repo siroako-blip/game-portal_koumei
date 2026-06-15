@@ -1,5 +1,5 @@
 /**
- * Abyss Salvage（深海探検風）ボードゲームロジック
+ * Deep Sea Adventure（深海探検）ボードゲームロジック
  * 正式ルールに基づく実装：酸素共有・移動・飛び越え・ラウンド終了・盤面圧縮。
  */
 
@@ -414,4 +414,13 @@ export function endTurnAndMaybeFinishRound(state: AbyssGameState): AbyssGameStat
   const next = endTurn(state);
   if (allReturned(next)) return endRound(next, false);
   return next;
+}
+
+/**
+ * 再戦：ゲーム終了後、同じメンバーで最初から遊び直す。
+ * 人数を維持して初期状態を作り直す（盤面・酸素・得点・ラウンドをリセット）。
+ */
+export function restartAbyssGame(state: AbyssGameState): AbyssGameState | null {
+  if (state.phase !== "gameover") return null;
+  return createInitialAbyssState(state.players.length);
 }

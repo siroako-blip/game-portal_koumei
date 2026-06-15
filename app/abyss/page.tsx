@@ -92,7 +92,7 @@ export default function AbyssSalvageLobbyPage() {
           <span className="text-4xl animate-bob bob-delay-2">🐠</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-cyan-200 to-teal-400 drop-shadow-sm tracking-wider font-serif">
-          Abyss Salvage
+          Deep Sea Adventure
         </h1>
         <p className="text-cyan-200/80 text-sm md:text-base">
           🌊 深海探検 — 遺跡を拾い、酸素を共有して帰還（{MIN_PLAYERS}〜{MAX_PLAYERS}人・全{TOTAL_ROUNDS}ラウンド）

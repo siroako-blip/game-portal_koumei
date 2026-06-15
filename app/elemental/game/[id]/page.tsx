@@ -181,7 +181,7 @@ function GameContent() {
   if (loading || !gameId) {
     return (
       <div className="parchment-bg min-h-screen flex flex-col p-4 gap-4 items-center justify-center">
-        <h1 className="text-2xl font-extrabold text-stone-800">🔮 Elemental Paths</h1>
+        <h1 className="text-2xl font-extrabold text-stone-800">🔮 Lost Cities</h1>
         <p className="text-stone-600">⏳ 読み込み中…</p>
       </div>
     );
@@ -190,7 +190,7 @@ function GameContent() {
   if (error || !gameData) {
     return (
       <div className="parchment-bg min-h-screen flex flex-col p-4 gap-4 items-center justify-center">
-        <h1 className="text-2xl font-extrabold text-stone-800">🔮 Elemental Paths</h1>
+        <h1 className="text-2xl font-extrabold text-stone-800">🔮 Lost Cities</h1>
         <p className="text-red-600 font-bold">⚠️ ゲームの取得に失敗しました</p>
         <Link href="/elemental" className="text-orange-600 underline font-medium">ロビーに戻る</Link>
       </div>
@@ -203,7 +203,7 @@ function GameContent() {
     return (
       <div className="parchment-bg min-h-screen flex flex-col p-4 gap-4 items-center justify-center text-stone-800">
         <div className="text-6xl animate-bounce">⛺</div>
-        <h1 className="text-2xl font-extrabold">🔮 Elemental Paths</h1>
+        <h1 className="text-2xl font-extrabold">🔮 Lost Cities</h1>
         {isSpectatorWaiting ? (
           <p className="text-stone-600">ゲームはまだ開始していません。Hostが相手の参加を待っています。</p>
         ) : isHost ? (
@@ -240,7 +240,7 @@ function GameContent() {
   if (!state) {
     return (
       <div className="parchment-bg min-h-screen flex flex-col p-4 gap-4 items-center justify-center">
-        <h1 className="text-2xl font-extrabold text-stone-800">🔮 Elemental Paths</h1>
+        <h1 className="text-2xl font-extrabold text-stone-800">🔮 Lost Cities</h1>
         <p className="text-stone-600">ゲームデータを読み込めません</p>
         <Link href="/elemental" className="text-orange-600 underline font-medium">ロビーに戻る</Link>
       </div>
@@ -463,7 +463,7 @@ function GameContent() {
             </span>
           )}
           <h1 className="text-xl md:text-2xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-amber-700 via-orange-600 to-red-600">
-            🔮 Elemental Paths
+            🔮 Lost Cities
           </h1>
           {gameData?.created_at && (
             <span className="text-stone-600 font-mono text-sm tabular-nums bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200 font-bold" title="プレイ時間">
@@ -494,7 +494,7 @@ function GameContent() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm">
           <div className="bg-white text-stone-900 rounded-2xl border border-amber-200 w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
             <div className="bg-amber-100 p-4 border-b border-amber-200 flex justify-between items-center sticky top-0">
-              <h2 className="text-xl font-extrabold text-amber-800">📜 精霊の道 — ルール</h2>
+              <h2 className="text-xl font-extrabold text-amber-800">📜 ロストシティ — ルール</h2>
               <button onClick={() => setShowRules(false)} className="p-1 hover:bg-amber-200/80 rounded-full transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -811,7 +811,7 @@ export default function ElementalGamePage() {
     <Suspense
       fallback={
         <div className="parchment-bg min-h-screen flex flex-col p-4 gap-4 items-center justify-center">
-          <h1 className="text-2xl font-extrabold text-stone-800">🔮 Elemental Paths</h1>
+          <h1 className="text-2xl font-extrabold text-stone-800">🔮 Lost Cities</h1>
           <p className="text-stone-600">⏳ 読み込み中…</p>
         </div>
       }

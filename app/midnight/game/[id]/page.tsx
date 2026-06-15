@@ -12,6 +12,8 @@ import {
   restartGame,
 } from "@/app/midnight/logic";
 import { useMidnightRealtime } from "@/app/midnight/useRealtime";
+import { usePresenceMany } from "@/lib/usePresence";
+import { PresenceDot } from "@/components/PresenceDot";
 import {
   startMidnightPartyGame,
   updateMidnightPartyGameState,
@@ -56,6 +58,7 @@ function GameContent() {
 
   const { gameData, loading, error } = useMidnightRealtime(gameId);
   const playerIds: string[] = Array.isArray(gameData?.player_ids) ? gameData.player_ids : [];
+  const { isOnline } = usePresenceMany(gameId, pid || null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bidInput, setBidInput] = useState("");
 
@@ -131,7 +134,7 @@ function GameContent() {
   if (loading || !gameId) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-purple-950 via-indigo-950 to-purple-950 text-purple-100">
-        <h1 className="text-2xl font-bold font-serif text-fuchsia-200">Midnight Party</h1>
+        <h1 className="text-2xl font-bold font-serif text-fuchsia-200">Coyote</h1>
         <p className="text-purple-300">読み込み中…</p>
       </div>
     );
@@ -140,7 +143,7 @@ function GameContent() {
   if (error || !gameData) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-purple-950 to-indigo-950 text-purple-100">
-        <h1 className="text-2xl font-bold font-serif">Midnight Party</h1>
+        <h1 className="text-2xl font-bold font-serif">Coyote</h1>
         <p className="text-red-400">ゲームの取得に失敗しました</p>
         <Link href="/midnight" className="text-fuchsia-400 underline font-medium">
           ロビーに戻る
@@ -154,7 +157,7 @@ function GameContent() {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-purple-950 via-indigo-950 to-purple-950 text-purple-100">
         <h1 className="text-3xl font-bold font-serif text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 to-cyan-300">
-          Midnight Party
+          Coyote
         </h1>
         <p className="text-purple-300">合計値を推理してビッド</p>
         <div className="rounded-2xl bg-purple-900/60 p-6 border-2 border-fuchsia-500/50 shadow-xl max-w-md w-full">
@@ -193,7 +196,7 @@ function GameContent() {
   if (!state) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-purple-950 to-indigo-950 text-purple-100">
-        <h1 className="text-2xl font-bold font-serif">Midnight Party</h1>
+        <h1 className="text-2xl font-bold font-serif">Coyote</h1>
         <p className="text-purple-400">ゲームデータを読み込めません</p>
         <Link href="/midnight" className="text-fuchsia-400 underline font-medium">
           ロビーに戻る
@@ -221,7 +224,7 @@ function GameContent() {
             </span>
           )}
           <h1 className="text-2xl font-bold font-serif text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 to-cyan-300">
-            Midnight Party
+            Coyote
           </h1>
           <span className="text-purple-300 text-sm">ラウンド {state.round}</span>
         </div>
@@ -248,7 +251,7 @@ function GameContent() {
                 i === myIndex ? "bg-fuchsia-500/40 text-fuchsia-100" : "bg-purple-800/60 text-purple-200"
               } ${life === 0 ? "opacity-50 line-through" : ""}`}
             >
-              {playerLabel(i)} ♥{life}
+              {playerLabel(i)} ♥{life} <PresenceDot online={isOnline(playerIds[i])} />
             </span>
           ))}
         </div>
@@ -472,7 +475,7 @@ export default function MidnightPartyGamePage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-gradient-to-b from-purple-950 to-indigo-950 text-purple-100">
-          <h1 className="text-2xl font-bold font-serif">Midnight Party</h1>
+          <h1 className="text-2xl font-bold font-serif">Coyote</h1>
           <p className="text-purple-300">読み込み中…</p>
         </div>
       }

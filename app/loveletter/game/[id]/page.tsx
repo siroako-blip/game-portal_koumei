@@ -13,10 +13,13 @@ import {
   GUARD_GUESS_OPTIONS,
   playCard,
   createInitialLoveLetterState,
+  restartLoveLetterGame,
 } from "@/app/loveletter/logic";
 import { useLoveLetterRealtime } from "@/app/loveletter/useRealtime";
 import { startLoveLetterGame, updateLoveLetterGameState } from "@/lib/gameDb";
 import { RuleBook } from "@/components/RuleBook";
+import { usePresenceMany } from "@/lib/usePresence";
+import { PresenceDot } from "@/components/PresenceDot";
 
 type PlayerRole = number | "spectator";
 
@@ -50,6 +53,7 @@ function GameContent() {
 
   const { gameData, loading, error } = useLoveLetterRealtime(gameId);
   const playerIds: string[] = Array.isArray(gameData?.player_ids) ? gameData.player_ids : [];
+  const { isOnline } = usePresenceMany(gameId, pid || null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [selectedTarget, setSelectedTarget] = useState<number | null>(null);
@@ -74,6 +78,18 @@ function GameContent() {
       setIsSubmitting(false);
     }
   }, [gameId, isHost, playerIds.length]);
+
+  const handleRematch = useCallback(async () => {
+    if (isSpectator || !gameId || !state) return;
+    const next = restartLoveLetterGame(state);
+    if (!next) return;
+    setIsSubmitting(true);
+    try {
+      await updateLoveLetterGameState(gameId, next);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [gameId, state, isSpectator]);
 
   const submitPlay = useCallback(
     async (cardRank: number, targetIndex?: number, guess?: number) => {
@@ -151,7 +167,7 @@ function GameContent() {
   if (loading || !gameId) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-red-950 text-amber-100">
-        <h1 className="text-2xl font-bold font-serif">Court Intrigue</h1>
+        <h1 className="text-2xl font-bold font-serif">Love Letter</h1>
         <p className="text-amber-200">読み込み中…</p>
       </div>
     );
@@ -160,7 +176,7 @@ function GameContent() {
   if (error || !gameData) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-red-950 text-amber-100">
-        <h1 className="text-2xl font-bold font-serif">Court Intrigue</h1>
+        <h1 className="text-2xl font-bold font-serif">Love Letter</h1>
         <p className="text-red-300">ゲームの取得に失敗しました</p>
         <Link href="/loveletter" className="text-amber-200 underline font-medium">ロビーに戻る</Link>
       </div>
@@ -171,8 +187,8 @@ function GameContent() {
     const canStart = playerIds.length >= 2 && isHost;
     return (
       <div className="min-h-screen flex flex-col p-4 gap-6 items-center justify-center bg-gradient-to-b from-red-950 to-amber-950/80 text-amber-100">
-        <h1 className="text-3xl font-bold font-serif text-amber-50">Court Intrigue</h1>
-        <p className="text-amber-200">王宮の陰謀 — 2〜4人でプレイ</p>
+        <h1 className="text-3xl font-bold font-serif text-amber-50">Love Letter</h1>
+        <p className="text-amber-200">ラブレター — 2〜4人でプレイ</p>
         <div className="rounded-xl bg-red-900/50 p-6 border-4 border-amber-600/60 shadow-2xl max-w-md w-full">
           <p className="text-sm text-amber-200 font-medium mb-2">参加者: {playerIds.length}人</p>
           {playerIds.length < 2 && <p className="text-amber-300 text-sm mb-4">2人以上でゲームを開始できます。</p>}
@@ -204,7 +220,7 @@ function GameContent() {
   if (!state) {
     return (
       <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-red-950 text-amber-100">
-        <h1 className="text-2xl font-bold font-serif">Court Intrigue</h1>
+        <h1 className="text-2xl font-bold font-serif">Love Letter</h1>
         <p className="text-amber-200">ゲームデータを読み込めません</p>
         <Link href="/loveletter" className="text-amber-200 underline font-medium">ロビーに戻る</Link>
       </div>
@@ -228,7 +244,7 @@ function GameContent() {
               👀 観戦モード
             </span>
           )}
-          <h1 className="text-2xl font-bold font-serif text-amber-50">Court Intrigue</h1>
+          <h1 className="text-2xl font-bold font-serif text-amber-50">Love Letter</h1>
           {state.phase === "playing" && (
             <span className="text-amber-200 text-sm">
               手番: {playerLabel(state.turnIndex)}
@@ -253,6 +269,7 @@ function GameContent() {
           >
             <p className="text-sm font-bold text-amber-100 mb-2 flex items-center gap-1.5">
               {playerLabel(i)}
+              <PresenceDot online={isOnline(playerIds[i])} />
               {p.isProtected && <span className="text-xs text-amber-400">（保護中）</span>}
               {p.isEliminated && <span className="text-xs text-red-300">脱落</span>}
             </p>
@@ -396,6 +413,16 @@ function GameContent() {
                 ? "あなたの勝ち！"
                 : `${playerLabel(state.winner)} の勝ち！`}
           </p>
+          {!isSpectator && (
+            <button
+              type="button"
+              onClick={handleRematch}
+              disabled={isSubmitting}
+              className="mt-4 px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-red-600 hover:from-amber-500 hover:to-red-500 text-amber-50 font-bold shadow-lg border-b-4 border-red-900 active:border-b-0 active:translate-y-1 disabled:opacity-50 transition-all"
+            >
+              🔄 もう一度遊ぶ
+            </button>
+          )}
         </div>
       )}
 
@@ -411,7 +438,7 @@ export default function LoveLetterGamePage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex flex-col p-4 gap-4 items-center justify-center bg-red-950 text-amber-100">
-          <h1 className="text-2xl font-bold font-serif">Court Intrigue</h1>
+          <h1 className="text-2xl font-bold font-serif">Love Letter</h1>
           <p className="text-amber-200">読み込み中…</p>
         </div>
       }
