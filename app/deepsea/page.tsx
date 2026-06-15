@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { RuleBook } from "@/components/RuleBook";
 import { useState } from "react";
 import {
   createDeepSeaGame,
@@ -164,12 +165,7 @@ export default function DeepSeaLobbyPage() {
         )}
       </div>
 
-      <div className="rounded-xl bg-slate-900/50 p-4 border border-cyan-500/30 max-w-md text-sm text-cyan-100/90 fade-in-up fade-delay-3">
-        <p className="font-bold text-cyan-200 mb-1 font-serif">📜 ルール概要</p>
-        <p>
-          1隻の潜水艦から出発し、深く潜って遺跡チップを拾う。酸素は全員で共有（初期25）。持っている遺跡の数だけ毎ターン酸素を消費。サイコロ2つで移動（持っている数だけ出目から引く）。他のプレイヤーのマスは飛び越える。全員が戻るか酸素0でラウンド終了。3ラウンドで総得点を競う。
-        </p>
-      </div>
+      <RuleBook gameType="deepsea" />
 
       <footer className="mt-8 text-center text-slate-500 text-xs max-w-md px-4">
         ※ これは非公式のファンプロジェクトであり、オリジナルのゲームとは関係ありません。

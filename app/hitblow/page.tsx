@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { createHitBlowGame, getHitBlowGame, joinHitBlowGame, startHitBlowGame } from "@/lib/gameDb";
 import { createInitialHitBlowState } from "@/app/hitblow/logic";
+import { RuleBook } from "@/components/RuleBook";
 
 function generatePlayerId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
@@ -145,10 +146,7 @@ export default function HitBlowLobbyPage() {
         )}
       </div>
 
-      <div className="rounded-xl bg-amber-50/80 p-4 border-4 border-amber-800 max-w-md text-sm text-stone-700 shadow-inner fade-in-up fade-delay-3">
-        <p className="font-bold text-amber-900 mb-1 font-serif">📜 ルール</p>
-        <p>両者が4桁の秘密の数字を設定後、先攻（Player 1）から交互に相手の数字を予想。<b className="text-red-600">H</b>（位置も数字も一致）と<b className="text-amber-600">B</b>（数字のみ一致）のヒントで先に4Hを出した方が勝ち（サドンデス）。</p>
-      </div>
+      <RuleBook gameType="hitblow" />
 
       <footer className="mt-8 text-center text-stone-500 text-xs max-w-md px-4">
         ※ これは非公式のファンプロジェクトであり、オリジナルのゲームとは関係ありません。

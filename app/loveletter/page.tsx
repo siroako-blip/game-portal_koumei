@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { createLoveLetterGame, getLoveLetterGame, joinLoveLetterGame } from "@/lib/gameDb";
+import { RuleBook } from "@/components/RuleBook";
 
 function generatePlayerId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
@@ -149,10 +150,7 @@ export default function LoveLetterLobbyPage() {
         )}
       </div>
 
-      <div className="rounded-xl bg-red-900/30 p-4 border-4 border-amber-600/40 max-w-md text-sm text-amber-100/90 shadow-inner fade-in-up fade-delay-3">
-        <p className="font-bold text-amber-50 mb-1 font-serif">📜 ルール概要</p>
-        <p>手札から1枚を捨て、その効果を発動。兵士で数字を当てる、男爵で手札比較、王子で手札を捨てさせる… 最後の1人になるか、山札が尽きた時点で手札が強い人が勝ち。2人以上で開始できます。</p>
-      </div>
+      <RuleBook gameType="loveletter" />
 
       <footer className="mt-8 text-center text-amber-400/80 text-xs max-w-md px-4">
         ※ これは非公式のファンプロジェクトであり、オリジナルのゲームとは関係ありません。

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { RuleBook } from "@/components/RuleBook";
 import { useState } from "react";
 import {
   createWordWolfGame,
@@ -167,12 +168,7 @@ export default function WordWolfLobbyPage() {
         )}
       </div>
 
-      <div className="rounded-xl bg-emerald-900/40 p-4 border border-emerald-500/30 max-w-md text-sm text-emerald-200 fade-in-up fade-delay-3">
-        <p className="font-bold text-emerald-100 mb-1 font-serif">📜 ルール概要</p>
-        <p>
-          全員に「似た単語」が配られるが、1人だけ違う単語（ウルフ）。議論で「噛み合わない人」を探し、投票で追放。追放された人がウルフなら市民の勝ち、市民ならウルフの勝ち。
-        </p>
-      </div>
+      <RuleBook gameType="wordwolf" />
 
       <footer className="mt-8 text-center text-emerald-500 text-xs max-w-md px-4">
         ※ これは非公式のファンプロジェクトであり、オリジナルのゲームとは関係ありません。

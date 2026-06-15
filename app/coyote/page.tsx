@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { RuleBook } from "@/components/RuleBook";
 import { useState } from "react";
 import {
   createCoyoteGame,
@@ -167,12 +168,7 @@ export default function CoyoteLobbyPage() {
         )}
       </div>
 
-      <div className="rounded-xl bg-purple-900/40 p-4 border border-fuchsia-500/30 max-w-md text-sm text-purple-200 shadow-inner fade-in-up fade-delay-3">
-        <p className="font-bold text-fuchsia-200 mb-1 font-serif">📜 ルール概要</p>
-        <p>
-          自分のカードだけ見えません。他人のカードは全部見えるので、合計値を推理して「より大きい数字」を宣言するか、「Coyote!」でチャレンジ。合計が宣言より小さければ宣言者の負け、以上ならチャレンジした人の負け。ライフ0で脱落。
-        </p>
-      </div>
+      <RuleBook gameType="coyote" />
 
       <footer className="mt-8 text-center text-purple-500 text-xs max-w-md px-4">
         ※ これは非公式のファンプロジェクトであり、オリジナルのゲームとは関係ありません。

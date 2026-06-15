@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { RuleBook } from "@/components/RuleBook";
 import { useState } from "react";
 import { createItoGame, getItoGame, joinItoGame } from "@/lib/gameDb";
 import type { ItoDifficulty } from "@/app/ito/logic";
@@ -172,10 +173,7 @@ export default function ItoLobbyPage() {
         )}
       </div>
 
-      <div className="rounded-xl bg-amber-50/90 p-4 border-4 border-orange-200 max-w-md text-sm text-orange-800 shadow-inner fade-in-up fade-delay-3">
-        <p className="font-bold text-orange-900 mb-1 font-serif">📜 ルール概要</p>
-        <p>お題に沿って、手札の数字を「たとえ話」で表現。小さい順に場に出していく協力ゲーム。誰かが大きい数字を先に出してしまうとライフ減少！全員の手札がなくなればレベルクリア。</p>
-      </div>
+      <RuleBook gameType="ito" />
 
       <footer className="mt-8 text-center text-orange-500 text-xs max-w-md px-4">
         ※ これは非公式のファンプロジェクトであり、オリジナルのゲームとは関係ありません。

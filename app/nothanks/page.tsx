@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { createNoThanksGame, getNoThanksGame, joinNoThanksGame } from "@/lib/gameDb";
+import { RuleBook } from "@/components/RuleBook";
 
 function generatePlayerId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
@@ -149,10 +150,7 @@ export default function NoThanksLobbyPage() {
         )}
       </div>
 
-      <div className="rounded-xl bg-purple-900/40 p-4 border-4 border-purple-700/50 max-w-md text-sm text-purple-200 shadow-inner fade-in-up fade-delay-3">
-        <p className="font-bold text-purple-100 mb-1 font-serif">📜 ルール概要</p>
-        <p>場のカードにチップを払ってパスするか、カード（と乗ったチップ）を引き取るか。引き取ると手番はそのままもう一度。カードの数字はマイナス点、チップはプラス。連番は最小の数字だけカウント。3人以上で開始できます。</p>
-      </div>
+      <RuleBook gameType="nothanks" />
 
       <footer className="mt-8 text-center text-purple-400 text-xs max-w-md px-4">
         ※ これは非公式のファンプロジェクトであり、オリジナルのゲームとは関係ありません。
