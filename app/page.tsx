@@ -19,7 +19,7 @@ type GameEntry = {
 
 const GAMES: GameEntry[] = [
   {
-    href: "/elemental",
+    href: "/lostcities",
     icon: "🔮",
     title: "Lost Cities",
     subtitle: "ロストシティ",
@@ -63,7 +63,7 @@ const GAMES: GameEntry[] = [
     tagClass: "bg-rose-100 text-rose-800",
   },
   {
-    href: "/valuetalk",
+    href: "/ito",
     icon: "💬",
     title: "ito",
     subtitle: "イト",
@@ -74,7 +74,7 @@ const GAMES: GameEntry[] = [
     tagClass: "bg-orange-100 text-orange-800",
   },
   {
-    href: "/midnight",
+    href: "/coyote",
     icon: "🌙",
     title: "Coyote",
     subtitle: "コヨーテ",
@@ -85,7 +85,7 @@ const GAMES: GameEntry[] = [
     tagClass: "bg-fuchsia-100 text-fuchsia-800",
   },
   {
-    href: "/abyss",
+    href: "/deepsea",
     icon: "🤿",
     title: "Deep Sea Adventure",
     subtitle: "深海探検",
@@ -96,7 +96,7 @@ const GAMES: GameEntry[] = [
     tagClass: "bg-cyan-100 text-cyan-800",
   },
   {
-    href: "/secretword",
+    href: "/wordwolf",
     icon: "🐺",
     title: "Word Wolf",
     subtitle: "ワードウルフ",

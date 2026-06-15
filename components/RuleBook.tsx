@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 
-export type RuleBookGameType = "loveletter" | "valuetalk" | "midnight" | "abyss" | "nothanks";
+export type RuleBookGameType = "loveletter" | "ito" | "coyote" | "deepsea" | "nothanks";
 
 const RULE_CONTENT: Record<
   RuleBookGameType,
@@ -55,7 +55,7 @@ const RULE_CONTENT: Record<
       },
     ],
   },
-  valuetalk: {
+  ito: {
     title: "ito（イト）",
     subtitle: "数字をたとえ話で伝える協力ゲーム",
     sections: [
@@ -106,7 +106,7 @@ const RULE_CONTENT: Record<
       },
     ],
   },
-  midnight: {
+  coyote: {
     title: "Coyote（コヨーテ）",
     subtitle: "合計値を推理してビッド — 2〜10人",
     sections: [
@@ -171,7 +171,7 @@ const RULE_CONTENT: Record<
       },
     ],
   },
-  abyss: {
+  deepsea: {
     title: "Deep Sea Adventure（深海探検）",
     subtitle: "酸素を共有して帰還 — 2〜6人",
     sections: [

@@ -15,14 +15,16 @@
 
 | ディレクトリ | 表示名 | 人数 | DBテーブル |
 | --- | --- | --- | --- |
-| `elemental` | Lost Cities（ロストシティ） | 2人 | `lost_cities_games` |
+| `lostcities` | Lost Cities（ロストシティ） | 2人 | `lost_cities_games` |
 | `hitblow` | Hit and Blow | 2人 | `hit_blow_games` |
 | `nothanks` | No Thanks! | 3〜5人 | `no_thanks_games` |
 | `loveletter` | Love Letter | 2〜4人 | `love_letter_games` |
-| `valuetalk` | ito | 協力 | `value_talk_games` |
-| `midnight` | Coyote | 2〜10人 | `midnight_party_games` |
-| `abyss` | Deep Sea Adventure | 2〜6人 | `abyss_salvage_games` |
-| `secretword` | Word Wolf | 3〜8人 | `secret_word_games` |
+| `ito` | ito | 協力 | `value_talk_games` |
+| `coyote` | Coyote | 2〜10人 | `midnight_party_games` |
+| `deepsea` | Deep Sea Adventure | 2〜6人 | `abyss_salvage_games` |
+| `wordwolf` | Word Wolf | 3〜8人 | `secret_word_games` |
+
+> ℹ️ ディレクトリ名・コード識別子は正式名称に統一済み。一方 **DBテーブル名は旧コードネームのまま**（Supabase上の既存テーブルと一致させるため）。テーブル名を変える場合はマイグレーションが別途必要。
 
 ## 技術スタック
 
@@ -30,7 +32,7 @@
 - **TypeScript**（`strict: true`）
 - **Tailwind CSS 3**
 - **Supabase**（`@supabase/supabase-js`）— DB + Realtime + Presence
-- パスエイリアス: `@/*` → リポジトリルート（例: `@/lib/supabase`、`@/app/elemental/types`）
+- パスエイリアス: `@/*` → リポジトリルート（例: `@/lib/supabase`、`@/app/lostcities/types`）
 
 ## ディレクトリ構成
 
@@ -66,7 +68,7 @@ supabase/migrations/    ... ゲームごとの CREATE TABLE SQL
 
 - ゲームの全状態を1つの `GameState` オブジェクトにまとめ、DB 行の `game_state` カラム（jsonb）に丸ごと保存する。
 - DB 行のトップレベルは固定スキーマ: `id` / `created_at` / `status` / プレイヤーID / `game_state`。
-  - 2人用ゲーム: `player1_id` / `player2_id`（`elemental`, `hitblow`）
+  - 2人用ゲーム: `player1_id` / `player2_id`（`lostcities`, `hitblow`）
   - 多人数ゲーム: `player_ids`（jsonb 配列、**先頭が Host**）
 - `status` は `'waiting' | 'playing' | 'finished'` の3値。
 
@@ -137,6 +139,18 @@ npm run build    # 本番ビルド
 npm run start    # 本番起動
 npm run lint     # next lint
 ```
+
+## 開発ログ（DEVLOG.md）と履歴の扱い
+
+- **過去の経緯（なぜこう変わってきたか）が必要なときだけ** `DEVLOG.md` を読む。通常の作業では読み込まない（トークン節約）。「今どうなっているか」は本ファイルとコードが正。
+- **節目となる開発を終えたら `DEVLOG.md` のいちばん上に追記する**（逆時系列）。フォーマットは `DEVLOG.md` 冒頭参照。「何を・なぜ」を1〜数行で。細かな修正は不要、方針転換・機能追加・大きなリファクタなど節目のみ。
+
+## コミットメッセージ規約
+
+- 1行目は **`<種別>: 日本語で要約`**（50字目安）。種別: `feat`（機能追加）/ `fix`（バグ修正）/ `refactor` / `style`（見た目・整形）/ `docs` / `chore`。
+- **何を変えたかが一目で分かる具体的な要約**にする（例: `feat: No Thanks! にオンライン表示を追加`）。`Fix typescript error` のような曖昧・重複するメッセージは避ける。
+- 必要なら2行目以降（空行を挟む）に **なぜ** を補足。
+- 関連する節目は `DEVLOG.md` への追記とセットで行う。
 
 ## 注意事項
 
