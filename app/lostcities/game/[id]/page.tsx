@@ -19,6 +19,7 @@ import { updateGameState } from "@/lib/gameDb";
 import { useGameRealtime } from "@/app/lostcities/useRealtime";
 import { usePresence } from "@/lib/usePresence";
 import { PresenceDot } from "@/components/PresenceDot";
+import { RuleBook } from "@/components/RuleBook";
 import { castRematchVote, rematchCount, hasVotedRematch } from "@/lib/rematch";
 
 const EMOTES = ["👀", "👏", "😱", "🔥"] as const;
@@ -92,7 +93,6 @@ function GameContent() {
   const prevOpponentStatus = useRef<"online" | "offline" | null>(null);
   const hasSeenOpponentOnline = useRef(false);
   const [resultModalOpen, setResultModalOpen] = useState(false);
-  const [showRules, setShowRules] = useState(false);
   const [copyFeedback, setCopyFeedback] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [now, setNow] = useState(() => Date.now());
@@ -297,6 +297,7 @@ function GameContent() {
 
   return (
     <div className="parchment-bg min-h-screen flex flex-col p-4 gap-4 text-stone-800 relative">
+      <RuleBook gameType="lostcities" />
       {/* エモート表示オーバーレイ（浮かび上がり＋フェードアウト） */}
       <div className="pointer-events-none fixed inset-0 z-40 overflow-hidden" aria-hidden>
         {activeEmotes.map((e) => (
@@ -490,75 +491,7 @@ function GameContent() {
           )}
           <Link href="/lostcities" className="text-stone-500 text-sm underline hover:text-orange-600 font-bold">← ロビーに戻る</Link>
         </div>
-        <button
-          type="button"
-          onClick={() => setShowRules(true)}
-          className="px-3 py-1.5 rounded-full border-2 border-amber-300 bg-amber-50 text-amber-800 font-bold hover:bg-amber-100 text-sm shadow"
-        >
-          📜 ルール
-        </button>
       </div>
-
-      {showRules && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm">
-          <div className="bg-white text-stone-900 rounded-2xl border border-amber-200 w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
-            <div className="bg-amber-100 p-4 border-b border-amber-200 flex justify-between items-center sticky top-0">
-              <h2 className="text-xl font-extrabold text-amber-800">📜 ロストシティ — ルール</h2>
-              <button onClick={() => setShowRules(false)} className="p-1 hover:bg-amber-200/80 rounded-full transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="p-6 overflow-y-auto space-y-6 text-sm md:text-base leading-relaxed">
-              <section>
-                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-200 pb-1">🎯 目的</h3>
-                <p className="text-stone-700">
-                  5つの属性（<span className="text-red-500">🔥火</span>・<span className="text-blue-500">💧水</span>・<span className="text-emerald-600">🍃風</span>・<span className="text-amber-600">⛰️土</span>・<span className="text-stone-500">✨光</span>）の「道」にカードを並べ、スコアを競います。<br />
-                  各道には<span className="text-red-600 font-bold">コスト（-20点）</span>がかかります。途中で止めると赤字になります。
-                </p>
-              </section>
-              <section>
-                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-200 pb-1">🎴 カードの種類と出し方</h3>
-                <ul className="list-disc pl-5 space-y-2 text-stone-700">
-                  <li>
-                    <span className="font-bold text-stone-900">数字カード (2〜10):</span><br />
-                    自分の道に出すときは、<span className="text-amber-700 font-bold">小さい数字から大きい数字の順（昇順）</span>にしか出せません。
-                  </li>
-                  <li>
-                    <span className="font-bold text-stone-900">契約カード (🤝):</span><br />
-                    得点を倍にするカードです。<span className="text-amber-700 font-bold">数字カードを出す前</span>にのみ出せます。1枚で2倍、2枚で3倍、3枚で4倍。
-                  </li>
-                </ul>
-              </section>
-              <section>
-                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-200 pb-1">🔄 ターンの流れ</h3>
-                <ol className="list-decimal pl-5 space-y-2 text-stone-700">
-                  <li><span className="font-bold text-stone-900">カードを1枚出す:</span> 自分の道に置くか、捨て札置き場に捨てる。</li>
-                  <li><span className="font-bold text-stone-900">カードを1枚引く:</span> 山札か、自分が捨てた属性以外の捨て札から引く。</li>
-                </ol>
-              </section>
-              <section>
-                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-200 pb-1">🏆 得点計算</h3>
-                <div className="bg-amber-50 p-3 rounded-xl border-2 border-amber-200 font-mono text-sm text-stone-800">
-                  (数字の合計 - 20) × (契約の枚数 + 1)
-                </div>
-                <p className="text-stone-700 mt-2 text-xs">
-                  道に8枚以上あるとボーナス <span className="text-emerald-600">+20点</span>。1枚も置いていない道は 0点です。
-                </p>
-              </section>
-            </div>
-            <div className="bg-amber-100 p-4 border-t border-amber-200 text-center">
-              <button
-                onClick={() => setShowRules(false)}
-                className="px-8 py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white rounded-xl font-bold transition-all shadow-lg border-b-4 border-orange-700 active:border-b-0 active:translate-y-1"
-              >
-                理解した！
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {isSpectator ? (
         <>

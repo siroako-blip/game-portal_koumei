@@ -9,6 +9,7 @@ import { useHitBlowRealtime } from "@/app/hitblow/useRealtime";
 import { usePresence } from "@/lib/usePresence";
 import { updateHitBlowGameState } from "@/lib/gameDb";
 import { PresenceDot } from "@/components/PresenceDot";
+import { RuleBook } from "@/components/RuleBook";
 import { castRematchVote, rematchCount, hasVotedRematch } from "@/lib/rematch";
 
 type PlayerRole = "player1" | "player2" | "spectator";
@@ -193,6 +194,7 @@ function HitBlowGameContent() {
 
   return (
     <div className="min-h-screen flex flex-col p-4 gap-4 bg-stone-200">
+      <RuleBook gameType="hitblow" />
       {showDisconnectBanner && (
         <div className="w-full py-2 px-4 rounded-lg bg-red-600 text-white font-medium text-center shadow-lg" role="alert">
           ⚠️ 相手との接続が切れました

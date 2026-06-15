@@ -20,6 +20,7 @@ import {
 } from "@/lib/gameDb";
 import { usePresenceMany } from "@/lib/usePresence";
 import { PresenceDot } from "@/components/PresenceDot";
+import { RuleBook } from "@/components/RuleBook";
 import { castRematchVote, rematchCount, hasVotedRematch } from "@/lib/rematch";
 
 const MIN_PLAYERS = 3;
@@ -222,6 +223,7 @@ function GameContent() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-emerald-950 via-teal-950 to-emerald-950 text-emerald-100">
+      <RuleBook gameType="wordwolf" />
       <header className="flex-shrink-0 flex flex-wrap items-center justify-between gap-2 p-4 border-b border-emerald-500/30">
         <div className="flex items-center gap-2 flex-wrap">
           <h1 className="text-xl font-bold font-serif text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-300">

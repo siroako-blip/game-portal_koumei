@@ -7,6 +7,7 @@ import { createGame, getGame, joinGame, startGame } from "@/lib/gameDb";
 import { createInitialState } from "@/app/lostcities/logic";
 import { COLOR_ICONS } from "@/app/lostcities/components/Card";
 import { COLORS, COLOR_LABELS } from "@/app/lostcities/types";
+import { RuleBook } from "@/components/RuleBook";
 
 function generatePlayerId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
@@ -19,7 +20,6 @@ export default function LostCitiesLobbyPage() {
   const [loading, setLoading] = useState<"create" | "join" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [fullGameId, setFullGameId] = useState<string | null>(null);
-  const [showRules, setShowRules] = useState(false);
 
   const handleCreate = async () => {
     setError(null);
@@ -153,73 +153,7 @@ export default function LostCitiesLobbyPage() {
         )}
       </div>
 
-      <button
-        onClick={() => setShowRules(true)}
-        className="text-stone-600 hover:text-orange-600 underline underline-offset-4 text-sm transition-colors flex items-center gap-1 font-bold"
-      >
-        📜 ゲームのルールを確認する
-      </button>
-
-      {showRules && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm">
-          <div className="bg-white text-stone-900 rounded-2xl border border-amber-200 w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
-            <div className="bg-amber-100 p-4 border-b border-amber-200 flex justify-between items-center sticky top-0">
-              <h2 className="text-xl font-extrabold text-amber-800">📜 ロストシティ — ルール</h2>
-              <button onClick={() => setShowRules(false)} className="p-1 hover:bg-amber-200/80 rounded-full transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="p-6 overflow-y-auto space-y-6 text-sm md:text-base leading-relaxed">
-              <section>
-                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-200 pb-1">🎯 目的</h3>
-                <p className="text-stone-700">
-                  5つの属性（<span className="text-red-500">🔥火</span>・<span className="text-blue-500">💧水</span>・<span className="text-emerald-600">🍃風</span>・<span className="text-amber-600">⛰️土</span>・<span className="text-stone-500">✨光</span>）の「道」にカードを並べ、スコアを競います。<br />
-                  各道には<span className="text-red-600 font-bold">コスト（-20点）</span>がかかります。途中で止めると赤字になります。
-                </p>
-              </section>
-              <section>
-                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-200 pb-1">🎴 カードの種類と出し方</h3>
-                <ul className="list-disc pl-5 space-y-2 text-stone-700">
-                  <li>
-                    <span className="font-bold text-stone-900">数字カード (2〜10):</span><br />
-                    自分の道に出すときは、<span className="text-amber-700 font-bold">小さい数字から大きい数字の順（昇順）</span>にしか出せません。
-                  </li>
-                  <li>
-                    <span className="font-bold text-stone-900">契約カード (🤝):</span><br />
-                    得点を倍にするカードです。<span className="text-amber-700 font-bold">数字カードを出す前</span>にのみ出せます。1枚で2倍、2枚で3倍、3枚で4倍。
-                  </li>
-                </ul>
-              </section>
-              <section>
-                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-200 pb-1">🔄 ターンの流れ</h3>
-                <ol className="list-decimal pl-5 space-y-2 text-stone-700">
-                  <li><span className="font-bold text-stone-900">カードを1枚出す:</span> 自分の道に置くか、捨て札置き場に捨てる。</li>
-                  <li><span className="font-bold text-stone-900">カードを1枚引く:</span> 山札か、自分が捨てた属性以外の捨て札から引く。</li>
-                </ol>
-              </section>
-              <section>
-                <h3 className="text-amber-800 font-bold mb-2 text-lg border-b-2 border-amber-200 pb-1">🏆 得点計算</h3>
-                <div className="bg-amber-50 p-3 rounded-xl border-2 border-amber-200 font-mono text-sm text-stone-800">
-                  (数字の合計 - 20) × (契約の枚数 + 1)
-                </div>
-                <p className="text-stone-700 mt-2 text-xs">
-                  道に8枚以上あるとボーナス <span className="text-emerald-600">+20点</span>。1枚も置いていない道は 0点です。
-                </p>
-              </section>
-            </div>
-            <div className="bg-amber-100 p-4 border-t border-amber-200 text-center">
-              <button
-                onClick={() => setShowRules(false)}
-                className="px-8 py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white rounded-xl font-bold transition-all shadow-lg border-b-4 border-orange-700 active:border-b-0 active:translate-y-1"
-              >
-                理解した！
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <RuleBook gameType="lostcities" />
 
       <footer className="mt-8 text-center text-stone-500 text-xs max-w-md px-4">
         ※ これは非公式のファンプロジェクトであり、オリジナルのゲームとは関係ありません。
