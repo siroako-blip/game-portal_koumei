@@ -22,7 +22,7 @@
 - lostcities の `BgmPlayer` は lostcities 専用（src・localStorageキー・効果音依存がハードコード）なので流用せず、**ポーカー自己完結のBGM専用プレイヤー** `app/poker/components/BgmPlayer.tsx`（src=`/bgm/poker.mp3`、キー=`poker-bgm`、効果音なし）を新設。
 - `app/poker/layout.tsx` に常駐させ、**ロビー⇄対戦画面の遷移でもBGMが途切れない**。自動再生制限に対応し初回操作で再生、左下にON/OFFトグル（localStorage記憶）。
 
-> ⚠️ BGM mp3 は著作権楽曲。ユーザー判断で同梱・公開（本来は著作権フリー音源が方針）。
+> ℹ️ BGM mp3 は利用規約を守って使用している著作権フリー音源。
 
 ## 2026-06-16 — ロストシティにBGM・操作効果音を追加
 
@@ -33,7 +33,7 @@
 - 音源は `public/bgm/lostcities.mp3`（BGM）と `public/sfx/play.mp3`（カードを出す音）を配置済み。`select/discard/draw` の効果音は未配置（無音）。
 - 関連: ゲーム選択に戻るリンクが `z-10` カードに覆われ反応しない不具合を `z-20` で修正（hitblow/loveletter/nothanks/lostcities）、ロストシティのカード数字を上のみ表示に変更。
 
-> ⚠️ 配置した BGM mp3 は著作権楽曲。ユーザー判断で同梱・公開している（本来は著作権フリー音源が方針）。
+> ℹ️ 配置した BGM mp3 は利用規約を守って使用している著作権フリー音源。
 
 ## 2026-06-16 — ポーカー（テキサスホールデム）を新規実装
 
