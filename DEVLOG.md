@@ -16,6 +16,14 @@
 
 ---
 
+## 2026-06-16 — ポーカーにBGMを追加
+
+- ポーカーに BGM（`Velvet_Swing`）を追加。`public/bgm/poker.mp3` に配置。
+- lostcities の `BgmPlayer` は lostcities 専用（src・localStorageキー・効果音依存がハードコード）なので流用せず、**ポーカー自己完結のBGM専用プレイヤー** `app/poker/components/BgmPlayer.tsx`（src=`/bgm/poker.mp3`、キー=`poker-bgm`、効果音なし）を新設。
+- `app/poker/layout.tsx` に常駐させ、**ロビー⇄対戦画面の遷移でもBGMが途切れない**。自動再生制限に対応し初回操作で再生、左下にON/OFFトグル（localStorage記憶）。
+
+> ⚠️ BGM mp3 は著作権楽曲。ユーザー判断で同梱・公開（本来は著作権フリー音源が方針）。
+
 ## 2026-06-16 — ロストシティにBGM・操作効果音を追加
 
 - ロストシティ限定で **BGM と操作効果音** を実装（他ゲーム・ポータルには影響なし。1ゲーム自己完結の方針どおり）。
