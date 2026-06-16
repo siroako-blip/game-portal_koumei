@@ -15,6 +15,7 @@ import {
   restartGame,
 } from "@/app/lostcities/logic";
 import { Card, COLOR_ICONS } from "@/app/lostcities/components/Card";
+import { useSfx } from "@/app/lostcities/components/sfx";
 import { updateGameState } from "@/lib/gameDb";
 import { useGameRealtime } from "@/app/lostcities/useRealtime";
 import { usePresence } from "@/lib/usePresence";
@@ -51,6 +52,7 @@ function GameContent() {
   const searchParams = useSearchParams();
   const gameId = typeof params.id === "string" ? params.id : null;
   const pid = searchParams.get("pid") ?? "";
+  const playSfx = useSfx();
 
   const [activeEmotes, setActiveEmotes] = useState<ActiveEmote[]>([]);
   const emoteCooldownUntil = useRef<number>(0);
@@ -264,21 +266,25 @@ function GameContent() {
   const handlePlayToExpedition = (color: CardColor) => {
     if (!canPlayOrDiscard || !selectedCard || selectedCard.color !== color || isSubmitting) return;
     if (myRole === "player1" && canPlayCard(state, selectedCard, "expedition", color)) {
+      playSfx("play");
       void applyAndSave(playCard(state, selectedCard, "expedition", color));
     }
     if (myRole === "player2") {
+      playSfx("play");
       void applyAndSave(playCardP2(state, selectedCard, "expedition", color));
     }
   };
 
   const handlePlayToDiscard = (color: CardColor) => {
     if (!canPlayOrDiscard || !selectedCard || selectedCard.color !== color || isSubmitting) return;
+    playSfx("discard");
     if (myRole === "player1") void applyAndSave(playCard(state, selectedCard, "discard", color));
     if (myRole === "player2") void applyAndSave(playCardP2(state, selectedCard, "discard", color));
   };
 
   const handleDraw = (source: "deck" | CardColor) => {
     if (!canDraw || !drawOptions.includes(source) || isSubmitting) return;
+    playSfx("draw");
     void applyAndSave(drawCard(state, source));
   };
 
@@ -707,7 +713,12 @@ function GameContent() {
                 <Card
                   card={c}
                   selected={isSelected}
-                  onClick={() => isMyTurnPlay && !isSubmitting && setSelectedCard(c)}
+                  onClick={() => {
+                    if (isMyTurnPlay && !isSubmitting) {
+                      playSfx("select");
+                      setSelectedCard(c);
+                    }
+                  }}
                 />
                 {isSelected && isSubmitting && (
                   <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-stone-900/50 pointer-events-none">
