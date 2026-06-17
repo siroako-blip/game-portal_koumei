@@ -269,8 +269,8 @@ function GameContent() {
           </h1>
           <span className="text-cyan-200/80 text-sm">ラウンド {state.round} / {TOTAL_ROUNDS}</span>
         </div>
-        <Link href="/deepsea" className="text-cyan-400 text-sm underline hover:text-cyan-300 font-medium">
-          ロビーに戻る
+        <Link href="/deepsea" className="px-3 py-1.5 rounded-full border-2 border-cyan-400/50 bg-slate-800/70 text-cyan-200 font-bold text-sm hover:bg-slate-700 transition-colors">
+          🚪 退出
         </Link>
       </div>
 
@@ -400,7 +400,10 @@ function GameContent() {
               </span>
             ))}
           </div>
-          {state.round < TOTAL_ROUNDS && !isSpectator && (
+          {/* phase==="round_result" の時点で必ず次ラウンドが存在する（最終ラウンド後は gameover）。
+              round は endRound で既に加算済みのため state.round で判定すると最終ラウンド前で
+              ボタンが消えて進めなくなる。観戦者以外なら誰でも次へ進められる。 */}
+          {!isSpectator && (
             <button
               type="button"
               onClick={handleNextRound}

@@ -53,7 +53,6 @@ export interface DeepSeaGameState {
 
 export const OXYGEN_MAX = 25;
 export const TOTAL_ROUNDS = 3;
-const PATH_LENGTH = 32;
 const MIN_PLAYERS = 2;
 const MAX_PLAYERS = 6;
 
@@ -66,17 +65,6 @@ function shuffle<T>(arr: T[]): T[] {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
-}
-
-function scoreForLevel(level: number): number {
-  const ranges: Record<number, [number, number]> = {
-    1: [1, 3],
-    2: [2, 5],
-    3: [3, 7],
-    4: [5, 10],
-  };
-  const [min, max] = ranges[level] ?? [1, 3];
-  return min + Math.floor(Math.random() * (max - min + 1));
 }
 
 function createBlankCell(): PathCell {
@@ -101,17 +89,25 @@ function copyPathWithoutBlanks(path: PathCell[]): PathCell[] {
 
 // ========== 初期化 ==========
 
-/** 初期パス（潜水艦は position -1 で表現するため path には含めない） */
+/**
+ * 初期パス（潜水艦は position -1 で表現するため path には含めない）。
+ *
+ * チップの得点は公式ルール準拠の固定値:
+ *   Lv1: 0〜3 / Lv2: 4〜7 / Lv3: 8〜11 / Lv4: 12〜15（各値2枚 = レベルごと8枚、計32枚）。
+ * 並びは「浅い→深い」（潜水艦に近いほど低レベル＝低得点、最深部が高レベル＝高得点）。
+ * 同一レベル内の順序だけランダムにシャッフルする（伏せ札なので位置はランダム、レベルは深さ順を維持）。
+ */
 export function createInitialPath(): PathCell[] {
   const path: PathCell[] = [];
-  const levels: number[] = [];
-  for (let i = 0; i < PATH_LENGTH; i++) levels.push((i % 4) + 1);
-  for (let i = PATH_LENGTH - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [levels[i], levels[j]] = [levels[j], levels[i]];
-  }
-  for (const level of levels) {
-    path.push(createRuinCell(level, scoreForLevel(level)));
+  for (let level = 1; level <= 4; level++) {
+    const base = (level - 1) * 4; // Lv1=0, Lv2=4, Lv3=8, Lv4=12
+    const cells: PathCell[] = [];
+    for (let v = 0; v <= 3; v++) {
+      const score = base + v;
+      cells.push(createRuinCell(level, score));
+      cells.push(createRuinCell(level, score)); // 同じ得点を2枚ずつ
+    }
+    path.push(...shuffle(cells));
   }
   return path;
 }
