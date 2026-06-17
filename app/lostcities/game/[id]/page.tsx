@@ -495,7 +495,7 @@ function GameContent() {
               🏆 結果を再表示
             </button>
           )}
-          <Link href="/lostcities" className="text-stone-500 text-sm underline hover:text-orange-600 font-bold">← ロビーに戻る</Link>
+          <Link href="/lostcities" className="px-3 py-1.5 rounded-full border-2 border-amber-300 bg-amber-50 text-amber-800 font-bold text-sm hover:bg-amber-100 shadow-sm transition-colors">🚪 退出</Link>
         </div>
       </div>
 

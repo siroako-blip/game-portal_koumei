@@ -233,8 +233,8 @@ function GameContent() {
             あなたのお題: {myWord}
           </span>
         </div>
-        <Link href="/wordwolf" className="text-emerald-400 text-sm underline hover:text-emerald-300 font-medium">
-          ロビーに戻る
+        <Link href="/wordwolf" className="px-3 py-1.5 rounded-full border-2 border-emerald-400/50 bg-emerald-800/70 text-emerald-100 font-bold text-sm hover:bg-emerald-700 transition-colors">
+          🚪 退出
         </Link>
       </header>
 

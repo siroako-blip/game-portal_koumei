@@ -231,8 +231,8 @@ function GameContent() {
           </h1>
           <span className="text-purple-300 text-sm">ラウンド {state.round}</span>
         </div>
-        <Link href="/coyote" className="text-fuchsia-400 text-sm underline hover:text-fuchsia-300 font-medium">
-          ロビーに戻る
+        <Link href="/coyote" className="px-3 py-1.5 rounded-full border-2 border-fuchsia-400/50 bg-purple-800/60 text-fuchsia-200 font-bold text-sm hover:bg-purple-700 transition-colors">
+          🚪 退出
         </Link>
       </div>
 

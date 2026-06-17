@@ -224,7 +224,7 @@ function HitBlowGameContent() {
             </span>
           )}
         </div>
-        <Link href="/hitblow" className="text-stone-700 text-sm underline hover:text-amber-700 font-medium">ロビーに戻る</Link>
+        <Link href="/hitblow" className="px-3 py-1.5 rounded-full border-2 border-amber-300 bg-amber-50 text-amber-800 font-bold text-sm hover:bg-amber-100 shadow-sm transition-colors">🚪 退出</Link>
       </div>
 
       {!isSpectator && state.phase === "setup" && (

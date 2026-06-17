@@ -258,7 +258,7 @@ function GameContent() {
           <h1 className="text-2xl font-bold font-serif text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-200">Poker</h1>
           <span className="text-emerald-300 text-sm">ハンド {state.handNumber}・{PHASE_LABELS[state.phase]}</span>
         </div>
-        <Link href="/poker" className="text-amber-400 text-sm underline hover:text-amber-300 font-medium">ロビーに戻る</Link>
+        <Link href="/poker" className="px-3 py-1.5 rounded-full border-2 border-amber-400/60 bg-emerald-800/70 text-amber-200 font-bold text-sm hover:bg-emerald-700 transition-colors">🚪 退出</Link>
       </div>
 
       {/* テーブル中央：コミュニティ・ポット */}

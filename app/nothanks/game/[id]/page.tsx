@@ -203,8 +203,8 @@ function GameContent() {
           )}
           <h1 className="text-2xl font-bold font-serif text-purple-100">No Thanks!</h1>
         </div>
-        <Link href="/nothanks" className="text-purple-300 text-sm underline hover:text-purple-200 font-medium">
-          ロビーに戻る
+        <Link href="/nothanks" className="px-3 py-1.5 rounded-full border-2 border-purple-500/60 bg-purple-800/70 text-purple-100 font-bold text-sm hover:bg-purple-700 transition-colors">
+          🚪 退出
         </Link>
       </div>
 

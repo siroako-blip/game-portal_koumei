@@ -254,8 +254,8 @@ function GameContent() {
             </span>
           )}
         </div>
-        <Link href="/loveletter" className="text-amber-200 text-sm underline hover:text-amber-100 font-medium">
-          ロビーに戻る
+        <Link href="/loveletter" className="px-3 py-1.5 rounded-full border-2 border-amber-400/50 bg-amber-900/40 text-amber-100 font-bold text-sm hover:bg-amber-900/60 transition-colors">
+          🚪 退出
         </Link>
       </div>
 

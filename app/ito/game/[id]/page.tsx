@@ -211,8 +211,8 @@ function GameContent() {
             ♥ {state.life} ライフ　レベル {state.level}
           </span>
         </div>
-        <Link href="/ito" className="text-orange-600 text-sm underline hover:text-orange-800 font-medium">
-          ロビーに戻る
+        <Link href="/ito" className="px-3 py-1.5 rounded-full border-2 border-orange-300 bg-orange-100 text-orange-700 font-bold text-sm hover:bg-orange-200 shadow-sm transition-colors">
+          🚪 退出
         </Link>
       </div>
 
